@@ -3,8 +3,7 @@ import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: "https://ayla711.github.io",
-  base: "/portfolio_nov",
+  site: "https://yuanqianayla.com",
   output: "static",
   trailingSlash: "always",
   image: {
