@@ -1,0 +1,98 @@
+---
+interface Props {
+  id: string;
+  title: string;
+}
+
+const { id, title } = Astro.props;
+---
+
+<section id={id} class="coursework-content" aria-labelledby={`${id}-title`}>
+  <div class="coursework-body">
+    <header class="coursework-heading">
+      <p class="eyebrow">Original coursework</p>
+      <h2 id={`${id}-title`}>{title}</h2>
+    </header>
+    <slot />
+  </div>
+</section>
+
+<style>
+  .coursework-content {
+    padding: var(--section-space) var(--page-gutter);
+    border-top: var(--line);
+  }
+
+  .coursework-body {
+    max-width: 52rem;
+    min-width: 0;
+    margin-inline: auto;
+    font-size: clamp(1rem, 0.97rem + 0.2vw, 1.125rem);
+    line-height: 1.75;
+    overflow-wrap: anywhere;
+  }
+
+  .coursework-heading {
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    margin-top: 0.75rem;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+
+  .coursework-body :global(h3) {
+    margin: 2.75rem 0 1rem;
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    line-height: 1.35;
+    letter-spacing: -0.02em;
+  }
+
+  .coursework-body :global(h4) {
+    margin: 2rem 0 1rem;
+    font-size: 1.15rem;
+    line-height: 1.4;
+  }
+
+  .coursework-body :global(p),
+  .coursework-body :global(ul),
+  .coursework-body :global(ol) {
+    margin-bottom: 1.25rem;
+  }
+
+  .coursework-body :global(ul),
+  .coursework-body :global(ol) {
+    padding-left: 1.5rem;
+  }
+
+  .coursework-body :global(.coursework-figure-pair) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1.25rem;
+    margin-block: 2rem;
+  }
+
+  .coursework-body :global(.coursework-figure-pair > figure) {
+    min-width: 0;
+    margin: 0;
+  }
+
+  .coursework-body :global(figcaption) {
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .coursework-body :global(figcaption span) {
+    margin-right: 0.5rem;
+  }
+
+  @media (max-width: 38rem) {
+    .coursework-body :global(.coursework-figure-pair) {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

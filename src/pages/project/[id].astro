@@ -1,0 +1,95 @@
+---
+import { getCollection, render, type CollectionEntry } from "astro:content";
+import CaseSection from "../../components/project/CaseSection.astro";
+import CourseworkContent from "../../components/project/CourseworkContent.astro";
+import ImageComparison from "../../components/project/ImageComparison.astro";
+import InsightQuote from "../../components/project/InsightQuote.astro";
+import MediaFigure from "../../components/project/MediaFigure.astro";
+import ProcessGallery from "../../components/project/ProcessGallery.astro";
+import ProjectHero from "../../components/project/ProjectHero.astro";
+import ProjectImage from "../../components/project/ProjectImage.astro";
+import ProjectNavigation from "../../components/project/ProjectNavigation.astro";
+import ReflectionBlock from "../../components/project/ReflectionBlock.astro";
+import RoleBreakdown from "../../components/project/RoleBreakdown.astro";
+import SystemDiagram from "../../components/project/SystemDiagram.astro";
+import VideoFigure from "../../components/project/VideoFigure.astro";
+import VideoProject from "../../components/project/VideoProject.astro";
+import ProjectLayout from "../../layouts/ProjectLayout.astro";
+import { profileData } from "../../data/profile";
+
+export async function getStaticPaths() {
+  const projects = await getCollection(
+    "projects",
+    ({ data }) => data.status === "published" && data.detailPage,
+  );
+
+  projects.sort((a, b) => {
+    const aOrder = a.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
+    const bOrder = b.data.featuredOrder ?? Number.MAX_SAFE_INTEGER;
+    return (
+      aOrder - bOrder || b.data.year - a.data.year || a.id.localeCompare(b.id)
+    );
+  });
+
+  return projects.map((project, index) => ({
+    params: { id: project.id },
+    props: {
+      project,
+      previousProject: projects[index - 1],
+      nextProject: projects[index + 1],
+    },
+  }));
+}
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  previousProject?: CollectionEntry<"projects">;
+  nextProject?: CollectionEntry<"projects">;
+}
+
+const { project, previousProject, nextProject } = Astro.props;
+const { Content } = await render(project);
+const isVideo = project.data.caseStudyType === "video";
+---
+
+<ProjectLayout
+  title={`${project.data.title} — ${profileData.name}`}
+  description={project.data.summary}
+  canonicalPath={`project/${project.id}/`}
+  compact={!isVideo &&
+    (project.id === "phagex" || project.data.caseStudyType !== "design")}
+>
+  {
+    isVideo ? (
+      <VideoProject project={project} />
+    ) : (
+      <>
+        <ProjectHero project={project} />
+
+        <article class="case-content">
+          <Content
+            components={{
+              CaseSection,
+              CourseworkContent,
+              ImageComparison,
+              InsightQuote,
+              MediaFigure,
+              ProcessGallery,
+              ProjectImage,
+              ReflectionBlock,
+              RoleBreakdown,
+              SystemDiagram,
+              VideoFigure,
+            }}
+          />
+        </article>
+
+        <ProjectNavigation
+          homeSection={project.data.homeSection}
+          previousProject={previousProject}
+          nextProject={nextProject}
+        />
+      </>
+    )
+  }
+</ProjectLayout>

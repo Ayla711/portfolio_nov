@@ -1,0 +1,162 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import { withBase } from "../../utils/url";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const video = data.heroVideo;
+if (!video) throw new Error(`Video project ${project.id} requires heroVideo.`);
+const isOther = data.homeSection === "others";
+---
+
+<section class="video-project" aria-labelledby="video-title">
+  <nav aria-label="Project navigation">
+    <a href={withBase(isOther ? "#others" : "#projects")}>
+      ← {isOther ? "Others" : "Selected projects"}
+    </a>
+  </nav>
+  <h1 id="video-title">{data.title}</h1>
+  <video-preview
+    class="video-frame"
+    data-src={`https://www.youtube-nocookie.com/embed/${video.id}?rel=0`}
+    data-title={video.title}
+  >
+    <button
+      type="button"
+      class="video-poster"
+      aria-label={`Play ${data.title}`}
+    >
+      <Image
+        src={data.cover}
+        alt={data.coverAlt}
+        widths={[640, 960, 1280]}
+        sizes="(max-width: 70rem) 100vw, 70rem"
+        loading="eager"
+      />
+      <span class="play-button" aria-hidden="true">
+        <svg viewBox="0 0 24 24" focusable="false"
+          ><path d="M8 5v14l11-7Z"></path></svg
+        >
+      </span>
+    </button>
+  </video-preview>
+  <a
+    class="watch-link"
+    href={`https://www.youtube.com/watch?v=${video.id}`}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Watch on YouTube <span aria-hidden="true">↗</span>
+  </a>
+</section>
+
+<script>
+  class VideoPreview extends HTMLElement {
+    connectedCallback() {
+      this.querySelector("button")?.addEventListener(
+        "click",
+        () => {
+          const iframe = document.createElement("iframe");
+          const src = new URL(this.dataset.src!);
+          src.searchParams.set("autoplay", "1");
+          iframe.src = src.toString();
+          iframe.title = this.dataset.title!;
+          iframe.allow =
+            "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+          iframe.referrerPolicy = "strict-origin-when-cross-origin";
+          iframe.allowFullscreen = true;
+          this.replaceChildren(iframe);
+          iframe.focus();
+        },
+        { once: true },
+      );
+    }
+  }
+  customElements.define("video-preview", VideoPreview);
+</script>
+
+<style>
+  .video-project {
+    display: grid;
+    gap: 1.25rem;
+    width: min(100%, 70rem);
+    margin-inline: auto;
+    padding: clamp(1.5rem, 4vw, 3rem) var(--page-gutter);
+  }
+
+  h1 {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+  }
+
+  .video-frame {
+    display: block;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: var(--line);
+    border-radius: var(--radius-media);
+    background: var(--color-text-strong);
+  }
+
+  .video-poster,
+  .video-frame :global(iframe) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: inherit;
+  }
+
+  .video-poster {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .video-poster img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .play-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    place-items: center;
+    width: clamp(3rem, 6vw, 4.5rem);
+    aspect-ratio: 1;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    box-shadow: 0 4px 20px rgb(0 0 0 / 20%);
+  }
+
+  .play-button svg {
+    width: 50%;
+    height: 50%;
+    fill: currentColor;
+  }
+
+  a {
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .watch-link {
+    justify-self: end;
+  }
+</style>

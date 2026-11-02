@@ -1,0 +1,45 @@
+---
+interface Props {
+  label?: string;
+  title?: string;
+}
+
+const { label = "Reflection", title } = Astro.props;
+---
+
+<aside class="reflection-block">
+  <header>
+    <p class="eyebrow">{label}</p>
+    {title && <h3>{title}</h3>}
+  </header>
+  <div class="reflection-copy"><slot /></div>
+</aside>
+
+<style>
+  .reflection-block {
+    display: grid;
+    grid-template-columns: minmax(8rem, 0.55fr) minmax(0, 1.45fr);
+    gap: var(--space-8);
+    margin: var(--space-10) 0;
+    padding: var(--space-8);
+    border-top: 3px solid var(--color-accent);
+    background: var(--color-surface-soft);
+  }
+
+  h3 {
+    max-width: 12ch;
+    margin-top: var(--space-4);
+    font-size: clamp(1.6rem, 2.7vw, 2.6rem);
+  }
+
+  .reflection-copy :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 42rem) {
+    .reflection-block {
+      grid-template-columns: 1fr;
+      padding: var(--space-6);
+    }
+  }
+</style>

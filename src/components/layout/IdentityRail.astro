@@ -1,0 +1,287 @@
+---
+import { Image } from "astro:assets";
+import signature from "../../assets/projects/profile/ayla-signature.png";
+import { profileData } from "../../data/profile";
+import { siteData } from "../../data/site";
+import { withBase } from "../../utils/url";
+const { about } = profileData;
+const initials = profileData.name
+  .split(" ")
+  .map((name) => name[0])
+  .join("");
+---
+
+<aside class="identity-rail" aria-label="Portfolio introduction">
+  <div class:list={["portrait", { "portrait--monogram": !about.portrait }]}>
+    {
+      about.portrait ? (
+        <Image
+          src={about.portrait}
+          alt={about.portraitAlt}
+          widths={[160, 180, 240, 360]}
+          sizes="(max-width: 608px) 80px, (max-width: 960px) 120px, 180px"
+          loading="eager"
+          style={{ objectPosition: about.portraitPosition }}
+        />
+      ) : (
+        <span class="monogram" aria-hidden="true">
+          {initials}
+        </span>
+      )
+    }
+  </div>
+
+  <div class="brand-row">
+    <h1>
+      <a
+        class="wordmark"
+        href={withBase()}
+        aria-label={`${profileData.name}, home`}
+      >
+        {profileData.name}
+      </a>
+    </h1>
+  </div>
+
+  <Image
+    class="personal-signature"
+    src={signature}
+    alt=""
+    format="png"
+    loading="eager"
+  />
+
+  <nav class="profile-links" aria-label="Resume and contact">
+    {
+      siteData.resumeUrl && (
+        <a href={siteData.resumeUrl} target="_blank" rel="noreferrer">
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path d="M5 2h9l5 5v15H5V2Z" />
+            <path
+              d="M14 2v6h5M8 12h8M8 15h8M8 18h6"
+              fill="none"
+              stroke="var(--color-surface)"
+              stroke-width="1.5"
+              stroke-linejoin="round"
+            />
+          </svg>
+          {siteData.resumeLabel} <span aria-hidden="true">↗</span>
+        </a>
+      )
+    }
+    <a href={siteData.linkedInUrl} target="_blank" rel="noreferrer">
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <rect x="2" y="2" width="20" height="20" rx="2"></rect>
+        <circle cx="7" cy="7" r="1.5" fill="var(--color-surface)"></circle>
+        <path
+          d="M5.5 10h3v9h-3v-9Zm5 0h2.8v1.2c.6-.9 1.5-1.5 2.8-1.5 2.5 0 3.4 1.6 3.4 4V19h-3v-4.7c0-1.3-.4-2-1.5-2s-1.5.8-1.5 2V19h-3v-9Z"
+          fill="var(--color-surface)"></path>
+      </svg>
+      LinkedIn <span aria-hidden="true">↗</span>
+    </a>
+    <a href={`mailto:${siteData.email}`}>
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="currentColor"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <rect x="2" y="4" width="20" height="16" rx="3"></rect>
+        <path
+          d="m3 6 9 7 9-7"
+          fill="none"
+          stroke="var(--color-surface)"
+          stroke-width="1.7"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+      Email <span aria-hidden="true">↗</span>
+    </a>
+  </nav>
+</aside>
+
+<style>
+  .identity-rail {
+    position: sticky;
+    top: 6rem;
+    display: flex;
+    align-self: start;
+    align-items: center;
+    min-width: 0;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .portrait {
+    width: 100%;
+    max-width: 11.25rem;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: var(--line);
+    border-radius: 50%;
+    background: var(--color-background-deep);
+  }
+
+  .portrait :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .portrait--monogram {
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(ellipse at 15% 25%, #f4c8b3, transparent 65%),
+      radial-gradient(ellipse at 90% 80%, #b3b3ea, transparent 65%), #e9ecea;
+  }
+
+  .monogram {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    letter-spacing: -0.06em;
+  }
+
+  .brand-row {
+    display: flex;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  h1 {
+    min-width: 0;
+    text-align: center;
+    text-wrap: balance;
+    font-size: 1.5rem;
+    font-weight: 650;
+    line-height: 1.25;
+    letter-spacing: -0.035em;
+  }
+
+  .wordmark {
+    overflow-wrap: anywhere;
+    text-decoration: none;
+  }
+
+  .wordmark:hover {
+    color: var(--color-accent);
+  }
+
+  .profile-links {
+    display: grid;
+    width: max-content;
+    max-width: 100%;
+    justify-self: center;
+    justify-items: start;
+    gap: 0.15rem;
+  }
+
+  .personal-signature {
+    display: block;
+    width: 6rem;
+    max-width: 100%;
+    height: auto;
+    justify-self: center;
+  }
+
+  .profile-links a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--color-text);
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .profile-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .profile-links span {
+    color: var(--color-muted);
+  }
+
+  .profile-links svg {
+    width: 1.125rem;
+    height: 1.125rem;
+    flex-shrink: 0;
+    color: var(--color-accent);
+  }
+
+  @media (max-height: 45rem) {
+    .identity-rail {
+      position: static;
+    }
+  }
+
+  @media (max-width: 60rem) {
+    .identity-rail {
+      position: static;
+      display: grid;
+      grid-template-columns: 7.5rem minmax(0, 1fr);
+      align-items: start;
+      gap: 1rem 1.5rem;
+      padding-bottom: 2rem;
+      border-bottom: var(--line);
+    }
+
+    .portrait {
+      grid-row: 1 / 4;
+    }
+
+    .personal-signature,
+    .profile-links {
+      grid-column: 2;
+    }
+
+    .brand-row {
+      align-self: end;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .identity-rail {
+      grid-template-columns: 5rem minmax(0, 1fr);
+      gap: 0.75rem 1rem;
+      padding-bottom: 1.5rem;
+    }
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    .brand-row {
+      flex-wrap: wrap;
+    }
+
+    .profile-links a {
+      font-size: 0.875rem;
+    }
+  }
+</style>

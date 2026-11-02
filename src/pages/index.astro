@@ -1,0 +1,184 @@
+---
+import { getCollection } from "astro:content";
+import AboutPanel from "../components/layout/AboutPanel.astro";
+import IdentityRail from "../components/layout/IdentityRail.astro";
+import ProjectSummary from "../components/project/ProjectSummary.astro";
+import { profileData } from "../data/profile";
+import { siteData } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const featuredProjects = (await getCollection("projects"))
+  .filter(
+    ({ data }) =>
+      data.status === "published" && data.featuredOrder !== undefined,
+  )
+  .sort((a, b) => a.data.featuredOrder! - b.data.featuredOrder!);
+const selectedProjects = featuredProjects.filter(
+  ({ data }) => data.homeSection === "projects",
+);
+const otherProjects = featuredProjects.filter(
+  ({ data }) => data.homeSection === "others",
+);
+---
+
+<BaseLayout title={siteData.title} description={siteData.description}>
+  <main id="main-content" class="site-shell">
+    <IdentityRail />
+    <div class="content-stream">
+      <AboutPanel />
+
+      <section
+        id="projects"
+        class="projects-section"
+        aria-labelledby="projects-title"
+      >
+        <span id="work" class="anchor-alias" aria-hidden="true"></span>
+        <header class="section-heading">
+          <h2 id="projects-title">Selected Projects</h2>
+          <p>Research, design & making.</p>
+        </header>
+        <div class="project-grid">
+          {
+            selectedProjects.map((project) => (
+              <ProjectSummary project={project} />
+            ))
+          }
+        </div>
+        {
+          selectedProjects.length === 0 && (
+            <p class="empty-state">New work is on its way.</p>
+          )
+        }
+      </section>
+
+      <section
+        id="others"
+        class="background-section"
+        aria-labelledby="others-title"
+        data-content-status={otherProjects.length ? "ready" : "pending"}
+      >
+        <header class="section-heading">
+          <h2 id="others-title">Others</h2>
+          <p>Research, culture & data.</p>
+        </header>
+        <div class="project-grid">
+          {otherProjects.map((project) => <ProjectSummary project={project} />)}
+        </div>
+        {
+          otherProjects.length === 0 && (
+            <p class="empty-state">More explorations are on their way.</p>
+          )
+        }
+      </section>
+
+      <footer class="site-footer">
+        <span>© {new Date().getFullYear()} {profileData.name}</span>
+        <a href={`mailto:${siteData.email}`}
+          >Say hello <span aria-hidden="true">↗</span></a
+        >
+      </footer>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .site-shell {
+    display: grid;
+    grid-template-columns: var(--identity-width) minmax(0, 1fr);
+    align-items: start;
+    gap: 3rem;
+    width: min(100%, var(--home-max));
+    margin-inline: auto;
+    padding: 3rem var(--page-gutter) 1.5rem;
+  }
+
+  .content-stream {
+    display: grid;
+    gap: 3.5rem;
+    min-width: 0;
+  }
+
+  .projects-section,
+  .background-section {
+    position: relative;
+    min-width: 0;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h2 {
+    font-size: clamp(1.5rem, 2.2vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.03em;
+  }
+
+  .section-heading p {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem 1.5rem;
+  }
+
+  .background-section {
+    padding-top: 1.75rem;
+    border-top: var(--line);
+  }
+
+  .empty-state {
+    font-size: 0.95rem;
+  }
+
+  .site-footer {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: var(--line);
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+
+  .site-footer a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 44px;
+  }
+
+  @media (max-width: 60rem) {
+    .site-shell {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem;
+      padding-top: 2rem;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .content-stream {
+      gap: 2.5rem;
+    }
+
+    .project-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+
+    .section-heading p {
+      display: none;
+    }
+  }
+</style>

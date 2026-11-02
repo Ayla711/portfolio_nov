@@ -1,0 +1,34 @@
+{
+  "name": "ayla-liu-portfolio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "start": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "validate:content": "node --import tsx scripts/validate-content.ts",
+    "test": "node --test --import tsx tests/*.test.ts",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "ci": "npm run check && npm run validate:content && npm run format:check && npm run build && npm test"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^7.0.8",
+    "@astrojs/sitemap": "^3.7.3",
+    "astro": "^7.2.9"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "gray-matter": "^4.0.3",
+    "prettier": "^3.9.6",
+    "prettier-plugin-astro": "^0.14.1",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3"
+  }
+}

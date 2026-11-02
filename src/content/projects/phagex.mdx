@@ -1,0 +1,173 @@
+---
+title: PhageX
+summary: A smart-glasses and mobile concept that flags manipulation and intervenes before a scam escalates.
+year: 2025
+role: UX Designer & Researcher
+team: Independent project
+duration: Jan–Apr 2025
+platforms:
+  - Smart glasses
+  - Mobile
+capabilities:
+  - UX Research
+  - Service & System Design
+  - Interaction Design
+  - Immersive Prototyping
+  - User Testing
+technologies:
+  - Google Cardboard
+  - Video post-production
+status: published
+detailPage: true
+featuredOrder: 10
+presentation: hero
+home:
+  challenge: Pig-butchering scams build trust inside familiar mobile channels, making warnings easy to dismiss.
+  contributions:
+    - Mapped the scam journey to locate the highest-leverage intervention.
+    - Designed and tested the glasses-to-mobile warning and lock flow.
+  outcome: An immersive prototype that validated the flow and made privacy controls the next priority.
+cover: ../../assets/projects/phagex/cover.png
+coverAlt: PhageX augmented-reality chat interface with a digital guardian monitoring a suspicious conversation.
+heroVideo:
+  provider: youtube
+  id: rArbDeBju0M
+  title: PhageX prototype walkthrough
+homeSecondary:
+  image: ../../assets/projects/phagex/emergency-state.png
+  alt: PhageX emergency intervention state warning the user about a suspected scam.
+---
+
+import emergencyState from "../../assets/projects/phagex/emergency-state.png";
+import journeyMap from "../../assets/projects/phagex/journey-map.png";
+import systemFlow from "../../assets/projects/phagex/system-flow.png";
+import userTesting from "../../assets/projects/phagex/user-testing.png";
+import coverImage from "../../assets/projects/phagex/cover.png";
+
+<CaseSection id="overview" kind="overview">
+  PhageX explores how a safety system could interrupt a pig-butchering scam
+  before emotional dependence becomes financial loss. I focused on young adults
+  aged 25–35 and treated the work as a service and interaction-design problem,
+  not only a detection problem.
+
+<RoleBreakdown>
+  I planned and synthesized the research, framed the intervention strategy,
+  designed the glasses and mobile experience, created the visual system, and ran
+  the immersive prototype test.
+</RoleBreakdown>
+
+The outcome is a dual-platform concept: smart glasses surface risk in the
+moment, while a paired phone can archive evidence, notify trusted contacts,
+and execute a high-risk lock protocol.
+
+</CaseSection>
+
+<CaseSection id="insight" kind="insight" layout="wide">
+  A 50-minute focus group with five digital-native professionals showed that
+  scam awareness was high, yet direct or close-contact impact was still common.
+  Mapping the full journey revealed that the harm develops through repeated
+  trust-building rather than a single suspicious transaction.
+
+<InsightQuote>
+  The intervention cannot wait for the payment screen. It has to interrupt the
+  emotional script—and appear outside the mobile channel already controlled by
+  the scammer.
+</InsightQuote>
+
+  <MediaFigure
+    label="Journey map"
+    caption="The journey reframed the opportunity around verification, detection, and notification before and after the moment of loss."
+  >
+    <ProjectImage
+      src={journeyMap}
+      alt="Journey map showing the trapping, trust-building, financial-loss, reporting, and recovery stages of a pig-butchering scam."
+    />
+  </MediaFigure>
+</CaseSection>
+
+<CaseSection id="decisions" kind="decisions" layout="wide">
+  I compared a smart charger, a gamified phone app, and smart glasses. The
+  glasses direction offered a first-person viewpoint, real-time response, and
+  an intervention layer outside the compromised phone. That advantage came
+  with clear constraints: battery life, false positives, public-camera trust,
+  and the need to keep sensitive analysis on-device.
+
+<SystemDiagram
+  title="Capture, analyze, intervene, enforce"
+  caption="The diagram was used as a visualization aid after the system relationships were defined; it is not evidence of a functional AI implementation."
+>
+  <ProjectImage
+    src={systemFlow}
+    alt="System flow connecting the user, smart-glasses capture and feedback, mobile analysis, and a phone lock protocol."
+  />
+</SystemDiagram>
+
+  <ProcessGallery caption="Four coordinated moments keep the experience legible under stress.">
+    <article>
+      <strong>Capture</strong>
+      <p>Observe text, voice, and visual cues from the user’s point of view.</p>
+    </article>
+    <article>
+      <strong>Analyze</strong>
+      <p>Assess manipulation patterns locally and surface confidence carefully.</p>
+    </article>
+    <article>
+      <strong>Intervene</strong>
+      <p>Shift the guardian from a calm presence to an unmistakable risk state.</p>
+    </article>
+    <article>
+      <strong>Enforce</strong>
+      <p>Escalate to trusted contacts, evidence capture, or a phone lock protocol.</p>
+    </article>
+  </ProcessGallery>
+</CaseSection>
+
+<CaseSection id="prototype" kind="prototype" layout="wide">
+  The experience was simulated with Google Cardboard and video
+  post-production. This made the first-person timing testable without claiming
+  a working detection model or production smart-glasses hardware.
+
+<ImageComparison
+  beforeLabel="Monitoring state"
+  afterLabel="Intervention state"
+  caption="The avatar remains present during normal monitoring, then changes color, scale, and message hierarchy when the system detects high risk."
+>
+  <ProjectImage
+    slot="before"
+    src={coverImage}
+    alt="Normal PhageX monitoring state over an augmented-reality chat interface."
+  />
+  <ProjectImage
+    slot="after"
+    src={emergencyState}
+    alt="Emergency PhageX state showing a scam warning, guardian alert, and contact actions."
+  />
+</ImageComparison>
+
+<MediaFigure
+  label="Experience test"
+  caption="Participants used a phone-based viewer to evaluate immersion, guidance visibility, and comfort with a public-facing camera."
+>
+  <ProjectImage
+    src={userTesting}
+    alt="Four photographs of participants testing the PhageX simulated smart-glasses experience outdoors."
+  />
+</MediaFigure>
+
+[Watch the PhageX prototype walkthrough on YouTube](https://youtu.be/rArbDeBju0M).
+
+</CaseSection>
+
+<CaseSection id="reflection" kind="reflection">
+  Participants found the simulated experience realistic and practical. They
+  also wanted the guardian to remain visible and questioned continuous camera
+  use in public. Those reactions moved privacy and system transparency from
+  secondary concerns into core experience requirements.
+
+  <ReflectionBlock title="The next iteration must earn the right to intervene.">
+    A stronger prototype would test warning thresholds, false-positive recovery,
+    user-controlled sensing states, and lighter hardware. PhageX currently
+    validates an interaction strategy—not detection accuracy or technical
+    feasibility.
+  </ReflectionBlock>
+</CaseSection>

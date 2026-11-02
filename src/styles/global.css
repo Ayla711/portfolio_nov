@@ -1,0 +1,83 @@
+@import "./tokens.css";
+@import "./typography.css";
+@import "./utilities.css";
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-height) + 1.5rem);
+  background: var(--color-background-deep);
+}
+
+body {
+  min-width: 20rem;
+  min-height: 100svh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(
+      circle at 4% 10%,
+      rgba(86, 166, 237, 0.12),
+      transparent 26rem
+    ),
+    radial-gradient(
+      circle at 86% 4%,
+      rgba(139, 114, 237, 0.1),
+      transparent 30rem
+    ),
+    var(--color-background);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  color: inherit;
+  font: inherit;
+}
+
+::selection {
+  background: rgba(95, 88, 232, 0.2);
+  color: var(--color-text-strong);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

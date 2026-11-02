@@ -1,0 +1,67 @@
+---
+interface Props {
+  caption?: string;
+  label?: string;
+  size?: "reading" | "wide";
+  maxWidth?: number;
+}
+
+const { caption, label, size = "wide", maxWidth } = Astro.props;
+---
+
+<figure
+  class:list={["media-figure", `media-figure--${size}`]}
+  style={maxWidth
+    ? { "max-width": `${maxWidth}px`, "margin-inline": "auto" }
+    : undefined}
+>
+  <div class="media-frame"><slot /></div>
+  {
+    (caption || label) && (
+      <figcaption>
+        {label && <span>{label}</span>}
+        {caption}
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .media-figure {
+    margin: var(--space-10) 0;
+  }
+
+  .media-figure--reading {
+    max-width: var(--reading-width);
+  }
+
+  .media-frame {
+    overflow: hidden;
+    border: var(--line);
+    border-radius: var(--radius-media);
+    background: var(--color-background-deep);
+  }
+
+  .media-frame :global(img),
+  .media-frame :global(video) {
+    width: 100%;
+  }
+
+  figcaption {
+    display: flex;
+    gap: var(--space-4);
+    justify-content: space-between;
+    margin-top: var(--space-3);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  figcaption span {
+    flex: 0 0 auto;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+</style>

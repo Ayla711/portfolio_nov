@@ -1,0 +1,100 @@
+---
+title: Tutela
+summary: A discreet IBS patch combining stress sensing with heat and pneumatic relief.
+year: 2025
+role: Industrial & Interaction Designer
+team: Independent project
+duration: Jul–Oct 2025
+platforms:
+  - Wearable
+  - Smartwatch
+capabilities:
+  - User Research
+  - Product Design
+  - Physical Prototyping
+  - User Testing
+technologies:
+  - Arduino
+  - EMG sensing
+  - TPU fabrication
+status: published
+detailPage: true
+featuredOrder: 50
+presentation: compact
+home:
+  challenge: Teenagers with IBS need discreet support that connects symptom sensing with relief.
+  contributions:
+    - Combined literature, social data, user, and expert research into the concept.
+    - Prototyped and tested Arduino EMG triggers and a TPU pneumatic patch.
+  outcome: A physical prototype that surfaced personalization and long-term wear as key risks.
+cover: ../../assets/projects/tutela/cover.png
+coverAlt: Transparent Tutela abdominal patch worn discreetly with a smartwatch showing a connected status display.
+homeSecondary:
+  image: ../../assets/projects/tutela/home-secondary.png
+  alt: Tutela structure, user flow, and product-testing results from the original portfolio case study.
+---
+
+import productSystem from "../../assets/projects/tutela/home-secondary.png";
+
+<CaseSection id="overview" kind="overview">
+  Tutela explores how a wearable device could support teenagers living with
+  irritable bowel syndrome without making a private condition more visible. The
+  concept combines stress-related sensing with heat and pneumatic relief in a
+  discreet abdominal patch connected to a smartwatch.
+
+  <RoleBreakdown>
+    I conducted the user and expert research, translated the findings into the
+    product concept and interaction flow, and prototyped the sensing and
+    pneumatic behavior with Arduino, EMG components, and TPU fabrication.
+  </RoleBreakdown>
+</CaseSection>
+
+<CaseSection id="insight" kind="insight">
+  The central design requirement was discretion. Support needed to work under
+  clothing, fit everyday school routines, and give the wearer control over when
+  relief or alerts appeared instead of publicly signaling a health condition.
+
+  <InsightQuote>
+    A health wearable can only feel supportive when the user controls its
+    visibility, timing, and intensity.
+  </InsightQuote>
+</CaseSection>
+
+<CaseSection id="decisions" kind="decisions" layout="wide">
+  I organized the system around a lightweight adhesive patch and a connected
+  smartwatch. The patch combines sensing, heating, air passages, and pneumatic
+  chambers, while the watch handles status feedback and adjustable alert
+  thresholds. Replaceable scent pads were explored as an optional calming cue,
+  not a required part of the core interaction.
+</CaseSection>
+
+<CaseSection id="prototype" kind="prototype" layout="wide">
+  The physical prototype was used to examine component placement, pneumatic
+  behavior, and how the form could sit beneath clothing. Early user feedback
+  highlighted two practical risks: security during movement and differences in
+  heat sensitivity. These findings led to a skin-safe adhesive or support band
+  and personalized thresholds as the next design priorities.
+
+  <MediaFigure
+    label="System, flow, and testing"
+    caption="The prototype combines the patch structure, connected user flow, and the practical concerns surfaced during early testing."
+  >
+    <ProjectImage
+      src={productSystem}
+      alt="Tutela exploded structure, smartwatch-connected user flow, physical prototype, and testing feedback about attachment and heat sensitivity."
+    />
+  </MediaFigure>
+</CaseSection>
+
+<CaseSection id="reflection" kind="reflection">
+  The project demonstrates a tangible interaction direction, but it does not
+  yet establish reliable long-term sensing or wear. The next step would be an
+  extended study of comfort, attachment, personalized triggering, and safety
+  before treating the concept as a real health product.
+
+  <ReflectionBlock title="Discretion is part of the function, not a cosmetic layer.">
+    The strongest outcome was a clearer product principle: relief, sensing, and
+    feedback must remain adjustable and private if the wearable is expected to
+    fit into a teenager’s daily life.
+  </ReflectionBlock>
+</CaseSection>

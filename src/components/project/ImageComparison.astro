@@ -1,0 +1,67 @@
+---
+interface Props {
+  beforeLabel?: string;
+  afterLabel?: string;
+  caption?: string;
+}
+
+const { beforeLabel = "Before", afterLabel = "After", caption } = Astro.props;
+---
+
+<figure class="comparison">
+  <div class="comparison-grid">
+    <section>
+      <p class="eyebrow">{beforeLabel}</p>
+      <div class="comparison-media"><slot name="before" /></div>
+    </section>
+    <section>
+      <p class="eyebrow">{afterLabel}</p>
+      <div class="comparison-media"><slot name="after" /></div>
+    </section>
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .comparison {
+    margin: var(--space-10) 0;
+  }
+
+  .comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  section {
+    min-width: 0;
+  }
+
+  .eyebrow {
+    margin-bottom: var(--space-3);
+  }
+
+  .comparison-media {
+    overflow: hidden;
+    border: var(--line);
+    border-radius: var(--radius-media);
+    background: var(--color-background-deep);
+  }
+
+  .comparison-media :global(img) {
+    width: 100%;
+  }
+
+  figcaption {
+    margin-top: var(--space-3);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 42rem) {
+    .comparison-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import { profileData } from "../../data/profile";
+
+const { about } = profileData;
+---
+
+<section id="about-me" class="about-panel" aria-labelledby="about-title">
+  <span id="about" class="anchor-alias" aria-hidden="true"></span>
+  <h2 id="about-title" class="visually-hidden">About Me</h2>
+  <div class="about-copy">
+    <p class="introduction">
+      <strong>{about.heading}</strong>{" "}
+      {profileData.statement}
+    </p>
+    <p>{about.body}</p>
+  </div>
+</section>
+
+<style>
+  .about-panel {
+    position: relative;
+    isolation: isolate;
+    padding: 1.5rem 1.75rem 1.75rem;
+    border: 1px solid rgba(38, 61, 88, 0.09);
+    border-radius: 0.75rem;
+    background:
+      radial-gradient(
+        ellipse at 0% 0%,
+        rgba(223, 247, 242, 0.65),
+        transparent 65%
+      ),
+      radial-gradient(
+        ellipse at 100% 0%,
+        rgba(170, 165, 232, 0.12),
+        transparent 55%
+      ),
+      var(--color-surface-soft);
+  }
+
+  .about-copy {
+    display: grid;
+    gap: 1rem;
+    max-width: 48rem;
+  }
+
+  p {
+    font-size: var(--text-body);
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  .introduction {
+    color: var(--color-text-strong);
+  }
+
+  @media (max-width: 38rem) {
+    .about-panel {
+      padding: 1.25rem;
+    }
+  }
+</style>

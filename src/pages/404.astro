@@ -1,0 +1,35 @@
+---
+import { siteData } from "../data/site";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { withBase } from "../utils/url";
+---
+
+<BaseLayout
+  title={`Not found — ${siteData.title}`}
+  description="Page not found."
+>
+  <main id="main-content" class="not-found">
+    <p class="eyebrow">Error / 404</p>
+    <h1>Page not found.</h1>
+    <a class="text-link" href={withBase()}>Return home →</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    min-height: 100svh;
+    gap: var(--space-8);
+    place-content: center;
+    padding: var(--space-8);
+  }
+
+  h1 {
+    max-width: 8ch;
+    font-size: var(--text-section);
+  }
+
+  .text-link {
+    justify-self: start;
+  }
+</style>

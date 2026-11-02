@@ -1,0 +1,325 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { profileData } from "../../data/profile";
+import { withBase } from "../../utils/url";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const isCoursework = data.caseStudyType === "coursework";
+const isResearch = data.caseStudyType !== "design";
+const isOther = data.homeSection === "others";
+const heroVideoUrl = data.heroVideo
+  ? `https://www.youtube-nocookie.com/embed/${data.heroVideo.id}?rel=0`
+  : undefined;
+
+const chapters = isCoursework
+  ? [
+      { href: "#overview", label: "Overview" },
+      { href: "#original", label: "Original coursework" },
+    ]
+  : isResearch
+    ? [
+        { href: "#overview", label: "Overview" },
+        { href: "#insight", label: "Research approach" },
+        { href: "#decisions", label: "Analysis" },
+        { href: "#prototype", label: "Findings" },
+        { href: "#reflection", label: "Reflection" },
+      ]
+    : [
+        { href: "#overview", label: "Overview" },
+        { href: "#insight", label: "Key insight" },
+        { href: "#decisions", label: "Design decisions" },
+        { href: "#prototype", label: "Prototype" },
+        { href: "#reflection", label: "Outcome" },
+      ];
+---
+
+<nav class="project-bar" aria-label="Project navigation">
+  <a href={withBase(isOther ? "#others" : "#projects")}>
+    ← {isOther ? "Others" : "Selected projects"}
+  </a>
+  <a class="project-brand" href={withBase()}>{profileData.name}</a>
+</nav>
+
+<header class:list={["project-hero", { "project-hero--research": isResearch }]}>
+  <div class="hero-heading">
+    <div>
+      <p class="eyebrow">
+        {
+          isCoursework
+            ? "Coursework"
+            : isResearch
+              ? "Research study"
+              : "Case study"
+        } / {data.year}
+      </p>
+      <h1>{data.title}</h1>
+    </div>
+    <p class="hero-summary">{data.summary}</p>
+  </div>
+
+  <figure class="hero-media">
+    {
+      data.heroVideo && heroVideoUrl ? (
+        <iframe
+          src={heroVideoUrl}
+          title={data.heroVideo.title}
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        />
+      ) : (
+        <Image
+          src={data.cover}
+          alt={data.coverAlt}
+          widths={[640, 960, 1280, 1600]}
+          sizes="(max-width: 960px) 100vw, 94vw"
+          loading="eager"
+        />
+      )
+    }
+  </figure>
+
+  <dl class="project-facts">
+    <div>
+      <dt>Role</dt>
+      <dd>{data.role}</dd>
+    </div>
+    <div>
+      <dt>{isResearch ? "Format" : "Team"}</dt>
+      <dd>{data.team}</dd>
+    </div>
+    <div>
+      <dt>{isResearch ? "Document date" : "Duration"}</dt>
+      <dd>{data.duration}</dd>
+    </div>
+    <div>
+      <dt>{isResearch ? "Methods / tools" : "Platform"}</dt>
+      <dd>{data.platforms.join(" / ")}</dd>
+    </div>
+  </dl>
+
+  <div class="hero-footer">
+    <ul class="capabilities" aria-label="Project capabilities">
+      {data.capabilities.map((capability) => <li>{capability}</li>)}
+    </ul>
+
+    <nav class="chapter-nav" aria-label="Case study chapters">
+      {chapters.map((chapter) => <a href={chapter.href}>{chapter.label}</a>)}
+    </nav>
+  </div>
+</header>
+
+<style>
+  .project-bar {
+    position: relative;
+    z-index: var(--z-sticky);
+    top: 0;
+    display: flex;
+    min-height: 4.2rem;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: var(--space-4) var(--page-gutter);
+    border-bottom: var(--line);
+    background: rgba(243, 245, 244, 0.86);
+    backdrop-filter: blur(18px);
+  }
+
+  .project-bar a {
+    color: var(--color-text-strong);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .project-bar a:hover {
+    color: var(--color-accent);
+  }
+
+  .project-brand {
+    font-family: var(--font-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .project-hero {
+    display: grid;
+    gap: var(--space-10);
+    padding: clamp(4rem, 8vw, 8rem) var(--page-gutter) var(--section-space);
+    border-bottom: var(--line);
+  }
+
+  .hero-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.65fr);
+    gap: var(--space-12);
+    align-items: end;
+  }
+
+  h1 {
+    max-width: 10ch;
+    margin-top: var(--space-8);
+    font-size: clamp(4.5rem, 10vw, 10.5rem);
+  }
+
+  .hero-summary {
+    max-width: 36rem;
+    color: var(--color-text-strong);
+    font-size: var(--text-lead);
+    line-height: 1.42;
+  }
+
+  .hero-media {
+    margin: 0;
+    overflow: hidden;
+    border: var(--line);
+    border-radius: var(--radius-media);
+    background: var(--color-background-deep);
+  }
+
+  .hero-media :global(img) {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .hero-media :global(iframe) {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+
+  .project-hero--research .hero-media :global(img) {
+    display: block;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: contain;
+  }
+
+  .project-facts {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    margin: 0;
+    border-top: var(--line-strong);
+    border-bottom: var(--line);
+  }
+
+  .project-facts div {
+    min-width: 0;
+    padding: var(--space-4) var(--space-4) var(--space-5, 1.25rem) 0;
+  }
+
+  .project-facts div + div {
+    padding-left: var(--space-4);
+    border-left: var(--line);
+  }
+
+  dt {
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    margin: var(--space-3) 0 0;
+    color: var(--color-text-strong);
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .hero-footer {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: var(--space-8);
+  }
+
+  .capabilities,
+  .chapter-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .capabilities li,
+  .chapter-nav a {
+    padding: 0.42rem 0.66rem;
+    border: var(--line);
+    border-radius: var(--radius-pill);
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    line-height: 1.2;
+    text-decoration: none;
+  }
+
+  .chapter-nav {
+    justify-content: flex-end;
+  }
+
+  .chapter-nav a {
+    transition:
+      border-color var(--duration-fast) ease,
+      color var(--duration-fast) ease;
+  }
+
+  .chapter-nav a:hover {
+    border-color: var(--color-line-strong);
+    color: var(--color-text-strong);
+  }
+
+  @media (max-width: 64rem) {
+    .hero-heading {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .hero-footer {
+      display: grid;
+    }
+
+    .chapter-nav {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .project-bar {
+      min-height: 3.8rem;
+    }
+
+    .project-hero {
+      padding-top: var(--space-20);
+    }
+
+    h1 {
+      font-size: clamp(3.6rem, 17vw, 6rem);
+    }
+
+    .project-facts {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .project-facts div:nth-child(3) {
+      border-left: 0;
+    }
+
+    .project-facts div:nth-child(n + 3) {
+      border-top: var(--line);
+    }
+  }
+</style>

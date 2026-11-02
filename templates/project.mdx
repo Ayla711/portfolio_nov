@@ -1,0 +1,59 @@
+---
+title: Project Name
+summary: One sentence that defines the product and its value.
+year: 2026
+role: UX Designer
+team: Individual Project
+duration: 12 weeks
+platforms:
+  - Web
+capabilities:
+  - UX Research
+  - Interaction Design
+  - Prototyping
+technologies:
+  - Figma
+# V2: publish only when ready. Add a unique featuredOrder to show on the homepage.
+# featuredOrder must be unique across Selected Projects and Others.
+# Example: featuredOrder: 10 (lower numbers appear first).
+# Remove featuredOrder when returning to draft or archiving.
+# presentation, home, and homeSecondary are no longer required for cards.
+# Optional: homeSection: others (default: projects).
+# Optional: caseStudyType: research (default: design).
+# For research, copy an existing research MDX to retain its custom section titles
+# and labels; changing caseStudyType changes hero labels, not the MDX body.
+# For past assignments use caseStudyType: coursework and copy an existing
+# coursework MDX: keep Overview, then CourseworkContent with id="original".
+status: draft
+detailPage: true
+cover: ../../assets/projects/project-id/cover.webp
+coverAlt: Describe what is visible and relevant in the cover image.
+---
+
+<CaseSection id="overview" kind="overview">
+  Introduce the context, audience, constraints, and outcome.
+
+  <RoleBreakdown>
+    Separate what you led, what you contributed, and what collaborators owned.
+  </RoleBreakdown>
+</CaseSection>
+
+<CaseSection id="insight" kind="insight">
+  <InsightQuote>
+    State the research insight that redirected the work.
+  </InsightQuote>
+</CaseSection>
+
+<CaseSection id="decisions" kind="decisions" layout="wide">
+  Explain the few decisions that materially shaped the experience.
+</CaseSection>
+
+<CaseSection id="prototype" kind="prototype" layout="wide">
+  Show how the final interaction works and what you personally built.
+</CaseSection>
+
+<CaseSection id="reflection" kind="reflection">
+  <ReflectionBlock>
+    Close with evidence, limitations, and the next iteration.
+  </ReflectionBlock>
+</CaseSection>

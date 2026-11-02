@@ -1,0 +1,51 @@
+---
+import { resolve } from "node:path";
+import { absoluteUrl, withBase } from "../utils/url";
+import { getPersonalMarkPath } from "../utils/personal-mark";
+import SiteNavigation from "../components/layout/SiteNavigation.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  canonicalPath?: string;
+}
+
+const { title, description, canonicalPath = "" } = Astro.props;
+const canonical = absoluteUrl(canonicalPath, Astro.site);
+const personalMarkPath = getPersonalMarkPath(resolve("public"));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#f3f5f4" />
+    {
+      personalMarkPath && (
+        <link
+          rel="icon"
+          type={
+            personalMarkPath.startsWith("images/personal-mark.svg")
+              ? "image/svg+xml"
+              : "image/png"
+          }
+          href={withBase(personalMarkPath)}
+        />
+      )
+    }
+    <link rel="canonical" href={canonical} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <SiteNavigation />
+    <slot />
+  </body>
+</html>

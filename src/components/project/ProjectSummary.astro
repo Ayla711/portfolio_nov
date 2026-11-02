@@ -1,0 +1,206 @@
+---
+import { Image } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import { withBase } from "../../utils/url";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const detailHref = data.detailPage
+  ? withBase(`project/${project.id}/`)
+  : undefined;
+const CardTag = data.detailPage ? "a" : "div";
+const titleId = `project-title-${project.id}`;
+const visibleCapabilities = data.capabilities.slice(0, 2);
+---
+
+<article
+  class="project-card"
+  data-project-summary
+  data-project-card
+  data-project-id={project.id}
+  aria-labelledby={titleId}
+>
+  <CardTag
+    class="project-card-content"
+    href={detailHref}
+    aria-labelledby={data.detailPage ? titleId : undefined}
+  >
+    <div class="project-card-media">
+      <Image
+        src={data.cover}
+        alt={data.coverAlt}
+        widths={[480, 800, 1200]}
+        sizes="(max-width: 38rem) calc(100vw - 40px), (max-width: 60rem) calc((100vw - 72px) / 2), (max-width: 90rem) calc((100vw - 392px) / 2), 480px"
+        loading="lazy"
+      />
+    </div>
+
+    <div class="project-card-body">
+      <header class="project-card-heading">
+        <h3 id={titleId}>{data.title}</h3>
+        <span class="project-year">{data.year}</span>
+      </header>
+
+      <p class="project-summary">{data.summary}</p>
+      <p class="project-role">
+        <span class="visually-hidden">Role: </span>{data.role}
+      </p>
+
+      <ul class="capability-tags" aria-label={`${data.title} capabilities`}>
+        {visibleCapabilities.map((capability) => <li>{capability}</li>)}
+      </ul>
+
+      {
+        data.detailPage && (
+          <span class="case-link">
+            View project <span aria-hidden="true">↗</span>
+          </span>
+        )
+      }
+    </div>
+  </CardTag>
+</article>
+
+<style>
+  .project-card {
+    display: flex;
+    min-width: 0;
+    border: var(--line);
+    border-radius: 0.6rem;
+    background: var(--color-surface);
+  }
+
+  .project-card-content {
+    display: flex;
+    width: 100%;
+    min-width: 0;
+    flex-direction: column;
+    border-radius: inherit;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a.project-card-content {
+    transition:
+      box-shadow var(--duration-fast) ease,
+      background-color var(--duration-fast) ease;
+  }
+
+  a.project-card-content:hover {
+    background-color: #ffffff;
+    box-shadow: 0 4px 18px rgba(38, 61, 88, 0.06);
+  }
+
+  a.project-card-content:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  .project-card-media {
+    overflow: hidden;
+    border-radius: 0.55rem 0.55rem 0 0;
+    background: var(--color-background-deep);
+  }
+
+  .project-card-media :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .project-card-body {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 1.15rem;
+  }
+
+  .project-card-heading {
+    display: flex;
+    width: 100%;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  h3 {
+    min-width: 0;
+    font-size: clamp(1.25rem, 1.1rem + 0.25vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    overflow-wrap: anywhere;
+  }
+
+  .project-year {
+    flex-shrink: 0;
+    color: var(--color-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .project-summary {
+    font-size: 1rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+  }
+
+  .project-role {
+    color: var(--color-muted);
+    font-size: 0.82rem;
+    line-height: 1.45;
+  }
+
+  .capability-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .capability-tags li {
+    padding: 0.3rem 0.5rem;
+    border: var(--line);
+    border-radius: 0.3rem;
+    color: var(--color-muted);
+    font-size: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .case-link {
+    display: flex;
+    min-height: 2.75rem;
+    align-self: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    color: var(--color-text-strong);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.3em;
+  }
+
+  a.project-card-content:hover .case-link {
+    color: var(--color-accent);
+  }
+
+  @media (max-width: 38rem) {
+    .project-card-body {
+      padding: 1rem;
+    }
+  }
+</style>

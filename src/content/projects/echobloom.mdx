@@ -1,0 +1,137 @@
+---
+title: EchoBloom
+summary: A mobile experience that turns fragments of commute noise into personal music clips and reactive visual memories.
+year: 2025
+role: Creative Coder & Product Designer
+team: Independent project
+duration: Jul–Oct 2025
+platforms:
+  - Mobile
+  - Creative coding
+capabilities:
+  - Product Design
+  - Interaction Design
+  - Creative Coding
+  - Machine Learning Prototyping
+technologies:
+  - Teachable Machine
+  - UrbanSound8K
+  - Suno
+  - p5.js
+status: published
+detailPage: true
+featuredOrder: 20
+presentation: standard
+home:
+  challenge: Most commute tools mask urban noise; EchoBloom transforms it into a creative input.
+  contributions:
+    - Built a noise-to-music pipeline with Teachable Machine, Suno, and p5.js.
+    - Designed the three-state recording, playback, and memory flow.
+  outcome: A functional prototype for turning everyday routes into saved sound-and-motion artifacts.
+cover: ../../assets/projects/echobloom/cover.png
+coverAlt: EchoBloom mobile interface surrounded by sound-classification, code, and music-generation tools.
+homeSecondary:
+  image: ../../assets/projects/echobloom/build-process.png
+  alt: EchoBloom workflow connecting urban sound capture, machine-learning classification, and music generation.
+---
+
+import buildProcess from "../../assets/projects/echobloom/build-process.png";
+import interfaceStates from "../../assets/projects/echobloom/interface-states.png";
+
+<CaseSection id="overview" kind="overview">
+  EchoBloom began with a familiar commute problem: traffic, crowds, and
+  mechanical noise accumulate into irritation before the day has properly
+  started. Instead of designing another noise-blocking tool, I explored whether
+  those unwanted sounds could become raw material for something personal.
+
+<RoleBreakdown>
+  I defined the product loop, trained and tested the sound-classification model,
+  connected the creative tools, coded the reactive visuals, and designed the
+  mobile interface.
+</RoleBreakdown>
+
+The concept records a short sound, recognizes its likely category, transforms
+the result into music and motion, and saves that output as a small memory of a
+specific place and time.
+
+</CaseSection>
+
+<CaseSection id="insight" kind="insight">
+  The opportunity was not to make the commute silent. Silence would erase the
+  context that made each moment distinct. The more interesting direction was
+  to give the user authorship over the same stimulus that had been wearing them
+  down.
+
+  <InsightQuote>
+    A frustrating sound can become meaningful when the user can identify it,
+    transform it, and keep the result.
+  </InsightQuote>
+</CaseSection>
+
+<CaseSection id="decisions" kind="decisions" layout="wide">
+  I organized the experience around one short, explainable chain rather than a
+  feature-heavy music app. Teachable Machine and the UrbanSound8K categories
+  provided a rough sound label; Suno supported musical exploration; p5.js
+  translated the result into color and motion.
+
+<ProcessGallery caption="Each tool has one visible job in the user-facing loop.">
+  <article>
+    <strong>Record</strong>
+    <p>Capture a brief fragment from the user’s current environment.</p>
+  </article>
+  <article>
+    <strong>Recognize</strong>
+    <p>Classify the dominant noise pattern and expose the result.</p>
+  </article>
+  <article>
+    <strong>Transform</strong>
+    <p>Use the label as a prompt and map audio properties into motion.</p>
+  </article>
+  <article>
+    <strong>Remember</strong>
+    <p>Save the music-and-visual pair as a personal commute artifact.</p>
+  </article>
+</ProcessGallery>
+
+  <MediaFigure
+    label="Build pipeline"
+    caption="The rough pipeline moved from field recording to classification and generated music before interface refinement."
+  >
+    <ProjectImage
+      src={buildProcess}
+      alt="EchoBloom build sequence showing field recording, Teachable Machine sound categories, and a Suno music-generation workspace."
+    />
+  </MediaFigure>
+</CaseSection>
+
+<CaseSection id="prototype" kind="prototype" layout="wide">
+  The mobile flow was reduced to three moments: record and generate, review the
+  reconstructed music with reactive motion, then save or share the result. The
+  visual layer intentionally feels atmospheric rather than analytical; model
+  status and controls remain secondary to the emotional payoff.
+
+  <MediaFigure
+    label="Core interface"
+    caption="Recording, playback, and saved memories form the complete first-release experience."
+  >
+    <ProjectImage
+      src={interfaceStates}
+      alt="Three EchoBloom phone screens for recording a sound, reviewing generated music, and viewing saved music palettes."
+    />
+  </MediaFigure>
+</CaseSection>
+
+<CaseSection id="reflection" kind="reflection">
+  The prototype proves the creative loop, but it does not yet establish robust
+  real-world sound recognition or seamless generation latency. A production
+  version would need clearer consent around environmental recording, graceful
+  handling of uncertain classifications, and a faster preview before full
+  music generation.
+
+  <ReflectionBlock title="The technology is most useful when it changes the user’s relationship to the moment.">
+    EchoBloom strengthened my ability to move between code, model behavior, and
+    interaction design. The next test should compare whether transformation
+    actually improves commute mood over repeated use—not only whether the
+    output feels novel once.
+  </ReflectionBlock>
+</CaseSection>

@@ -1,0 +1,73 @@
+---
+interface Props {
+  label?: string;
+  title?: string;
+  caption?: string;
+}
+
+const { label = "System view", title, caption } = Astro.props;
+---
+
+<figure class="system-diagram">
+  <header>
+    <p class="eyebrow">{label}</p>
+    {title && <h3>{title}</h3>}
+  </header>
+  <div class="diagram-frame"><slot /></div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .system-diagram {
+    margin: var(--space-10) 0;
+    padding: var(--space-6);
+    border: var(--line);
+    background:
+      radial-gradient(
+        circle at 94% 8%,
+        rgba(139, 114, 237, 0.12),
+        transparent 14rem
+      ),
+      var(--color-surface-soft);
+  }
+
+  header {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding-bottom: var(--space-4);
+    border-bottom: var(--line);
+  }
+
+  h3 {
+    max-width: 20ch;
+    font-size: clamp(1.4rem, 2.4vw, 2.2rem);
+    text-align: right;
+  }
+
+  .diagram-frame {
+    padding-block: var(--space-6);
+  }
+
+  .diagram-frame :global(img) {
+    width: 100%;
+  }
+
+  figcaption {
+    padding-top: var(--space-3);
+    border-top: var(--line);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 42rem) {
+    header {
+      display: grid;
+    }
+
+    h3 {
+      text-align: left;
+    }
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+import { withBase } from "../../utils/url";
+
+const sections = [
+  { id: "about-me", label: "About Me" },
+  { id: "projects", label: "Projects" },
+  { id: "others", label: "Others" },
+];
+---
+
+<header class="site-header">
+  <nav class="site-navigation" aria-label="Primary navigation">
+    {
+      sections.map(({ id, label }) => (
+        <a href={withBase(`#${id}`)} data-section-link={id}>
+          {label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<script>
+  const links = [
+    ...document.querySelectorAll<HTMLAnchorElement>("[data-section-link]"),
+  ];
+  const sections = links.map((link) =>
+    document.getElementById(link.dataset.sectionLink!),
+  );
+
+  // Detail pages share these links, but have no homepage sections to track.
+  if (sections.every((section) => section !== null)) {
+    let scheduled = false;
+    function updateCurrentSection() {
+      scheduled = false;
+      const offset =
+        (document.querySelector(".site-header")?.getBoundingClientRect()
+          .height ?? 64) + 48;
+      let current = 0;
+      sections.forEach((section, index) => {
+        if (section!.getBoundingClientRect().top <= offset) current = index;
+      });
+      if (
+        window.scrollY > 0 &&
+        window.scrollY + window.innerHeight >=
+          document.documentElement.scrollHeight - 4
+      ) {
+        current = sections.length - 1;
+      }
+      links.forEach((link, index) => {
+        if (index === current) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    }
+    function scheduleUpdate() {
+      if (scheduled) return;
+      scheduled = true;
+      requestAnimationFrame(updateCurrentSection);
+    }
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    window.addEventListener("hashchange", scheduleUpdate);
+    updateCurrentSection();
+  }
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    z-index: 40;
+    top: 0;
+    border-bottom: var(--line);
+    background: rgba(251, 252, 251, 0.96);
+    backdrop-filter: blur(12px);
+  }
+
+  .site-navigation {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 0 clamp(0.75rem, 2.4vw, 2rem);
+    max-width: var(--home-max);
+    min-height: var(--header-height);
+    margin-inline: auto;
+    padding-inline: var(--page-gutter);
+  }
+
+  a {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    border-bottom: 2px solid transparent;
+    color: var(--color-muted);
+    font-size: 0.95rem;
+    font-weight: 550;
+    text-decoration: none;
+    transition: color var(--duration-fast) ease;
+  }
+
+  a:hover,
+  a[aria-current="location"] {
+    color: var(--color-text-strong);
+    border-bottom-color: var(--color-accent);
+  }
+
+  @media (max-width: 60rem) {
+    .site-navigation {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 38rem) {
+    .site-navigation {
+      justify-content: space-between;
+      gap: 0 0.5rem;
+    }
+
+    a {
+      font-size: 0.875rem;
+    }
+  }
+</style>

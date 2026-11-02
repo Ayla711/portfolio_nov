@@ -1,0 +1,361 @@
+---
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { withBase } from "../../utils/url";
+
+interface Props {
+  title: string;
+  cover: ImageMetadata;
+  coverAlt: string;
+  secondaryImage?: ImageMetadata;
+  secondaryAlt?: string;
+  presentation: "hero" | "standard" | "compact";
+  previewPoster?: ImageMetadata;
+  previewVideo?: string;
+}
+
+const {
+  title,
+  cover,
+  coverAlt,
+  secondaryImage,
+  secondaryAlt,
+  presentation,
+  previewPoster,
+  previewVideo,
+} = Astro.props;
+
+const still = previewPoster ?? cover;
+const sizes = "(max-width: 1152px) 100vw, 46vw";
+const showSecondary =
+  presentation !== "compact" && secondaryImage && secondaryAlt;
+---
+
+<div class="project-preview-stack">
+  <div
+    class="project-preview"
+    data-project-preview
+    data-presentation={presentation}
+    data-has-video={String(Boolean(previewVideo && previewPoster))}
+    data-playing="false"
+  >
+    <Image
+      class="preview-still"
+      src={still}
+      alt={coverAlt}
+      widths={[480, 800, 1200, 1600]}
+      sizes={sizes}
+      loading={presentation === "hero" ? "eager" : "lazy"}
+    />
+
+    {
+      previewVideo && previewPoster && (
+        <video
+          class="preview-video"
+          data-preview-video
+          data-src={withBase(previewVideo)}
+          poster={previewPoster.src}
+          preload="none"
+          muted
+          playsinline
+          loop
+          aria-hidden="true"
+        />
+      )
+    }
+
+    {
+      previewVideo && previewPoster && (
+        <button
+          class="preview-toggle"
+          data-preview-toggle
+          type="button"
+          aria-label={`Play ${title} preview`}
+          aria-pressed="false"
+        >
+          <span class="preview-icon" aria-hidden="true">
+            ▶
+          </span>
+          <span data-preview-label>Play preview</span>
+        </button>
+      )
+    }
+
+    <span class="signal-scan" aria-hidden="true"></span>
+  </div>
+
+  {
+    showSecondary && (
+      <figure class="secondary-preview">
+        <Image
+          src={secondaryImage!}
+          alt={secondaryAlt!}
+          widths={[480, 800, 1200, 1600]}
+          sizes={sizes}
+          loading="lazy"
+        />
+      </figure>
+    )
+  }
+</div>
+
+<script>
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+  const finePointer = window.matchMedia(
+    "(hover: hover) and (pointer: fine)",
+  ).matches;
+  const networkNavigator = navigator as Navigator & {
+    connection?: { saveData?: boolean };
+  };
+  const saveData = networkNavigator.connection?.saveData === true;
+
+  function getElements(preview: HTMLElement) {
+    const video = preview.querySelector<HTMLVideoElement>(
+      "[data-preview-video]",
+    );
+    const button = preview.querySelector<HTMLButtonElement>(
+      "[data-preview-toggle]",
+    );
+    const label = preview.querySelector<HTMLElement>("[data-preview-label]");
+    const icon = preview.querySelector<HTMLElement>(".preview-icon");
+    return { video, button, label, icon };
+  }
+
+  function loadVideo(video: HTMLVideoElement) {
+    if (!video.src && video.dataset.src) video.src = video.dataset.src;
+  }
+
+  function updateState(preview: HTMLElement, playing: boolean) {
+    const { button, label, icon } = getElements(preview);
+    preview.dataset.playing = String(playing);
+    if (button) {
+      button.ariaPressed = String(playing);
+      button.ariaLabel = `${playing ? "Pause" : "Play"} ${button.ariaLabel?.replace(/^(Play|Pause) /, "") ?? "project preview"}`;
+    }
+    if (label) label.textContent = playing ? "Pause preview" : "Play preview";
+    if (icon) icon.textContent = playing ? "Ⅱ" : "▶";
+  }
+
+  async function playPreview(preview: HTMLElement, userInitiated = false) {
+    const { video } = getElements(preview);
+    if (!video || (!userInitiated && (reduceMotion || saveData))) return;
+
+    loadVideo(video);
+    try {
+      await video.play();
+      updateState(preview, true);
+    } catch {
+      updateState(preview, false);
+    }
+  }
+
+  function pausePreview(preview: HTMLElement) {
+    const { video } = getElements(preview);
+    if (!video) return;
+    video.pause();
+    updateState(preview, false);
+  }
+
+  document
+    .querySelectorAll<HTMLElement>("[data-project-preview]")
+    .forEach((preview) => {
+      const { video, button } = getElements(preview);
+
+      if (video && button) {
+        button.addEventListener("click", (event) => {
+          event.stopPropagation();
+          if (video.paused) void playPreview(preview, true);
+          else pausePreview(preview);
+        });
+
+        preview.addEventListener("click", (event) => {
+          if (event.target instanceof HTMLButtonElement) return;
+          if (video.paused) void playPreview(preview, true);
+          else pausePreview(preview);
+        });
+
+        if (finePointer) {
+          preview.addEventListener("pointerenter", () => {
+            void playPreview(preview);
+          });
+          preview.addEventListener("pointerleave", () => pausePreview(preview));
+        }
+
+        preview.addEventListener("focusin", () => {
+          void playPreview(preview);
+        });
+        preview.addEventListener("focusout", (event) => {
+          if (
+            !(event.relatedTarget instanceof Node) ||
+            !preview.contains(event.relatedTarget)
+          ) {
+            pausePreview(preview);
+          }
+        });
+
+        video.addEventListener("error", () => {
+          preview.dataset.videoError = "true";
+          updateState(preview, false);
+        });
+      }
+    });
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!(entry.target instanceof HTMLElement)) continue;
+        entry.target.dataset.inView = String(entry.isIntersecting);
+
+        if (!entry.isIntersecting) {
+          pausePreview(entry.target);
+        } else if (
+          entry.target.dataset.presentation === "hero" &&
+          entry.intersectionRatio >= 0.55
+        ) {
+          void playPreview(entry.target);
+        }
+      }
+    },
+    { threshold: [0, 0.55] },
+  );
+
+  document
+    .querySelectorAll<HTMLElement>("[data-project-preview]")
+    .forEach((preview) => observer.observe(preview));
+</script>
+
+<style>
+  .project-preview-stack {
+    display: grid;
+    gap: clamp(0.65rem, 1vw, 0.9rem);
+  }
+
+  .project-preview {
+    position: relative;
+    overflow: hidden;
+    border: var(--line);
+    border-radius: var(--radius-media);
+    background:
+      linear-gradient(135deg, rgba(86, 166, 237, 0.08), transparent 45%),
+      var(--color-background-deep);
+    cursor: default;
+    isolation: isolate;
+  }
+
+  .project-preview[data-has-video="true"] {
+    cursor: pointer;
+  }
+
+  .project-preview :global(img),
+  .secondary-preview :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .preview-video {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .secondary-preview {
+    overflow: hidden;
+    margin: 0;
+    border: var(--line);
+    border-radius: var(--radius-media);
+    background: var(--color-background-deep);
+  }
+
+  .project-preview :global(img) {
+    transform: scale(1.012);
+    transition: transform 900ms var(--ease-out);
+  }
+
+  .project-preview[data-in-view="true"] :global(img) {
+    transform: scale(1);
+  }
+
+  .preview-video {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    opacity: 0;
+    transition: opacity var(--duration-medium) ease;
+  }
+
+  .project-preview[data-playing="true"] .preview-video {
+    opacity: 1;
+  }
+
+  .preview-toggle {
+    position: absolute;
+    z-index: 3;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    display: inline-flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0.65rem 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: var(--radius-pill);
+    background: rgba(12, 23, 40, 0.78);
+    color: #ffffff;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    backdrop-filter: blur(12px);
+  }
+
+  .preview-toggle:hover {
+    background: rgba(12, 23, 40, 0.94);
+  }
+
+  .preview-icon {
+    display: inline-grid;
+    width: 0.8rem;
+    place-content: center;
+    font-size: 0.65rem;
+  }
+
+  .project-preview[data-video-error="true"] .preview-toggle {
+    display: none;
+  }
+
+  .signal-scan {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    bottom: 0;
+    left: 24%;
+    width: 1px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(255, 255, 255, 0.52),
+      transparent
+    );
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--duration-medium) ease;
+  }
+
+  .project-preview[data-playing="true"] .signal-scan {
+    opacity: 0.45;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .project-preview :global(img),
+    .preview-video,
+    .signal-scan {
+      transition: none;
+    }
+  }
+</style>

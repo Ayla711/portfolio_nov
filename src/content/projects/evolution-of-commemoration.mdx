@@ -1,0 +1,360 @@
+---
+title: The Evolution of Commemoration
+summary: Text mining Scottish gravestone inscriptions to explore changing commemorative language and women’s visibility through family relationships.
+year: 2026
+role: Text Mining & Data Visualization
+team: Digital humanities study
+duration: January 2026
+homeSection: others
+caseStudyType: coursework
+platforms:
+  - Corpus analysis
+  - Historical inscriptions
+capabilities:
+  - Text Mining
+  - Data Visualization
+  - Data Cleaning
+  - Critical Interpretation
+technologies:
+  - Voyant Tools
+  - KH Coder
+  - Microsoft Excel
+  - Tableau
+  - Regular expressions
+status: published
+detailPage: true
+featuredOrder: 70
+cover: ../../assets/projects/evolution-of-commemoration/cover.svg
+coverAlt: Original report’s word co-occurrence network showing clusters of terms used in Scottish gravestone inscriptions.
+---
+
+import figure1 from "../../assets/projects/evolution-of-commemoration/figure-1.jpg";
+import figure2 from "../../assets/projects/evolution-of-commemoration/figure-2.jpg";
+import figure3 from "../../assets/projects/evolution-of-commemoration/figure-3.jpg";
+import figure4 from "../../assets/projects/evolution-of-commemoration/figure-4.jpg";
+import figure5 from "../../assets/projects/evolution-of-commemoration/figure-5.jpg";
+import cooccurrence from "../../assets/projects/evolution-of-commemoration/cooccurrence.jpg";
+import figure7 from "../../assets/projects/evolution-of-commemoration/figure-7.jpg";
+import crosstab from "../../assets/projects/evolution-of-commemoration/crosstab.jpg";
+import figure9 from "../../assets/projects/evolution-of-commemoration/figure-9.jpg";
+import figure10 from "../../assets/projects/evolution-of-commemoration/figure-10.jpg";
+import figure11_1 from "../../assets/projects/evolution-of-commemoration/figure-11-1.jpg";
+import figure11_2 from "../../assets/projects/evolution-of-commemoration/figure-11-2.jpg";
+import figure11_3 from "../../assets/projects/evolution-of-commemoration/figure-11-3.jpg";
+import figure11_4 from "../../assets/projects/evolution-of-commemoration/figure-11-4.jpg";
+import figure11_5 from "../../assets/projects/evolution-of-commemoration/figure-11-5.jpg";
+import figure11_6 from "../../assets/projects/evolution-of-commemoration/figure-11-6.jpg";
+import figure11_7 from "../../assets/projects/evolution-of-commemoration/figure-11-7.jpg";
+import figure12 from "../../assets/projects/evolution-of-commemoration/figure-12.jpg";
+import figure13 from "../../assets/projects/evolution-of-commemoration/figure-13.jpg";
+
+<CaseSection id="overview" kind="overview" title="Overview" label="Overview">
+  Did gravestone language move from religious formulas toward individual
+  stories? This digital humanities study explores that question through 697
+  inscription entries from Kirkpatrick Fleming and Kirkconnel in southwestern
+  Scotland, spanning 1666–1928. A second question considers how family labels
+  shaped women’s presence in the written commemorative record.
+
+  <RoleBreakdown>
+    I cleaned the transcriptions, developed formulaic-expression codes,
+    analyzed temporal patterns, and produced visualizations. The project
+    combines quantitative exploration with close attention to what its
+    measures can—and cannot—represent.
+  </RoleBreakdown>
+</CaseSection>
+
+<CourseworkContent id="original" title="The Evolution of Commemoration: A Text Mining Study of Kirkpatrick Fleming and Kirkconnel Inscriptions">
+
+### Research question
+
+This study aims to trace the dynamic evolution of epitaph language in southwestern Scotland. The central research question is: Did the language of gravestone inscriptions evolve from formulaic religious expressions to individualized narratives?
+
+To address this, two hypotheses are proposed based on the historical context of secularization and rising literacy:
+
+H1: Gravestone inscriptions become less formulaic and more individualized over time.
+
+H2: Men’s inscriptions are more likely to display individualized language than women’s.
+
+### Background and Data
+
+The data for this study comes from two kirkyards in southwestern Scotland: Kirkpatrick Fleming and the nearby graveyard at Kirkconnel, which have shared a single parish administration, creating a unified social context for analysis.
+
+The study covers the 17th to the 20th century, a transformative era marked by Scotland’s transition from strict Calvinism to a more secular, industrialized society (Smout, 1969). Driven by rising literacy and social mobility, the 19th century saw a democratization of commemoration. Meanwhile, women were legally and socially restricted before the late 19th century, with their public identities predominantly defined through domestic relationships.
+
+My data set consists of 697 gravestone entries (1666–1928), including metadata such as stone ID, orientation, and the full inscription text. Quantitative analysis of this corpus faces specific challenges, notably polysemy (e.g. “father” referring to God or kin; “hope” as a virtue or surname) and open-ended phrasing. To address this, the study focuses on extracting formulaic patterns rather than defining all individualized terms.
+
+### Exploring the data
+
+#### (1) Brief Overview with Voyant
+
+<div class="coursework-figure-pair">
+  <MediaFigure caption="Figure 1 word cloud">
+    <ProjectImage
+      src={figure1}
+      alt="Word cloud of the 100 most frequent words in the inscription dataset."
+    />
+  </MediaFigure>
+  <MediaFigure caption="Figure 2 termsberry">
+    <ProjectImage
+      src={figure2}
+      alt="Voyant TermsBerry showing frequent inscription terms and their relationships."
+    />
+  </MediaFigure>
+</div>
+
+To start with, I put the set in time order in Excel (to achieve this I excluded the inscriptions that do not contain their “erected year”, and that leaves 665 entries from 697 originals, which is 95.4% of the metadata) and upload the file to https://voyant-tools.org/ to crate a Word Cloud and a TermsBerry (a text visualization that highlights key terms and their relative importance or relationships within a corpus) for the 100 most frequent words in the dataset (see Figure 1 and Figure 2). Since this is a rough overview, a lot of meaningless terms including “who”, “of”, “also” are not eradicated. But this help me identify key terms such as “spouse” and “life”, which appear in several commonly used formulaic expressions.
+
+By clicking on certain terms in the TermsBerry, I was able to identify some interesting patterns:
+
+<div class="coursework-figure-pair">
+  <MediaFigure caption="Figure 3">
+    <ProjectImage
+      src={figure3}
+      alt="Voyant relative frequency trends for life and departed across document segments."
+    />
+  </MediaFigure>
+  <MediaFigure caption="Figure 4">
+    <ProjectImage
+      src={figure4}
+      alt="Voyant relative frequency trends for wife and spouse across document segments."
+    />
+  </MediaFigure>
+</div>
+
+Firstly, the similar frequency patterns of “life” and “departed” indicates that “departed this life” is a frequently occurred formulaic expression (see Figure 3). In Microsoft Word, I was able to back up the observation as I ascertained that of the 113 occurrences of “life”, there are only 3 times that “life” is not part of the phrase “departed this life”. Moreover, the declining relative frequencies of both terms over time support the hypothesis that inscriptions gradually evolved from formulaic religious expressions toward more individualized narratives.
+
+Also, as the Relative Frequencies of “spouse” steadily decreased, the Relative Frequencies of “wife” continued to increase (Figure 4). After summing the occurrences of ‘spouse’ and ‘wife’ in columns 1 and 10, the absolute difference between the two totals is less than 0.02% (0.138% vs 0.119%). This could suggest that the overall frequencies of the two terms changed very little during the period, making it plausible that “spouse” was gradually replaced by the newer term “wife”. (In this dataset, spouse does not function as an ungendered marital label and refers exclusively to wives rather than husbands.)
+
+#### (2) KH Coder
+
+To conduct a more in-depth analysis, I switched to KH Coder, a free software tool for quantitative content analysis and text mining.
+
+#### ① Identifying formulaic phrases
+
+To seek out the complete list of formulaic phrases in this data set, I used KH Coder to create a word frequency list and a co-occurrence network of words. In preparation, I deleted all entries for descriptions of the carved motifs on the gravestones, such as “CARVED DECORATION. ARMORIAL BEARING. DEATH'S HEAD, BONES AND COFFIN.” and three entries from early 17th century that do not record any meaningful term. Then I switched the file into lower letter to adapt to the software. Also, I removed the spaces and hyphens between words in Excel by replacing them with the full spelling (e.g., converting “daugh-ter” and “daugh ter” to “daughter”). These steps left me with 617 valid entries, accounting for 88.5% of the original sample. More importantly, I manually created a txt file of stopwords which are irrelevant to analyzing formulaic phrases. This include names, dates, locations and their various abbreviations (going on to include 210 words in total).
+
+Finally, I built a cleaned Word Frequency List (Figure 5), which indicates that the formulaic phrases are mainly composed of terms ranging from die, age, year, son, memory, daughter, spouse and wife to life, depart and erect.
+
+<MediaFigure caption="Figure 5 word frequency list" maxWidth={400}>
+  <ProjectImage
+    src={figure5}
+    alt="KH Coder cleaned word frequency list of inscription terms."
+  />
+</MediaFigure>
+
+<MediaFigure caption="Figure 6 co-occurrence network" maxWidth={560}>
+  <ProjectImage
+    src={cooccurrence}
+    alt="KH Coder co-occurrence network of inscription terms, grouped into colored subgraphs."
+  />
+</MediaFigure>
+
+Additionally, I created a Co-Occurrence Network of the terms. This helps identify formulaic phrases by highlighting clusters of words that appear together. The orange subgraph and yellow subgraph here especially supports the stable patterns of “departed this life” or “died... aged... years”.
+
+Based on these findings, I concluded 11 sets of key phrases:
+
+- died (date) aged (number) years
+- son to/ son of/ his son/ their son
+- in memory of/ to the memory of
+- daughter to/ daughter of/ his daughter/ their daughter
+- his spouse/ spouse to/ spouse of
+- his wife/ wife to/ wife of
+- aged (number) months/ aged (number) years and (number) months
+- here lies (name)
+- of age (number)/ his age (number)/ her age (number)/ year of his age/ year of her age
+- departed this life
+- erected by/ erected in memory of
+- the body of/ the deceased body of
+
+To identify these sets correctly, I cleaned the raw texts using a series of regular-expression (regex) substitutions. Regex rules were used to identify variable patterns of the phase- such as “died … aged X years,” “aged X years and Y months” -and replace them with standardized tokens (e.g. died_aged_pattern, aged_years_months_pattern).
+
+After that, I imported the cleaned data into KH Coder and used the software’s “code” function to group certain tokens, finalizing in 11 sets of formulaic expressions: Son, Memory, Daughter, Spouse, Wife, Lie (also spelled as Lye), Departed this life, Erected, Body, Died and Aged (Figure 7).
+
+<MediaFigure
+  caption="Figure 7 11 set formulaic code for KH Coder"
+  maxWidth={480}
+>
+  <ProjectImage
+    src={figure7}
+    alt="The eleven formulaic expression codes and associated matching terms used in KH Coder."
+  />
+</MediaFigure>
+
+#### ② How Epitaph Language Changes Over Time
+
+Since the data set ranges from the year 1666 to 1928, I divide them into 6 half-century groups:
+
+Group 1: 1650–1699, Group 2: 1700–1749, Group 3: 1750–1799, Group 4: 1800–1849, Group 5: 1850–1899, Group 6: 1900–1949
+
+It is important to note that 28 entries missing the “Year Erected” metadata were excluded at this stage, leaving 589 valid entries for chronological analysis.
+
+Based on the above, I build a crosstab map and a correspondence analysis in KH Coder to explore the shifts of the 11 formulaic phrases over these time periods.
+
+<MediaFigure caption="Figure 8 Crosstab map" maxWidth={640}>
+  <ProjectImage
+    src={crosstab}
+    alt="Crosstab map of eleven formulaic expression categories across six half-century periods."
+  />
+</MediaFigure>
+
+The color of each square represents the Pearson residuals, indicating whether a given formulaic expression occurs more or less frequently than expected in a specific time period. Red shows that the expression is over-represented while blue shows that it is under-represented. Meanwhile, the size of each square reflects the actual proportion of inscriptions in that period containing the expression.
+
+In Figure 8, early inscriptions (1650–1749) rely heavily on fixed religious phrases such as “Aged” and “Departed this life,” which appear more often than expected. Over the 19th century, these expressions become less frequent, while expressions of “Memory,” “Wife,” “Son,” and “Daughter” grow more prominent. This shift seems to support that epitaphs moved toward more personal and family-focused expressions.
+
+However, it is important to note that there are limits concerning this conclusion. A major problem is that the inscriptions are not evenly distributed in the 6 time periods, resulting in the number of entries being extremely insufficient in the groups of 1650-1699 and 1900-1949 (Figure 9).
+
+<MediaFigure caption="Figure 9" maxWidth={640}>
+  <ProjectImage
+    src={figure9}
+    alt="Distribution of inscription entries across the six half-century periods."
+  />
+</MediaFigure>
+
+<MediaFigure caption="Figure 10 Correspondence Analysis" maxWidth={640}>
+  <ProjectImage
+    src={figure10}
+    alt="Correspondence analysis plot of formulaic expressions and half-century periods."
+  />
+</MediaFigure>
+
+Fortunately, the Correspondence Analysis (Figure 10) accounts for this and reflects it clearly in the plot. In Correspondence Analysis, each axis represents a statistical dimension that captures the major patterns of association between the rows and the columns. The proportion explained by each axis indicates how much of the total inertia—the total amount of variation in the associations—is accounted for by that dimension.
+
+So, Dimension 1 explains 74.29% of the total inertia, meaning that the dominant pattern in the data is a single, strong contrast across time periods. This dimension represents the historical shift from early, highly formulaic religious expressions (e.g., here lies, departed this life) to later, more commemorative and relational expressions (e.g., memory, wife). Dimension 2 explains an additional 18.66%, capturing differences between types of expressions (e.g., death-centred vs. relational terms).
+
+<MediaFigure
+  caption="Figure 11-1 the shift of Formulaicity Index（FI）over time"
+  maxWidth={640}
+>
+  <ProjectImage
+    src={figure11_1}
+    alt="Formulaicity Index over time, with separate trend lines before and after 1850."
+  />
+</MediaFigure>
+
+<div class="coursework-figure-pair">
+  <MediaFigure caption="Figure 11-2">
+    <ProjectImage
+      src={figure11_2}
+      alt="Formulaicity Index over time for 1650–1699."
+    />
+  </MediaFigure>
+  <MediaFigure caption="Figure 11-3">
+    <ProjectImage
+      src={figure11_3}
+      alt="Formulaicity Index over time for 1700–1749."
+    />
+  </MediaFigure>
+</div>
+
+<div class="coursework-figure-pair">
+  <MediaFigure caption="Figure 11-4">
+    <ProjectImage
+      src={figure11_4}
+      alt="Formulaicity Index over time for 1750–1799."
+    />
+  </MediaFigure>
+  <MediaFigure caption="Figure 11-5">
+    <ProjectImage
+      src={figure11_5}
+      alt="Formulaicity Index over time for 1800–1849."
+    />
+  </MediaFigure>
+</div>
+
+<div class="coursework-figure-pair">
+  <MediaFigure caption="Figure 11-6">
+    <ProjectImage
+      src={figure11_6}
+      alt="Formulaicity Index over time for 1850–1899."
+    />
+  </MediaFigure>
+  <MediaFigure caption="Figure 11-7">
+    <ProjectImage
+      src={figure11_7}
+      alt="Formulaicity Index over time for 1900–1949."
+    />
+  </MediaFigure>
+</div>
+
+I then calculated the Formulaicity Index (FI = formulaic tokens / total tokens) for each inscription and visualized its change over time using Tableau (Figure 11-1). The overall plot shows a clear two-phase pattern: FI increases steadily prior to 1850 and then declines toward the late nineteenth century, forming two distinct trend lines.
+
+To examine these trends in more detail, the data were further divided into six half-century intervals (Figures 11-2 to 11-7). This segmented view highlights large differences in data density and trend stability across periods. In particular, the earliest (1650–1699) and latest (1900–1949) intervals contain very few inscriptions, making the trends in Figures 11-2 and 11-7 analytically insignificant. Figures 11-3 to 11-5 cover the main period in which FI increases overall. In Figure 11-3 (1700–1749), the trend is strongly affected by a few extreme values, resulting in high volatility. By Figure 11-4 (1750–1799), FI begins to fluctuate within a more stable range, and the upward trend becomes clearer. This pattern continues in Figure 11-5 (1800–1849), where FI reaches higher peak values (approximately 3.5, compared to about 2.1 in the previous half-century). In Figure 11-6 (1850 – 1899), FI then shows a clear decline.
+
+Taken together, Figures 11-2 to 11-7 suggest that FI does not change uniformly over time: early periods are dominated by sparse data and volatility, while a more consistent rise appears from the mid-eighteenth to the mid-nineteenth century, followed by a decline in the late nineteenth century. It should also be noted that the vertical ranges of FI differ across Figures 11-2 to 11-7, so the steepness of trend lines should not be directly compared between panels.
+
+Importantly, this pattern does not imply that individuality in inscriptions declined and then recovered alongside the rise and fall of FI. Instead, the sustained increase in FI up to around 1850 is better understood as reflecting a historical shift in what counted as “conventional.” While earlier religious formulas such as “departed this life” gradually declined, later inscriptions increasingly relied on standardized relational labels (e.g. “wife of,” “son of,” “daughter of”) and memorial framings (e.g. “in memory of”). The rapid spread of these labels is consistent with the higher and more frequent FI spikes observed in Figure 11-5 compared to Figure 11-4.
+
+The decline in FI after 1850 is likely linked with several more practical factors. Firstly, inscriptions in the late nineteenth century tend to be longer on average, which increases the total number of tokens and lowers FI even when formulaic expressions remain common. At the same time, the number of available inscriptions decreases toward the end of the period, making ratio-based measures more unstable. Together, these factors suggest that the post-1850 decline in FI reflects changes in inscription length and data structure rather than a substantive shift toward more individualized language.
+
+More generally, because the FI does not distinguish between different types of formulaic expressions or account for the expansion of the formulaic repertoire over time, it captures the density of convention rather than individuality itself. The uneven temporal distribution of the dataset—concentrated mainly in the eighteenth and nineteenth centuries—further limits large-scale historical inference. Overall, this points to the need for more data and finer distinctions between formulaic and personal expressions.
+
+#### ③ Gender roles and women’s visibility
+
+Because women’s inscriptions often emphasized relational identities, female presence can be identified through explicit relational markers rather than personal names. To examine gendered patterns in epitaph language, I created a separate KH Coder project focusing on terms that directly indicate female identity. After manual cleaning and normalization, ten female gender markers were identified:
+
+- wife
+- sister
+- lady
+- mother
+- daughter (daugh, daugher)
+- spouse (spous, spose, spou se, spuse)
+- granddaughter
+- grandmother
+- stepdaughter
+- woman
+
+Using the same set of 589 valid entries, I exported the word frequencies of these markers from KH Coder and aggregated different spellings in Excel to obtain total counts. I then standardized these counts by the number of inscriptions in each period (i.e., the number of valid entries) to compute a Female Marker Rate (FMR = female marker count / number of inscriptions), so changes in women’s visibility could be assessed independently of fluctuations in inscription volume.
+
+To align this measure with FI, I conducted the analysis at the half-century scale, which reduces year-to-year noise and better reflects longer-term shifts in commemorative practice. I also summarized FI using the median rather than the mean, since inscription-level FI values are highly skewed and sensitive to inscription length. Finally, I plotted Median FI and the female marker rate on a dual-axis line chart (Figure 12) to explore whether their trends show temporal co-variation (i.e., possible co-occurrence) across periods.
+
+<MediaFigure caption="Figure 12 dual-axis line chart" maxWidth={640}>
+  <ProjectImage
+    src={figure12}
+    alt="Dual-axis line chart comparing Median Formulaicity Index and Female Marker Rate across half-century periods."
+  />
+</MediaFigure>
+
+Figure 12 shows that Median FI and the female marker rate follow broadly similar temporal patterns at the half-century level. From the late seventeenth century through the mid-nineteenth century, both measures increase steadily across successive periods. Median FI rises from relatively low levels in the seventeenth century to a peak in 1850–1899, while the female marker rate displays a parallel upward trend over the same interval.
+
+After 1850–1899, both measures decline in the early twentieth century. Although this drop is based on a smaller number of inscriptions, the concurrent downward movement contrasts with the earlier period of sustained increase. Overall, the figure highlights a temporal alignment between changes in inscriptional formulaicity and women’s visibility, without implying a direct or causal relationship between the two.
+
+Then, I moved to also compare FI with the annual raw count of female gender markers (Figure 13). Although these two measures differ substantially in scale and units—FI being a normalized ratio at the inscription level, and raw count representing absolute frequencies—their temporal distributions exhibit a striking degree of similarity. At first glance, this alignment is unexpected, given that the two variables are constructed through different analytical procedures and capture distinct aspects of the data.
+
+Reflecting on this pattern, two related explanations emerge. First, terms such as wife, spouse, and daughter are inherently relational, they appear prominently within the formulaic codes identified (e.g., 'Spouse', 'Daughter'). Thus, the Formulaicity Index is intrinsically linked to these female gender markers. Second, this correspondence reflects the broader historical rise of relational labels. Female visibility within this shift was high precisely because their identity was encoded through these standardized family relationships.
+
+<MediaFigure caption="Figure 13" maxWidth={640}>
+  <ProjectImage
+    src={figure13}
+    alt="Annual Formulaicity Index and raw counts of female gender markers over time."
+  />
+</MediaFigure>
+
+Taken together, this analysis indicates that women’s visibility in epitaph language rose alongside the increasing use of standardized relational labels before the mid-nineteenth century, and declined thereafter. At both aggregate and annual scales, FI and female gender markers follow closely aligned temporal patterns. These findings support H2 by situating women’s visibility within broader shifts in relational and standardized practices.
+
+### Discussion and Interpretation
+
+The initial hypothesis (H1) posited a linear evolution from formulaic religious expressions to individualized narratives. However, the data reveals a more complex, non-linear trajectory. The sustained rise of the Formulaicity Index (FI) through the mid-19th century challenges the assumption that the decline of religious authority immediately fostered "freer" individual expression. Instead, the analysis identifies a distinct intermediate phase: the era of standardized relational commemoration.
+
+As strictly religious formulas (e.g., "departed this life") faded, they were not replaced by unique personal epitaphs but by a standardized repertoire of new labels (e.g., "wife of," "in memory of"). This shift mirrors the broader historical transition in Scotland from a Calvinist society focused on the universality of death to a secularizing industrial order concerned with family continuity (Smout, 1969). The gravestone evolved from a religious memento mori into a secular record of social lineage. Thus, I think it is safe to conclude that the peak formulaicity in the 19th century represents the consolidation of the family unit as the primary site of identity, rather than a lack of individuality.
+
+This transition provided a specific mechanism for female visibility, supporting H2. The correlation between FI and the Female Marker Rate suggests that women entered the commemorative record primarily through the standardization of relational roles. In a period where women’s public identities were legally and socially restricted to the domestic sphere, the adoption of rigid, family-centric formulas became the vehicle for their inclusion. In this light, women became visible precisely because the language of the tombstone became standardized around the kinship network.
+
+### Conclusions
+
+This study utilized quantitative text mining to trace the evolution of epitaph language in southwestern Scotland from 1666 to 1928. The findings demonstrate that the decline of religious formulaicity did not lead directly to individualization. Instead, the 18th and 19th centuries witnessed a surge in relational formulaicity, driven by the democratization of commemoration and the rising social importance of the nuclear family.
+
+The "rise of the individual" in epitaphs appears to be a late 19th-century phenomenon, characterized not by the rejection of formulas per se, but by the gradual lengthening of inscriptions and the diversification of memorial language. Furthermore, this study highlights a new perspective that formulaicity was not merely a linguistic constraint but a social tool that facilitated the recording of marginalized groups, specifically women, within the framework of family identity.
+
+While this study offers significant insights, several limitations must be acknowledged. First, the analysis is restricted to the textual dimension, overlooking the material reality of gravestones. Physical attributes such as size, orientation and iconography likely parallel linguistic trends—for instance, the visual shift from memento mori skulls to sentimental floral motifs mirrors the move from religious to relational expression. Future research should integrate these material variables to fully explore the interplay between text and image.
+
+Second, the dataset exhibits an uneven temporal distribution. As noted in the analysis, the number of surviving inscriptions is sparse in the late 17th and early 20th centuries. While this partly reflects historical realities—such as the lower rate of stone erection in pre-industrial Scotland—it limits the statistical robustness of the trends at the extreme ends of the timeline. Consequently, the findings regarding the "religious period" rely on a smaller sample compared to the data-rich 19th century.
+
+Finally, the study is geographically confined to a specific rural context in southwestern Scotland. It remains an open question whether the trajectory from "religious" to "relational" formulaicity unfolded identically in rapidly industrializing urban centers like Glasgow or Edinburgh, where social stratification and secularization pressures operated differently. Furthermore, gravestones are inherently biased towards those who could afford them; thus, the "democratization" of commemoration discussed here excludes the poorest strata of society. Future comparative studies applying the Formulaicity Index across different regions and class demographics would help determine whether the rise of the "standardized family" was a localized phenomenon or a nationwide shift in the Scottish commemorative landscape.
+
+### References
+
+Smout, T. C. (1969). A History of the Scottish People 1560-1830. London: Collins.
+
+Statistical Accounts of Scotland. (1791-1845). Parish of Kirkpatrick-Fleming, County of Dumfries. [Online]. Available at: https://stataccscot.ed.ac.uk/static/statacc/dist/parish/Dumfries/Kirkpatrick-Fleming
+
+</CourseworkContent>

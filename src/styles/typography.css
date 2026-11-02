@@ -1,0 +1,38 @@
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+blockquote,
+figure {
+  margin-block-start: 0;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-block-end: 0;
+}
+
+h1,
+h2,
+h3 {
+  color: var(--color-text-strong);
+  font-family: var(--font-display);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.045em;
+}
+
+p {
+  font-size: var(--text-body);
+  line-height: 1.62;
+}
+
+strong {
+  color: var(--color-text-strong);
+  font-weight: 600;
+}

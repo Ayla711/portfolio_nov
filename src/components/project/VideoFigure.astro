@@ -1,0 +1,44 @@
+---
+import { withBase } from "../../utils/url";
+
+interface Props {
+  src: string;
+  label: string;
+  caption?: string;
+  poster?: string;
+}
+
+const { src, label, caption, poster } = Astro.props;
+---
+
+<figure class="video-figure">
+  <video
+    controls
+    preload="metadata"
+    playsinline
+    aria-label={label}
+    poster={poster ? withBase(poster) : undefined}
+    src={withBase(src)}></video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .video-figure {
+    margin: var(--space-10) 0;
+  }
+
+  video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: var(--line);
+    border-radius: var(--radius-media);
+    background: var(--color-text-strong);
+  }
+
+  figcaption {
+    margin-top: var(--space-3);
+    color: var(--color-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+</style>
