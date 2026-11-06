@@ -102,6 +102,44 @@ test("coursework accepts an overview followed by the original assignment instead
   );
 });
 
+test("PDF-based detail pages list rail stops that point at existing sections", () => {
+  const item = project(0);
+  item.data.detailPage = true;
+  item.data.caseStudyType = "pdf";
+  item.data.pdfPage = {
+    rail: [
+      { id: "background", label: "Challenge" },
+      { id: "testing", label: "Validation" },
+    ],
+  };
+  item.body =
+    '<section id="background" class="pdf-chapter">B</section>\n<section id="testing" class="pdf-chapter">T</section>';
+  assert.deepEqual(validateProjectRecords([item], publicDirectory), []);
+  item.body = item.body.replace('id="testing"', 'id="other"');
+  assert.match(
+    validateProjectRecords([item], publicDirectory).join("\n"),
+    /PDF rail stop "testing"/,
+  );
+  item.data.pdfPage = { rail: [] };
+  assert.match(
+    validateProjectRecords([item], publicDirectory).join("\n"),
+    /requires pdfPage\.rail/,
+  );
+});
+
+test("a published card may open an external link instead of a detail page", () => {
+  const item = project(0);
+  item.data.featuredOrder = undefined;
+  item.data.detailPage = false;
+  item.data.externalUrl = "https://example.com/case-study.pdf";
+  assert.deepEqual(validateProjectRecords([item], publicDirectory), []);
+  item.data.externalUrl = undefined;
+  assert.match(
+    validateProjectRecords([item], publicDirectory).join("\n"),
+    /unreachable/,
+  );
+});
+
 test("draft and archived projects are valid off the homepage only", () => {
   for (const status of ["draft", "archived"] as const) {
     const item = project(0);

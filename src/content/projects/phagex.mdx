@@ -19,6 +19,7 @@ technologies:
   - Video post-production
 status: published
 detailPage: true
+caseStudyType: pdf
 featuredOrder: 10
 presentation: hero
 home:
@@ -28,7 +29,7 @@ home:
     - Designed and tested the glasses-to-mobile warning and lock flow.
   outcome: An immersive prototype that validated the flow and made privacy controls the next priority.
 cover: ../../assets/projects/phagex/cover.png
-coverAlt: PhageX augmented-reality chat interface with a digital guardian monitoring a suspicious conversation.
+coverAlt: PhageX smart-glasses home view with floating app icons and the phage-shaped guardian greeting the user.
 heroVideo:
   provider: youtube
   id: rArbDeBju0M
@@ -36,138 +37,1020 @@ heroVideo:
 homeSecondary:
   image: ../../assets/projects/phagex/emergency-state.png
   alt: PhageX emergency intervention state warning the user about a suspected scam.
+pdfPage:
+  tagline: A smart-glasses and mobile concept that flags manipulation and intervenes before a scam escalates.
+  facts:
+    - label: Role
+      value: Solo designer — research, interaction & visual design, prototyping, testing
+    - label: Type
+      value: Self-initiated concept
+    - label: Timeline
+      value: Jan–Apr 2025
+    - label: Methods
+      value: Desk research, focus group (n=5), journey mapping, experience prototyping
+  rail:
+    - id: at-a-glance
+      label: Overview
+    - id: background
+      label: Challenge
+    - id: ideation
+      label: Solution
+    - id: user-testing
+      label: Validation
 ---
 
-import emergencyState from "../../assets/projects/phagex/emergency-state.png";
+import scamDemographics from "../../assets/projects/phagex/scam-demographics.jpg";
+import hookIllustration from "../../assets/projects/phagex/pig-butchering-hook.jpg";
+import victimAgeGender from "../../assets/projects/phagex/victim-age-gender.jpg";
+import avatarLiao from "../../assets/projects/phagex/avatar-liao.jpg";
+import avatarTianTian from "../../assets/projects/phagex/avatar-tiantian.jpg";
+import avatarMumu from "../../assets/projects/phagex/avatar-mumu.jpg";
+import avatarYihao from "../../assets/projects/phagex/avatar-yihao.jpg";
+import avatarAda from "../../assets/projects/phagex/avatar-ada.jpg";
+import scamAnatomy from "../../assets/projects/phagex/scam-anatomy.jpg";
+import personaInvestors from "../../assets/projects/phagex/persona-investors.jpg";
+import personaSocializers from "../../assets/projects/phagex/persona-socializers.jpg";
+import personaJobHunters from "../../assets/projects/phagex/persona-job-hunters.jpg";
+import stakeholderMap from "../../assets/projects/phagex/stakeholder-map.jpg";
 import journeyMap from "../../assets/projects/phagex/journey-map.png";
+import storyboard from "../../assets/projects/phagex/storyboard.jpg";
+import solutionCharger from "../../assets/projects/phagex/solution-charger.jpg";
+import solutionApp from "../../assets/projects/phagex/solution-app.jpg";
+import solutionGlasses from "../../assets/projects/phagex/solution-glasses.jpg";
+import swot from "../../assets/projects/phagex/swot.jpg";
+import glassesComparison from "../../assets/projects/phagex/glasses-comparison.jpg";
 import systemFlow from "../../assets/projects/phagex/system-flow.png";
-import userTesting from "../../assets/projects/phagex/user-testing.png";
-import coverImage from "../../assets/projects/phagex/cover.png";
+import informationStructure from "../../assets/projects/phagex/information-structure.jpg";
+import worksActivation from "../../assets/projects/phagex/works-activation.jpg";
+import worksNotification from "../../assets/projects/phagex/works-notification.jpg";
+import worksSecurityScan from "../../assets/projects/phagex/works-security-scan.jpg";
+import worksSyncFriends from "../../assets/projects/phagex/works-sync-friends.jpg";
+import worksRiskAssessment from "../../assets/projects/phagex/works-risk-assessment.jpg";
+import worksScamWarning from "../../assets/projects/phagex/works-scam-warning.jpg";
+import worksSecurityPairing from "../../assets/projects/phagex/works-security-pairing.jpg";
+import worksCounterScripting from "../../assets/projects/phagex/works-counter-scripting.jpg";
+import avatarStates from "../../assets/projects/phagex/avatar-states.png";
+import logo from "../../assets/projects/phagex/logo.png";
+import glassesUi from "../../assets/projects/phagex/glasses-ui.jpg";
+import phoneSettings from "../../assets/projects/phagex/phone-settings.png";
+import phoneConnect from "../../assets/projects/phagex/phone-connect.png";
+import phoneAlert from "../../assets/projects/phagex/phone-alert.png";
+import videoEditing from "../../assets/projects/phagex/video-editing.jpg";
+import testing1 from "../../assets/projects/phagex/testing-1.jpg";
+import testing2 from "../../assets/projects/phagex/testing-2.jpg";
+import testing3 from "../../assets/projects/phagex/testing-3.jpg";
+import testing4 from "../../assets/projects/phagex/testing-4.jpg";
 
-<CaseSection id="overview" kind="overview">
-  PhageX explores how a safety system could interrupt a pig-butchering scam
-  before emotional dependence becomes financial loss. I focused on young adults
-  aged 25–35 and treated the work as a service and interaction-design problem,
-  not only a detection problem.
+<section id="at-a-glance" class="pdf-chapter">
+<div class="pdf-glance">
 
-<RoleBreakdown>
-  I planned and synthesized the research, framed the intervention strategy,
-  designed the glasses and mobile experience, created the visual system, and ran
-  the immersive prototype test.
-</RoleBreakdown>
+## At a glance
 
-The outcome is a dual-platform concept: smart glasses surface risk in the
-moment, while a paired phone can archive evidence, notify trusted contacts,
-and execute a high-risk lock protocol.
+<dl>
+  <div>
+    <dt>Problem</dt>
+    <dd>
+      Pig-butchering scams build trust over weeks in chat and dating apps, then
+      take money repeatedly.
+    </dd>
+  </div>
+  <div>
+    <dt>Research</dt>
+    <dd>
+      All 5 participants knew of the scam; 2&nbsp;had firsthand or secondhand
+      experience with other scams.
+    </dd>
+  </div>
+  <div>
+    <dt>Design</dt>
+    <dd>
+      Smart glasses that read chats, voices and faces, warn in AR, and can lock
+      risky apps on the phone.
+    </dd>
+  </div>
+  <div>
+    <dt>Testing</dt>
+    <dd>Tested user reactions with a Google Cardboard experience prototype.</dd>
+  </div>
+</dl>
 
-</CaseSection>
+</div>
+</section>
 
-<CaseSection id="insight" kind="insight" layout="wide">
-  A 50-minute focus group with five digital-native professionals showed that
-  scam awareness was high, yet direct or close-contact impact was still common.
-  Mapping the full journey revealed that the harm develops through repeated
-  trust-building rather than a single suspicious transaction.
+<section id="background" class="pdf-chapter">
 
-<InsightQuote>
-  The intervention cannot wait for the payment screen. It has to interrupt the
-  emotional script—and appear outside the mobile channel already controlled by
-  the scammer.
-</InsightQuote>
+## Background
 
-  <MediaFigure
-    label="Journey map"
-    caption="The journey reframed the opportunity around verification, detection, and notification before and after the moment of loss."
-  >
+<div class="pdf-row" style="--split: minmax(0, 1fr) 19rem">
+<div class="pdf-col">
+<div class="pdf-block">
+
+### Facing a world of scams
+
+<div class="pdf-lead">
+
+In 2024 alone, scammers stole an estimated <span class="pdf-hl">$1.03 trillion</span>, with nearly half the world encountering scams weekly.
+
+</div>
+
+<figure>
+  <ProjectImage
+    src={scamDemographics}
+    alt="Charts of scam exposure by gender (52% and 48%), age range, and education level; the 25–34 age group and the university-educated group are highest."
+    sizes="(max-width: 896px) 92vw, 688px"
+  />
+</figure>
+
+</div>
+<div class="pdf-block">
+
+<div class="pdf-card pdf-points">
+
+1. Scam risk isn’t linked to gender; **ages 25–34** and **higher-education** groups face the highest exposure.
+2. Awareness of **AI-driven scams** is rising, yet **31%** of people don’t know if AI was used against them.
+
+</div>
+
+<div class="pdf-source">
+
+(GASA, _Global State of Scams Report 2024_, 58,329 participants involved)
+
+</div>
+
+</div>
+</div>
+
+<figure>
+  <ProjectImage
+    src={hookIllustration}
+    alt="Illustration of a coin-covered magnet on a fishing line hooking a pig that carries a coin, with two quotes: “They use social engineering to lure vulnerable people into phony financial investments …” and “…then they disappear with as much of money as possible.”"
+    sizes="(max-width: 896px) 92vw, 304px"
+  />
+</figure>
+
+</div>
+
+### Why Pig Butchering Scam?
+
+<div class="pdf-row phagex-why" style="--split: minmax(0, 1fr) 26rem">
+<div class="pdf-col">
+
+<ul class="phagex-reasons">
+  <li>Account for 21% of cases</li>
+  <li>Cause the highest losses (avg ¥118,000 vs ¥52,800)</li>
+  <li>Backed by criminal networks</li>
+  <li>Emotionally manipulative</li>
+  <li>Easy to fall into</li>
+</ul>
+
+</div>
+<div class="pdf-col">
+<div class="pdf-block">
+
+<div class="pdf-card pdf-card--callout">
+
+**Conclusion:** Because pig butchering scams escalate quietly over time, they cause the most harm and **can deceive anyone** with the “right script.”
+
+</div>
+
+<div class="pdf-source">
+
+(_Journal of People’s Public Security University of China_, No. 4, 2021, covering all scams in China from Jan to Aug 2019)
+
+</div>
+
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="research" class="pdf-chapter">
+
+## Research
+
+<div class="pdf-row" style="--split: 15rem minmax(0, 1fr)">
+<div class="pdf-col">
+<div class="pdf-block">
+
+### Definition
+
+<div class="phagex-term">
+  <span>shā zhū pán</span>
+  <span lang="zh-Hant">殺豬盤</span>
+</div>
+
+</div>
+</div>
+<div class="pdf-col">
+<div class="pdf-lead">
+
+<span class="pdf-hl">Pig Butchering</span> is a term or metaphor that describes
+a scam perpetrated over a **long period of time** to steal the victim’s **money
+repeatedly** via **online apps**.
+
+Reportedly, Pig Butchering Scam causes greater **financial losses** and **emotional toll** than any other type of scam.
+
+</div>
+</div>
+</div>
+
+<div class="pdf-headline">
+
+### Desk Research
+
+<div class="pdf-lead">
+
+<span class="pdf-key">Young adults (25–35)</span> are highly susceptible to
+scams:
+
+</div>
+
+</div>
+
+<div class="pdf-row phagex-desk" style="--split: minmax(0, 1fr) 33rem">
+<div class="pdf-col">
+<div class="pdf-block">
+
+<div class="pdf-card pdf-card--dashed">
+
+<ul>
+  <li>they are actively exploring relationships & career paths</li>
+  <li>they are prone to investing, aiming to make serious money</li>
+</ul>
+
+</div>
+
+<div class="pdf-source">
+
+(GASO, https://www.globalantiscam.org/)
+
+</div>
+
+</div>
+</div>
+
+<figure>
+  <ProjectImage
+    src={victimAgeGender}
+    alt="Bar chart titled Age and Gender of Victims, showing the number of female and male respondents by age from 19 to 68; most victims are in their mid-20s to mid-30s, peaking around age 30."
+    sizes="(max-width: 896px) 92vw, 464px"
+  />
+</figure>
+
+</div>
+
+</section>
+
+<section id="interview" class="pdf-chapter">
+
+## Interview
+
+<ul class="pdf-grid phagex-people">
+  <li class="is-impacted">
+    <ProjectImage src={avatarLiao} alt="" widths={[120, 240]} sizes="52px" />
+    <div>
+      <strong>Ms. Liao</strong>
+      <span>34, educational administrator</span>
+      <em>Victim</em>
+    </div>
+  </li>
+  <li class="is-impacted">
+    <ProjectImage
+      src={avatarTianTian}
+      alt=""
+      widths={[120, 240]}
+      sizes="52px"
+    />
+    <div>
+      <strong>Tian Tian</strong>
+      <span>25, interaction designer</span>
+      <em>Close contact</em>
+    </div>
+  </li>
+  <li>
+    <ProjectImage src={avatarMumu} alt="" widths={[120, 240]} sizes="52px" />
+    <div>
+      <strong>Mumu</strong>
+      <span>27, office worker</span>
+    </div>
+  </li>
+  <li>
+    <ProjectImage src={avatarYihao} alt="" widths={[120, 240]} sizes="52px" />
+    <div>
+      <strong>Yihao</strong>
+      <span>26, VR technology lead</span>
+    </div>
+  </li>
+  <li>
+    <ProjectImage src={avatarAda} alt="" widths={[120, 240]} sizes="52px" />
+    <div>
+      <strong>Ada</strong>
+      <span>38, office worker</span>
+    </div>
+  </li>
+</ul>
+
+<div class="pdf-source">
+
+(Names are pseudonyms; avatars are not photos of the participants.)
+
+</div>
+
+<div class="phagex-stats phagex-stats--band">
+
+The group is very familiar with pig butchering scams...
+
+<div class="phagex-stat">
+
+<b>100%</b> **Awareness:**
+
+All participants recognized the scam.
+
+</div>
+
+<div class="phagex-stat">
+
+<b>40%</b> **Direct Impact:**
+
+1 personal victim; 1 close-contact victim.
+
+</div>
+
+</div>
+
+<div class="pdf-row phagex-interview" style="--split: minmax(0, 1fr) 22rem">
+<div class="pdf-col">
+<div class="pdf-block">
+
+### Methodology
+
+A <span class="pdf-key">50</span>-minute <span class="pdf-key">focus group</span> with <span class="pdf-key">5</span> digital-native professionals (Avg. Age: <span class="pdf-key">30</span>) to deconstruct the scam mechanism.
+
+</div>
+<div class="pdf-block">
+
+### Why would people fall victim to the scam?
+
+<div class="pdf-card pdf-card--dashed">
+
+<span class="pdf-key">Psychological Priming</span>: Research reveals that
+specific keywords act as triggers at each stage, moving the victim from
+curiosity to emotional dependency (‘Beguile’) and finally to financial loss
+(‘Slaughter’).
+
+</div>
+
+</div>
+</div>
+<div class="pdf-col">
+<div class="pdf-block">
+
+### What do they say?
+
+<figure>
+  <ProjectImage
+    src={scamAnatomy}
+    alt="Three interview quotes above a pig diagram of the scam. “He mentioned that his mother had passed away and he urgently needed money. I felt so sorry for him that I lent him 2,000 yuan for the emergency.” “When I was applying to jobs left and right, I ran into some fake LinkedIn profiles.” “This friend lost 400,000 yuan—yet he’s still hung up on why, after all his efforts, the girl still doesn’t like him.” The pig is divided into the stages lure, target, beguile, and “slaughter”: phony profiles, investing, crypto, dating apps, manipulation, messaging apps, ghosting, love bombing, and a fake trading platform. Title: The Anatomy of the Scam: From Lure to Slaughter."
+    sizes="(max-width: 896px) 92vw, 448px"
+  />
+</figure>
+
+</div>
+</div>
+</div>
+
+</section>
+
+<div class="pdf-chapter-row phagex-persona-row" style="--split: 19rem minmax(0, 1fr)">
+
+<section id="persona" class="pdf-chapter">
+
+## Persona
+
+<ul class="phagex-personas">
+  <li>
+    <ProjectImage
+      src={personaInvestors}
+      alt="Eager Investors: a man with a laptop sitting on rising bar charts, surrounded by coin stacks, pie charts, and a magnifying glass."
+      sizes="(max-width: 576px) 92vw, (max-width: 896px) 30vw, 280px"
+    />
+  </li>
+  <li>
+    <ProjectImage
+      src={personaSocializers}
+      alt="Vulnerable Socializers: two people sitting inside a giant phone screen, surrounded by chat bubbles."
+      sizes="(max-width: 576px) 92vw, (max-width: 896px) 30vw, 280px"
+    />
+  </li>
+  <li>
+    <ProjectImage
+      src={personaJobHunters}
+      alt="Anxious Job Hunters: a person browsing job listings next to newspapers marked JOBS and a magnifying glass."
+      sizes="(max-width: 576px) 92vw, (max-width: 896px) 30vw, 280px"
+    />
+  </li>
+</ul>
+
+</section>
+
+<section id="stakeholder-map" class="pdf-chapter">
+
+## Stakeholder Map
+
+<figure>
+  <a class="pdf-zoom" href={stakeholderMap.src}>
+    <ProjectImage
+      src={stakeholderMap}
+      alt="Stakeholder map with scam victims at the centre as the core group, linked to scammers, online apps, friends and families, banks, payment platforms, fake trading platforms, and the police department, with schools, media, anti-fraud education, legal institutions, the government, social media companies, credit bureaus, and accomplices around them. The legend marks core group, direct stakeholders, and indirect stakeholders, and colored lines for the scammers’ plans, the victims’ decisions, pre-scam measures, and post-scam measures."
+      sizes="(max-width: 896px) 92vw, 688px"
+    />
+  </a>
+</figure>
+
+<ol class="phagex-takeaways">
+  <li>
+
+The pig-butchering scam is complex; addressing it requires looking beyond the scam act itself to **the stages** before and after.
+
+  </li>
+  <li>
+
+Since **the Victim** is the central node, severing their connection to the Scammer is the most effective intervention point.
+
+  </li>
+</ol>
+
+</section>
+
+</div>
+
+<section id="user-journey-map" class="pdf-chapter">
+
+<h2>
+  User Journey Map <span class="pdf-h2-sub">Victim’s POV</span>
+</h2>
+
+<figure>
+  <a class="pdf-zoom" href={journeyMap.src}>
     <ProjectImage
       src={journeyMap}
-      alt="Journey map showing the trapping, trust-building, financial-loss, reporting, and recovery stages of a pig-butchering scam."
+      alt="User journey map of a scam victim across six stages: Trapping, Raising, Killing, Killed, Reporting, and Recovering, with actions, a feelings curve, touchpoints, and problems for each stage. Opportunities are grouped into Verification (mandatory identity verification), Detection (LLM-based scam pattern detection and biometric fraud detection), and Notification (trusted contact alerts and automated evidence archiving)."
+      sizes="(max-width: 1100px) 92vw, 1024px"
     />
-  </MediaFigure>
-</CaseSection>
+  </a>
+</figure>
 
-<CaseSection id="decisions" kind="decisions" layout="wide">
-  I compared a smart charger, a gamified phone app, and smart glasses. The
-  glasses direction offered a first-person viewpoint, real-time response, and
-  an intervention layer outside the compromised phone. That advantage came
-  with clear constraints: battery life, false positives, public-camera trust,
-  and the need to keep sensitive analysis on-device.
+</section>
 
-<SystemDiagram
-  title="Capture, analyze, intervene, enforce"
-  caption="The diagram was used as a visualization aid after the system relationships were defined; it is not evidence of a functional AI implementation."
->
+<section id="ideation" class="pdf-chapter">
+
+## Ideation
+
+<div class="pdf-headline">
+
+### Storyboard
+
+<div class="pdf-card pdf-card--callout">
+
+**Design Pivot – The “Third Eye” Strategy:**
+To break emotional manipulation, intervention must occur **outside** the
+compromised mobile environment.
+
+</div>
+
+</div>
+
+<figure>
   <ProjectImage
-    src={systemFlow}
-    alt="System flow connecting the user, smart-glasses capture and feedback, mobile analysis, and a phone lock protocol."
+    src={storyboard}
+    alt="Storyboard sketches of a scam: Connection and Trust Building, a question mark, then Intervention, Resolution, and Recovery."
+    sizes="(max-width: 1100px) 92vw, 1024px"
   />
-</SystemDiagram>
+</figure>
 
-  <ProcessGallery caption="Four coordinated moments keep the experience legible under stress.">
-    <article>
-      <strong>Capture</strong>
-      <p>Observe text, voice, and visual cues from the user’s point of view.</p>
-    </article>
-    <article>
-      <strong>Analyze</strong>
-      <p>Assess manipulation patterns locally and surface confidence carefully.</p>
-    </article>
-    <article>
-      <strong>Intervene</strong>
-      <p>Shift the guardian from a calm presence to an unmistakable risk state.</p>
-    </article>
-    <article>
-      <strong>Enforce</strong>
-      <p>Escalate to trusted contacts, evidence capture, or a phone lock protocol.</p>
-    </article>
-  </ProcessGallery>
-</CaseSection>
+<div class="pdf-lead">
 
-<CaseSection id="prototype" kind="prototype" layout="wide">
-  The experience was simulated with Google Cardboard and video
-  post-production. This made the first-person timing testable without claiming
-  a working detection model or production smart-glasses hardware.
+**Goal:** Real-time detection system integrating <span class="pdf-key">Text Analysis</span> and <span class="pdf-key">Voice/Facial Tracking</span>
 
-<ImageComparison
-  beforeLabel="Monitoring state"
-  afterLabel="Intervention state"
-  caption="The avatar remains present during normal monitoring, then changes color, scale, and message hierarchy when the system detects high risk."
->
+</div>
+
+<ul class="pdf-grid phagex-solutions">
+  <li>
+    <ProjectImage
+      src={solutionCharger}
+      alt="Sketch of a smart charger showing a 90% scam likelihood on its screen and alerting a phone via Bluetooth."
+      sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 320px"
+    />
+    <h4><span>Solution 1</span> Smart Charger</h4>
+    <div class="pdf-card">
+
+- Scans data during charging; alerts via Bluetooth.
+- **Pros:** Saves external evidence.
+- **Cons:** Hardware dependency; <span class="pdf-hl">OS monitoring limits</span>.
+
+</div>
+
+</li>
+  <li>
+    <ProjectImage
+      src={solutionApp}
+      alt="Sketch of a gamified app whose mascot shows an angry face and a scam alert on the phone."
+      sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 320px"
+    />
+    <h4><span>Solution 2</span> Gamified App</h4>
+    <div class="pdf-card">
+
+- Mascot visualizes risks (e.g., angry face) in real time.
+- **Pros:** High engagement; immersive AR warnings.
+- **Cons:** <span class="pdf-hl">Mobile privacy silos</span>; app permission barriers.
+
+</div>
+
+</li>
+  <li class="is-chosen">
+    <ProjectImage
+      src={solutionGlasses}
+      alt="Sketch of a person wearing smart glasses while AI monitors chats, voice, and faces."
+      sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 320px"
+    />
+    <h4><span>Solution 3</span> Smart Glasses <em class="pdf-selected">Selected</em></h4>
+    <div class="pdf-card">
+
+- POV camera analyzes chats & audio cues in real time.
+- **Pros:** Bypasses OS restrictions via camera & AR overlays.
+- **Impact:** Proactive intervention, **designed for on-device processing**.
+
+</div>
+
+</li>
+</ul>
+
+<div class="phagex-compare">
+  <strong>Why Smart Glasses</strong>
+  <ul class="phagex-compare-reasons">
+    <li>First-person view</li>
+    <li>Real-time response</li>
+    <li>On-device AI</li>
+  </ul>
+</div>
+
+</section>
+
+<section id="ideal-solution" class="pdf-chapter">
+
+## Are Smart Glasses the Ideal Solution?
+
+<div class="pdf-row">
+<div class="pdf-col">
+<div class="pdf-block">
+
+### SWOT Analysis
+
+<figure>
   <ProjectImage
-    slot="before"
-    src={coverImage}
-    alt="Normal PhageX monitoring state over an augmented-reality chat interface."
+    src={swot}
+    alt="SWOT analysis. Strength: 1. Real-time scam cues detection 2. Hands-free, always-on support 3. Early intervention. Weakness: 1. Battery + hardware limits 2. Privacy concerns* 3. Risk of false positives. Opportunities: 1. Growing global scam crisis 2. Multimodal AI boosts accuracy 3. Partnerships with banks / telecom. Threat: 1. Regulatory restrictions 2. User distrust of sensing devices 3. Competition from phone-based solutions. *On-device AI processing ensures no data leaves the hardware."
+    sizes="(max-width: 896px) 92vw, 496px"
   />
+</figure>
+
+</div>
+</div>
+<div class="pdf-col">
+<div class="pdf-block">
+
+### Existing Smart Glasses Comparison
+
+<figure>
   <ProjectImage
-    slot="after"
-    src={emergencyState}
-    alt="Emergency PhageX state showing a scam warning, guardian alert, and contact actions."
+    src={glassesComparison}
+    alt="Positioning chart with context awareness on the vertical axis and portability on the horizontal axis: Apple Vision Pro is high sensing with low mobility, Snapchat AR Spectacles and Ray-Ban Meta AI Glasses are lightweight with limited context, Meta Orion Smart Glasses sit near the centre, and the ideal product is portable and context-aware."
+    sizes="(max-width: 896px) 92vw, 496px"
   />
-</ImageComparison>
+</figure>
 
-<MediaFigure
-  label="Experience test"
-  caption="Participants used a phone-based viewer to evaluate immersion, guidance visibility, and comfort with a public-facing camera."
->
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="designing" class="pdf-chapter">
+
+## Designing PhageX
+
+<div class="pdf-headline">
+
+### Future AI Scams
+
+<div class="phagex-warning">
+
+It is increasingly difficult to detect scams
+independently...
+
+</div>
+
+</div>
+
+<ul class="pdf-grid phagex-ai">
+  <li>
+
+**LLMs** can generate human-like text messages that are even more convincing, grammatically correct, and personalized.
+
+  </li>
+  <li>
+
+**Image Generation** tools can create realistic fake images or replace faces in existing photos.
+
+  </li>
+  <li>
+
+Scammers may use **voice cloning** to mimic the voice of a boss, relative, or friend to trick victims into taking action.
+
+  </li>
+  <li>
+
+**Deepfakes** are hyper-realistic videos digitally manipulated to depict people saying and doing things that never actually happened.
+
+  </li>
+</ul>
+
+<div class="pdf-row" style="--split: minmax(0, 1fr) 18rem">
+<div class="pdf-col">
+<div class="pdf-block">
+
+<div class="pdf-points">
+
+1. **The Problem:** Human Intuition Is Failing<br />Manual judgment is <span class="pdf-key">passive, demanding, and too slow</span> to counter sophisticated AI scripts.
+2. **The Solution:** PhageX (Proactive Defense)<br />A dual-platform system (Glasses + Mobile) leveraging multimodal AI to <span class="pdf-key">scan chats, voices and faces for scam cues</span>, shifting users from vulnerable targets to protected observers.
+
+</div>
+
+</div>
+<div class="pdf-block">
+
+### PhageX Interactive System
+
+<figure>
+  <a class="pdf-zoom" href={systemFlow.src}>
+    <ProjectImage
+      src={systemFlow}
+      alt="PhageX interactive system: in the capture phase the smart glasses’ POV camera scans ATMs, paper, and chats; local AI and the paired mobile app’s deep LLM analyze the input; the intervention phase sends instant local AR feedback as the mascot changes from safe to alert; in the enforcement phase the smartphone runs a lock protocol on high-risk apps, so the user breaks the slaughter stage of the scam cycle."
+      sizes="(max-width: 896px) 92vw, 672px"
+    />
+  </a>
+  <figcaption>
+    (this diagram was generated using AI as a visualization aid after the flow
+    and relationships were defined)
+  </figcaption>
+</figure>
+
+</div>
+</div>
+<div class="pdf-col">
+<div class="pdf-block">
+
+### Information Structure
+
+<figure>
+  <a class="pdf-zoom" href={informationStructure.src}>
+    <ProjectImage
+      src={informationStructure}
+      alt="Information structure tree: PhageX branches into Smart Glasses (Settings with accessibility and personification; Security Scan with notification, live data using LLMs, voice and facial recognition, and database; Community with sync friends, nearby, and victims’ community) and External Devices (Protocol, Alarm with lock screen and a ‘Call Police Now’ option triggered by a scam warning, and AI Chat Support)."
+      sizes="(max-width: 896px) 92vw, 320px"
+    />
+  </a>
+</figure>
+
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="how-it-works" class="pdf-chapter">
+
+## How PhageX Works
+
+<div class="pdf-row phagex-works" style="--split: minmax(0, 1fr) calc((100% - var(--pdf-gap) - 2 * var(--pdf-space)) / 4)">
+<div class="pdf-col">
+<div class="pdf-block">
+
+<h3 class="pdf-chevron">Smart Glasses</h3>
+
+<ul class="pdf-grid phagex-shots">
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksActivation}
+        alt="AR home view with app icons and the PhageX guardian introducing itself: “Hello! This is PhageX, I specialize in detecting scams.”"
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**Agent Activation:** Initialize AR guardian and customize persona settings.
+
+      </figcaption>
+    </figure>
+
+  </li>
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksNotification}
+        alt="A Messenger chat beside a PhageX notification warning that pushy new ‘friends’ may trick you."
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**Notification:** Real-time warnings triggered by suspicious patterns.
+
+      </figcaption>
+    </figure>
+
+  </li>
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksSecurityScan}
+        alt="The guardian scanning a chat window and a video call in AR."
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**Security Scan:** Scans live interactions (Video/Text) for psychological manipulation cues.
+
+      </figcaption>
+    </figure>
+
+  </li>
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksSyncFriends}
+        alt="A ‘Find your contacts on PhageX’ panel with the guardian linking to social apps."
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**Sync Friends:** Connects with trusted networks to reduce isolation and build resilience.
+
+      </figcaption>
+    </figure>
+
+  </li>
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksRiskAssessment}
+        alt="AR risk panel reading “Exercise heightened caution!” with flagged chat messages and face recognition of a video caller."
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**Visual Risk Assessment:** Displays real-time threat analysis via LLM & deepfake detection.
+
+      </figcaption>
+    </figure>
+
+  </li>
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksScamWarning}
+        alt="A large red “SCAM!” alarm in AR over a phone, with the guardian on fire and a ‘slide to answer the police’ control."
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**Scam Warning:** Triggers vivid AR alarms and auto-locks the mobile screen.
+
+      </figcaption>
+    </figure>
+
+  </li>
+</ul>
+
+</div>
+</div>
+<div class="pdf-col">
+<div class="pdf-block">
+
+<h3 class="pdf-chevron">External Devices</h3>
+
+<ul class="pdf-grid phagex-shots phagex-shots--external">
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksSecurityPairing}
+        alt="A phone paired with PhageX over a direct local connection, with a prompt to allow PhageX to lock the phone screen in an emergency."
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**Security Pairing:** Grants PhageX permission to execute the “Lock Protocol” in emergencies.
+
+      </figcaption>
+    </figure>
+
+  </li>
+  <li>
+    <figure>
+      <ProjectImage
+        src={worksCounterScripting}
+        alt="The guardian offering to take over a chat with a scammer using an AI Chat Support reply."
+        sizes="(max-width: 576px) 92vw, (max-width: 896px) 46vw, 240px"
+      />
+      <figcaption>
+
+**AI Counter-Scripting:** Engages scammers with LLM-generated distractions after detection.
+
+      </figcaption>
+    </figure>
+
+  </li>
+</ul>
+
+</div>
+</div>
+</div>
+
+### Visual Guide
+
+<div class="pdf-row phagex-guide" style="--split: auto auto">
+<div class="phagex-guide-avatar">
+<div class="pdf-block">
+
+#### Avatar
+
+<dl>
+  <dt>Bacteriophage Metaphor:</dt>
+  <dd>Biological Virus Hunter = Digital Scam Hunter</dd>
+  <dt>Mechanism:</dt>
+  <dd>Spot → Latch → Dismantle</dd>
+</dl>
+
+</div>
+
+<figure class="phagex-avatar-grid">
   <ProjectImage
-    src={userTesting}
-    alt="Four photographs of participants testing the PhageX simulated smart-glasses experience outdoors."
+    src={avatarStates}
+    alt="Four states of the bacteriophage avatar in a 2×2 grid: greeting beside a green “Hello” bubble, monitoring with a focused eye, alert with a red exclamation mark and flames, and healing with floating hearts."
+    widths={[480, 727]}
+    sizes="(max-width: 896px) 70vw, 240px"
   />
-</MediaFigure>
+</figure>
 
-[Watch the PhageX prototype walkthrough on YouTube](https://youtu.be/rArbDeBju0M).
+</div>
 
-</CaseSection>
+<div class="pdf-col">
+<div class="pdf-block">
 
-<CaseSection id="reflection" kind="reflection">
-  Participants found the simulated experience realistic and practical. They
-  also wanted the guardian to remain visible and questioned continuous camera
-  use in public. Those reactions moved privacy and system transparency from
-  secondary concerns into core experience requirements.
+#### Status
 
-  <ReflectionBlock title="The next iteration must earn the right to intervene.">
-    A stronger prototype would test warning thresholds, false-positive recovery,
-    user-controlled sensing states, and lighter hardware. PhageX currently
-    validates an interaction strategy—not detection accuracy or technical
-    feasibility.
-  </ReflectionBlock>
-</CaseSection>
+- <span class="phagex-swatch phagex-swatch--safe" aria-hidden="true"></span>
+  Safe (Monitoring)
+- <span class="phagex-swatch phagex-swatch--danger" aria-hidden="true"></span>
+  Danger (Intervention)
+- <span class="phagex-swatch phagex-swatch--healing" aria-hidden="true"></span>
+  Healing (Support)
+
+</div>
+<div class="pdf-block">
+
+#### Logo
+
+<div class="phagex-logo">
+  <ProjectImage
+    src={logo}
+    alt="PhageX logo: a white bacteriophage on a blue rounded square, and the same mark in grey."
+    widths={[394]}
+    sizes="128px"
+  />
+</div>
+
+</div>
+</div>
+</div>
+
+### High-Fidelity Design
+
+<div class="pdf-row phagex-hifi" style="--split: minmax(0, 1fr) 10.5rem">
+<div class="pdf-col">
+<div class="pdf-block">
+
+<h4 class="pdf-chevron">Smart Glasses</h4>
+
+<figure>
+  <a class="pdf-zoom" href={glassesUi.src}>
+    <ProjectImage
+      src={glassesUi}
+      alt="PhageX smart-glasses interface on a dark background. Left: the interface map with a menu (Settings, Security Scan, Community), a Security Scan panel at 100% Good with LLM, Voice AI, and Facial AI modules, a database with history and exposed scams, Sync Friend and Nearby, quick actions for phone calls, activating PhageX, messages, and the camera, and a Login with Discord prompt for sharing stress with real friends. Right: Normal Situation, a chat with Jenela while the guardian says hello; and Emergency, a red “SCAM” alert with the guardian on fire and a dialog saying “You may be scammed”, because patterns consistent with known online scam tactics were found in the conversation with Jenela."
+      sizes="(max-width: 896px) 92vw, 784px"
+    />
+  </a>
+</figure>
+
+</div>
+</div>
+<div class="pdf-col">
+<div class="pdf-block">
+
+<h4 class="pdf-chevron">External Devices</h4>
+
+<ul class="phagex-phones">
+  <li>
+    <ProjectImage
+      src={phoneSettings}
+      alt="Phone home screen with the PhageX app’s menu: Remove App, Edit Home Screen, Share App, and Require Face ID."
+      sizes="(max-width: 896px) 30vw, 100px"
+    />
+  </li>
+  <li>
+    <ProjectImage
+      src={phoneConnect}
+      alt="Connect PhageX screen pairing Jane Doe’s smart glasses, iPad, and MacBook, with a Connecting… indicator."
+      sizes="(max-width: 896px) 30vw, 100px"
+    />
+  </li>
+  <li>
+    <ProjectImage
+      src={phoneAlert}
+      alt="Locked phone showing the alert “You may be scammed”, verifythesuspect@phageX, with an Action button."
+      sizes="(max-width: 896px) 30vw, 100px"
+    />
+  </li>
+</ul>
+
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="user-testing" class="pdf-chapter">
+
+## User Testing
+
+<div class="pdf-row phagex-testing" style="--split: minmax(0, 1.6fr) minmax(0, 1fr)">
+<div class="pdf-col">
+
+**Methodology:** Experience prototyping. Simulated the experience using <span class="pdf-key">Google Cardboard</span> and <span class="pdf-key">video post-processing</span> to validate user reactions without functional hardware. Detection accuracy and hardware feasibility were not tested.
+
+**Conclusion:** Testing supported the core interaction; always-on camera privacy is the main open risk. Future iterations will focus on lighter hardware and enhanced privacy controls.
+
+</div>
+<div class="pdf-card phagex-feedback">
+
+**Key Feedback:**
+
+- **Immersion:** Visuals felt realistic and
+  practical.
+- **Companion:** Users wanted the Avatar
+  always visible.
+- **Privacy:** Concerns raised about public
+  camera usage.
+
+</div>
+</div>
+
+<ul class="pdf-strip phagex-testing-strip">
+  <li style="--r: 1.723">
+    <ProjectImage
+      src={videoEditing}
+      alt="Video post-processing of the first-person prototype footage in an editing app."
+      sizes="(max-width: 896px) 92vw, 210px"
+    />
+  </li>
+  <li style="--r: 1.633">
+    <ProjectImage
+      src={testing1}
+      alt="A participant seated outdoors wearing a Google Cardboard headset."
+      sizes="(max-width: 896px) 46vw, 200px"
+    />
+  </li>
+  <li style="--r: 1.633">
+    <ProjectImage
+      src={testing2}
+      alt="The designer fitting the headset on a seated participant."
+      sizes="(max-width: 896px) 46vw, 200px"
+    />
+  </li>
+  <li style="--r: 1.633">
+    <ProjectImage
+      src={testing3}
+      alt="The designer handing the headset to another participant."
+      sizes="(max-width: 896px) 46vw, 200px"
+    />
+  </li>
+  <li style="--r: 1.633">
+    <ProjectImage
+      src={testing4}
+      alt="A participant holding the headset up to her eyes."
+      sizes="(max-width: 896px) 46vw, 200px"
+    />
+  </li>
+</ul>
+
+</section>

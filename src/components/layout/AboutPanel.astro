@@ -12,7 +12,13 @@ const { about } = profileData;
       <strong>{about.heading}</strong>{" "}
       {profileData.statement}
     </p>
-    <p>{about.body}</p>
+    <p class="about-program">
+      <span>{about.field}</span>
+      <span class="about-separator" aria-hidden="true">|</span>
+      <a href={about.program.url} target="_blank" rel="noopener"
+        >{about.program.label}</a
+      >
+    </p>
   </div>
 </section>
 
@@ -53,9 +59,36 @@ const { about } = profileData;
     color: var(--color-text-strong);
   }
 
+  .about-program a {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--duration-fast) ease;
+  }
+
+  .about-program a:hover,
+  .about-program a:focus-visible {
+    color: var(--color-accent);
+  }
+
+  .about-program {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 0.4em;
+  }
+
+  /* On phones the programme goes on its own line instead of breaking after
+     the separator. */
   @media (max-width: 38rem) {
     .about-panel {
       padding: 1.25rem;
+    }
+
+    .about-separator {
+      display: none;
+    }
+
+    .about-program a {
+      flex-basis: 100%;
     }
   }
 </style>

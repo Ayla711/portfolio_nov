@@ -1,5 +1,7 @@
 # Phase E.1 Verification Record
 
+> **Historical snapshot.** This record describes an earlier phase of the project and is kept for reference only. It may mention the old `/portfolio` base, the placeholder origin, or outdated content. The site is now deployed at https://yuanqianayla.com/; see the README for the current setup.
+
 Date: 2026-08-29
 
 ## Outcome

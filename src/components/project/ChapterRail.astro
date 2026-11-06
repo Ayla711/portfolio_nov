@@ -1,0 +1,191 @@
+---
+/**
+ * Sticky left-hand rail for PDF-based detail pages (plan §7.2.8).
+ * Lists a handful of reading stops (pdfPage.rail); sections that are not
+ * listed keep the previous stop highlighted, so the rail always shows where
+ * the reader is. Hidden below 72rem, where the hero's chapter chips serve.
+ */
+interface Props {
+  items: { id: string; label: string }[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="chapter-rail" aria-label="Chapters" data-chapter-rail>
+  <ol class="chapter-rail-list">
+    {
+      items.map((item, index) => (
+        <li>
+          <a
+            href={`#${item.id}`}
+            aria-current={index === 0 ? "true" : undefined}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<script>
+  const rail = document.querySelector<HTMLElement>("[data-chapter-rail]");
+  const article = document.querySelector<HTMLElement>(".pdf-case");
+  if (rail && article) {
+    const links = [...rail.querySelectorAll<HTMLAnchorElement>("a[href^='#']")];
+    const stops = links.map((link) => link.hash.slice(1));
+    const sections = [
+      ...article.querySelectorAll<HTMLElement>("section.pdf-chapter[id]"),
+    ];
+    // Every section maps to the nearest listed stop at or before it.
+    const stopOf = new Map<HTMLElement, string>();
+    let current = stops[0];
+    for (const section of sections) {
+      if (stops.includes(section.id)) current = section.id;
+      stopOf.set(section, current);
+    }
+    const setActive = (id: string) => {
+      for (const link of links) {
+        const on = link.hash.slice(1) === id;
+        if (on) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      }
+    };
+    // A section is "current" once its top has passed the line where a clicked
+    // chapter lands (header + scroll padding), with a little slack.
+    const update = () => {
+      const header = document.querySelector(".site-header");
+      const line = (header ? header.getBoundingClientRect().bottom : 0) + 40;
+      let active = sections[0];
+      for (const section of sections) {
+        if (section.getBoundingClientRect().top <= line) active = section;
+      }
+      if (
+        window.innerHeight + window.scrollY >=
+        document.body.scrollHeight - 2
+      ) {
+        active = sections[sections.length - 1];
+      }
+      setActive(stopOf.get(active) ?? stops[0]);
+    };
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          update();
+          ticking = false;
+        });
+      },
+      { passive: true },
+    );
+    // The site header is sticky; keep the rail clear of its real height.
+    const header = document.querySelector<HTMLElement>(".site-header");
+    const setOffset = () => {
+      const h = header ? header.getBoundingClientRect().height : 0;
+      // After a click the chapter heading lands at header + 1.5rem (global
+      // scroll-padding) + 3rem (chapter padding); park the rail level with it.
+      rail.style.setProperty("--rail-top", `${Math.round(h) + 72}px`);
+    };
+    setOffset();
+    window.addEventListener("resize", () => {
+      setOffset();
+      update();
+    });
+    update();
+    const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches;
+    for (const link of links) {
+      link.addEventListener("click", (event) => {
+        const target = document.getElementById(link.hash.slice(1));
+        if (!target) return;
+        event.preventDefault();
+        setActive(link.hash.slice(1));
+        target.scrollIntoView({
+          behavior: smooth ? "smooth" : "auto",
+          block: "start",
+        });
+        history.pushState(null, "", link.hash);
+      });
+    }
+  }
+</script>
+
+<style>
+  .chapter-rail {
+    width: 8rem;
+    /* hidden until the page grid places it (see [id].astro) */
+    display: none;
+  }
+
+  @media (min-width: 74rem) {
+    .chapter-rail {
+      display: block;
+    }
+  }
+
+  ol {
+    position: sticky;
+    top: var(--rail-top, calc(var(--header-height) + 4.5rem));
+    display: grid;
+    gap: 0.65rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    position: relative;
+    display: block;
+    padding-left: 0.85rem;
+    color: var(--color-muted);
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 500;
+    line-height: 1.3;
+    text-decoration: none;
+    /* Unselected stops sit slightly out of focus; the active one is sharp */
+    filter: blur(1.1px);
+    opacity: 0.7;
+    transition:
+      color var(--duration-fast) ease,
+      filter var(--duration-fast) ease,
+      opacity var(--duration-fast) ease;
+  }
+
+  a::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 2px;
+    height: 0.9em;
+    background: var(--pdf-heading, var(--color-accent));
+    content: "";
+    opacity: 0;
+    transform: translateY(-50%);
+    transition: opacity var(--duration-fast) ease;
+  }
+
+  a:hover,
+  a:focus-visible,
+  a[aria-current="true"] {
+    filter: none;
+    opacity: 1;
+  }
+
+  a:hover {
+    color: var(--color-text);
+  }
+
+  a[aria-current="true"] {
+    color: var(--color-text-strong);
+    font-weight: 600;
+  }
+
+  a[aria-current="true"]::before {
+    opacity: 1;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import { getCollection, render, type CollectionEntry } from "astro:content";
 import CaseSection from "../../components/project/CaseSection.astro";
+import ChapterRail from "../../components/project/ChapterRail.astro";
 import CourseworkContent from "../../components/project/CourseworkContent.astro";
 import ImageComparison from "../../components/project/ImageComparison.astro";
 import InsightQuote from "../../components/project/InsightQuote.astro";
@@ -50,6 +51,8 @@ interface Props {
 const { project, previousProject, nextProject } = Astro.props;
 const { Content } = await render(project);
 const isVideo = project.data.caseStudyType === "video";
+const isPdf = project.data.caseStudyType === "pdf";
+const rail = isPdf ? (project.data.pdfPage?.rail ?? []) : [];
 ---
 
 <ProjectLayout
@@ -64,25 +67,38 @@ const isVideo = project.data.caseStudyType === "video";
       <VideoProject project={project} />
     ) : (
       <>
-        <ProjectHero project={project} />
+        <div class:list={["pdf-page", { "has-rail": rail.length > 0 }]}>
+          {rail.length > 0 && <ChapterRail items={rail} />}
+          <ProjectHero project={project} />
 
-        <article class="case-content">
-          <Content
-            components={{
-              CaseSection,
-              CourseworkContent,
-              ImageComparison,
-              InsightQuote,
-              MediaFigure,
-              ProcessGallery,
-              ProjectImage,
-              ReflectionBlock,
-              RoleBreakdown,
-              SystemDiagram,
-              VideoFigure,
-            }}
-          />
-        </article>
+          <div class="pdf-body">
+            <article
+              class:list={[
+                "case-content",
+                {
+                  "pdf-case": isPdf,
+                  [`pdf-case--${project.id}`]: isPdf,
+                },
+              ]}
+            >
+              <Content
+                components={{
+                  CaseSection,
+                  CourseworkContent,
+                  ImageComparison,
+                  InsightQuote,
+                  MediaFigure,
+                  ProcessGallery,
+                  ProjectImage,
+                  ReflectionBlock,
+                  RoleBreakdown,
+                  SystemDiagram,
+                  VideoFigure,
+                }}
+              />
+            </article>
+          </div>
+        </div>
 
         <ProjectNavigation
           homeSection={project.data.homeSection}
@@ -93,3 +109,2221 @@ const isVideo = project.data.caseStudyType === "video";
     )
   }
 </ProjectLayout>
+
+<style is:global>
+  /*
+   * PDF-based detail pages (docs/PORTFOLIO_WEBSITE_PLAN.md §7.1).
+   * One set of layout rules for every PDF page:
+   * 1. The hero and every chapter share one centered column (--pdf-col) with at
+   *    least --pdf-gutter of white space on each side.
+   * 2. Headings follow the PDF's two title sizes: every large PDF title is an
+   *    h2 chapter, every bar title (| …) or chevron title (» …) is an h3, and
+   *    smaller labels are h4. Text, cards, grids and images all start at the
+   *    column's left edge; nothing floats centered in empty space.
+   * 3. Content is arranged in columns the way the PDF arranges it: .pdf-row
+   *    puts two columns side by side (widths in --split), both columns share
+   *    one top and one bottom edge, and a text column (.pdf-col) spreads its
+   *    groups to meet the media column. Repeated items use .pdf-grid.
+   * 4. Images fill the cell they sit in; a cell's width sets the image size.
+   * 5. One vertical rhythm: --pdf-space between blocks, --pdf-space-lg before
+   *    a new subsection, a hairline between chapters.
+   * Colors from a PDF that fail WCAG AA as text are darkened.
+   */
+  .project-layout .project-hero.project-hero--pdf,
+  .pdf-case {
+    --pdf-col: 64rem;
+    --pdf-gutter: clamp(1.25rem, 5vw, 4rem);
+
+    padding-inline: max(var(--pdf-gutter), calc((100% - var(--pdf-col)) / 2));
+    background: #fff;
+  }
+
+  /* Rail + page. With a rail (≥74rem) the hero and the article share one
+     52rem column, so the title, facts and every chapter have the same left
+     edge; the rail sits in the left margin level with the title. Narrower
+     windows hide the rail and keep the plain 64rem column. */
+  .pdf-body {
+    position: relative;
+    background: #fff;
+  }
+
+  @media (min-width: 74rem) {
+    .pdf-page.has-rail {
+      position: relative;
+    }
+
+    .pdf-page.has-rail .project-hero.project-hero--pdf,
+    .pdf-page.has-rail .pdf-case {
+      --pdf-col: 52rem;
+    }
+
+    .pdf-page.has-rail .project-hero--pdf .hero-heading {
+      width: min(100%, 52rem);
+    }
+
+    /* The rail column overlays the left margin of the whole page (hero + body)
+       and the rail itself sticks inside it, level with the title. */
+    .pdf-page.has-rail > .chapter-rail {
+      position: absolute;
+      z-index: 1;
+      top: 9.4rem; /* level with the hero title */
+      bottom: 0;
+      left: 2rem;
+      width: 8rem;
+    }
+  }
+
+  .pdf-case {
+    --pdf-ink: #14203a;
+    --pdf-muted: #5b677b;
+    --pdf-heading: #3a5785;
+    --pdf-blue: #3962c0;
+    --pdf-bright: #2a6ad8;
+    --pdf-subtitle: #5482d6;
+    --pdf-chevron: #628ecb;
+    --pdf-chevron-mark: #a3bbec;
+    --pdf-highlight: #b84f48;
+    --pdf-highlight-large: #d0625a;
+    --pdf-surface: #ebf8ff;
+    --pdf-surface-alt: #e1f9fd;
+    --pdf-panel: var(--pdf-surface);
+    --pdf-line: #a9c8ee;
+    --pdf-callout-ink: #2f62a8;
+    --pdf-tag: #4a6fd0;
+    --pdf-radius: 0.75rem;
+    --pdf-space: 1.25rem;
+    --pdf-space-lg: 2.5rem;
+    --pdf-gap: 2rem;
+
+    padding-bottom: 3rem;
+    color: var(--pdf-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+    line-height: 1.5;
+  }
+
+  /* Reset, then one flow rhythm */
+  .pdf-case :is(h2, h3, h4, h5, p, ul, ol, dl, dd, figure, blockquote) {
+    margin: 0;
+  }
+
+  .pdf-case :is(p, li, dt, dd) {
+    font-size: inherit;
+    line-height: inherit;
+  }
+
+  .pdf-case .pdf-chapter,
+  .pdf-case .pdf-block {
+    display: grid;
+    min-width: 0;
+    align-content: start;
+    gap: var(--pdf-space);
+  }
+
+  .pdf-case .pdf-block {
+    gap: 0.875rem;
+  }
+
+  .pdf-case .pdf-chapter > *,
+  .pdf-case .pdf-block > * {
+    min-width: 0;
+  }
+
+  .pdf-case .pdf-chapter {
+    padding-block: 3rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .pdf-case .pdf-chapter:first-child {
+    padding-top: 1.5rem;
+    border-top: 0;
+  }
+
+  /* Two short chapters side by side; each keeps its own h2 and anchor */
+  .pdf-case .pdf-chapter-row {
+    display: grid;
+    grid-template-columns: var(--split, repeat(2, minmax(0, 1fr)));
+    gap: var(--pdf-gap);
+    padding-block: 3rem;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .pdf-case .pdf-chapter-row > .pdf-chapter {
+    padding-block: 0;
+    border-top: 0;
+  }
+
+  .pdf-case .pdf-chapter > :is(h3, h4) {
+    margin-bottom: -0.375rem;
+  }
+
+  .pdf-case .pdf-block > :is(h3, h4) {
+    margin-bottom: -0.125rem;
+  }
+
+  .pdf-case
+    .pdf-chapter
+    > :is(h3, .pdf-row, .pdf-headline):not(
+      :first-child,
+      h2 + *,
+      h3 + *,
+      h4 + *
+    ) {
+    margin-top: calc(var(--pdf-space-lg) - var(--pdf-space));
+  }
+
+  /* Headings: one style per level */
+  .pdf-case h2,
+  .pdf-case h3,
+  .pdf-case h4 {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+  }
+
+  .pdf-case h2 {
+    color: var(--pdf-heading);
+    font-size: clamp(1.5rem, 1.2rem + 1.25vw, 2.125rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .pdf-case h2 .pdf-h2-sub {
+    margin-left: 0.6em;
+    color: var(--pdf-subtitle);
+    font-size: 0.8em;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .pdf-case h3 {
+    padding-left: 0.7rem;
+    border-left: 3px solid currentColor;
+    color: var(--pdf-blue);
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .pdf-case :is(h3, h4).pdf-chevron {
+    padding-left: 0;
+    border-left: 0;
+    color: var(--pdf-chevron);
+    font-size: clamp(1.2rem, 1.1rem + 0.25vw, 1.3rem);
+    font-weight: 700;
+  }
+
+  .pdf-case :is(h3, h4).pdf-chevron::before {
+    color: var(--pdf-chevron-mark);
+    content: "» ";
+  }
+
+  .pdf-case h4 {
+    color: var(--pdf-bright);
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  /* Heading with a companion on the same line (callout, warning, term) */
+  .pdf-case .pdf-headline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem var(--pdf-gap);
+  }
+
+  .pdf-case .pdf-headline > :first-child {
+    flex: 0 0 auto;
+  }
+
+  .pdf-case .pdf-headline > :not(:first-child) {
+    flex: 1 1 14rem;
+  }
+
+  /* Text */
+  .pdf-case strong {
+    color: inherit;
+    font-weight: 700;
+  }
+
+  .pdf-case a {
+    color: var(--pdf-bright);
+    text-underline-offset: 0.15em;
+  }
+
+  .pdf-case .pdf-lead {
+    font-size: 1.1em;
+    line-height: 1.45;
+  }
+
+  .pdf-case .pdf-lead > p + p {
+    margin-top: 0.75rem;
+  }
+
+  .pdf-case .pdf-key {
+    color: var(--pdf-blue);
+    font-weight: 700;
+  }
+
+  .pdf-case .pdf-hl {
+    color: var(--pdf-highlight);
+    font-weight: 700;
+  }
+
+  .pdf-case .pdf-source {
+    margin-top: -0.5rem;
+    color: var(--pdf-muted);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  .pdf-case ul:not([class]) {
+    display: grid;
+    gap: 0.4rem;
+    padding-left: 1.25rem;
+  }
+
+  .pdf-case ul.pdf-two-col {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem var(--pdf-gap);
+    padding-left: 1.25rem;
+  }
+
+  /* Cards: one shape, three tones */
+  .pdf-case .pdf-card {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.125rem 1.375rem;
+    border-radius: var(--pdf-radius);
+    background: var(--pdf-surface);
+  }
+
+  .pdf-case .pdf-card--dashed {
+    border: 1.5px dashed var(--pdf-line);
+    background: #effbfd;
+  }
+
+  .pdf-case .pdf-card--callout {
+    background: var(--pdf-surface-alt);
+    color: var(--pdf-callout-ink);
+    font-size: 1.1em;
+    line-height: 1.45;
+  }
+
+  /* "Selected" tag for the chosen option; replaces the PDF's emoji ratings and check marks */
+  .pdf-case .pdf-selected {
+    display: inline-block;
+    margin-left: 0.4rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.4rem;
+    background: var(--pdf-tag);
+    color: #fff;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+    vertical-align: 0.15em;
+  }
+
+  .pdf-case .pdf-points ol,
+  .pdf-case ol.pdf-points {
+    display: grid;
+    gap: 0.75rem;
+    padding: 0;
+    list-style: none;
+    counter-reset: pdf-point;
+  }
+
+  .pdf-case .pdf-points li {
+    position: relative;
+    padding-left: 2.25rem;
+    counter-increment: pdf-point;
+  }
+
+  .pdf-case .pdf-points li::before {
+    position: absolute;
+    top: 0.15em;
+    left: 0;
+    display: grid;
+    width: 1.5rem;
+    height: 1.5rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--pdf-bright);
+    color: #fff;
+    content: counter(pdf-point);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  /* "At a glance" summary panel. Not part of a PDF: add it only with the user's approval.
+     One row per item: a small-caps label, then one sentence. Keep each sentence under about
+     95 characters so it stays on one line in the 64rem column. */
+  .pdf-case .pdf-glance {
+    display: grid;
+    gap: 0.5rem;
+    padding: 1.5rem clamp(1.25rem, 3vw, 2rem) 0.5rem;
+    border-radius: 1rem;
+    background: var(--pdf-panel);
+  }
+
+  .pdf-case .pdf-glance h2 {
+    font-size: 1.125rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Optional one-line note under the heading (e.g. the project name's meaning) */
+  .pdf-case .pdf-glance-note {
+    margin-top: -0.25rem;
+    color: var(--pdf-muted);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .pdf-case .pdf-glance dl > div {
+    display: grid;
+    grid-template-columns: 6rem minmax(0, 1fr);
+    column-gap: 1.5rem;
+    align-items: baseline;
+    padding-block: 0.85rem;
+    border-top: 1px solid var(--pdf-line);
+  }
+
+  .pdf-case .pdf-glance dt {
+    color: var(--pdf-blue);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .pdf-case .pdf-glance dd {
+    text-wrap: pretty;
+  }
+
+  /* Figures fill their cell */
+  .pdf-case figure {
+    display: grid;
+    min-width: 0;
+    align-content: start;
+    gap: 0.5rem;
+  }
+
+  .pdf-case figure img.project-image,
+  .pdf-case .pdf-grid img.project-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  .pdf-case a.pdf-zoom {
+    display: block;
+    border-radius: 0.5rem;
+  }
+
+  .pdf-case a.pdf-zoom:hover img {
+    outline: 2px solid var(--pdf-line);
+    outline-offset: 3px;
+  }
+
+  .pdf-case figcaption {
+    color: var(--pdf-muted);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  /* Rows and grids */
+  .pdf-case .pdf-row {
+    display: grid;
+    grid-template-columns: var(--split, repeat(2, minmax(0, 1fr)));
+    gap: var(--pdf-gap);
+    align-items: stretch;
+  }
+
+  .pdf-case .pdf-col {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--pdf-space);
+  }
+
+  .pdf-case .pdf-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+    gap: var(--pdf-space);
+    padding: 0;
+    list-style: none;
+  }
+
+  .pdf-case .pdf-grid > li {
+    min-width: 0;
+  }
+
+  /* A row of images that share one height; each <li> sets its aspect ratio as --r */
+  .pdf-case .pdf-strip {
+    display: flex;
+    align-items: flex-end;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pdf-case .pdf-strip > li {
+    flex: var(--r, 1) 1 0%;
+    min-width: 0;
+  }
+
+  .pdf-case .pdf-strip img.project-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+  }
+
+  @media (max-width: 56rem) {
+    .pdf-case .pdf-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--pdf-space-lg);
+    }
+
+    .pdf-case .pdf-col {
+      justify-content: flex-start;
+    }
+
+    .pdf-case .pdf-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .pdf-case .pdf-grid,
+    .pdf-case ul.pdf-two-col {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case .pdf-glance dl > div {
+      grid-template-columns: minmax(0, 1fr);
+      row-gap: 0.2rem;
+      padding-block: 0.75rem;
+    }
+  }
+
+  /* ---------- PhageX ---------- */
+  .pdf-case--phagex {
+    --pdf-panel: linear-gradient(180deg, #e8f4fe 0%, #d7e9fa 100%);
+  }
+
+  .pdf-case--phagex .phagex-reasons {
+    display: grid;
+    gap: 1rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pdf-case--phagex .phagex-reasons li {
+    display: flex;
+    gap: 0.6rem;
+    color: #3f6fc2;
+    font-size: 1.05em;
+    font-style: italic;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  /* A plain marker instead of the PDF's emoji, centred on the first line */
+  .pdf-case--phagex .phagex-reasons li::before {
+    flex: none;
+    width: 0.45rem;
+    height: 0.45rem;
+    margin-top: calc(0.675em - 0.225rem);
+    border-radius: 50%;
+    background: var(--pdf-chevron);
+    content: "";
+  }
+
+  .pdf-case--phagex .phagex-term {
+    position: relative;
+    justify-self: start;
+    padding: 0.5rem 1rem;
+    border: 2px solid var(--pdf-line);
+    border-radius: 0.75rem;
+    color: var(--pdf-blue);
+    font-size: 1.2rem;
+    line-height: 1.25;
+  }
+
+  .pdf-case--phagex .phagex-term::after {
+    position: absolute;
+    bottom: -0.5rem;
+    left: 1.5rem;
+    width: 0.85rem;
+    height: 0.85rem;
+    border-right: 2px solid var(--pdf-line);
+    border-bottom: 2px solid var(--pdf-line);
+    background: #fff;
+    content: "";
+    transform: rotate(45deg);
+  }
+
+  .pdf-case--phagex .phagex-term span {
+    display: block;
+  }
+
+  .pdf-case--phagex .phagex-people {
+    --cols: 5;
+    gap: 1rem;
+  }
+
+  .pdf-case--phagex .phagex-people li {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+    padding: 0.9rem;
+    border-radius: var(--pdf-radius);
+    background: var(--pdf-surface);
+  }
+
+  .pdf-case--phagex .phagex-people li.is-impacted {
+    box-shadow: inset 0 0 0 2px var(--pdf-line);
+  }
+
+  .pdf-case--phagex .phagex-people img.project-image {
+    flex: 0 0 auto;
+    width: 3.25rem;
+    height: 3.25rem;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .pdf-case--phagex .phagex-people strong,
+  .pdf-case--phagex .phagex-people span {
+    display: block;
+  }
+
+  .pdf-case--phagex .phagex-people span {
+    font-size: 0.85rem;
+    line-height: 1.35;
+  }
+
+  .pdf-case--phagex .phagex-people em {
+    display: inline-block;
+    margin-top: 0.35rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 0.4rem;
+    background: var(--pdf-tag);
+    color: #fff;
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  .pdf-case--phagex .phagex-stats {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  /* Focus-group findings as a band under the interview row: intro line, then
+     the two figures side by side */
+  .pdf-case--phagex .phagex-stats--band {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem var(--pdf-gap);
+    margin-top: -0.25rem;
+    padding: 1rem 1.25rem;
+    border-radius: var(--pdf-radius);
+    background: var(--pdf-surface);
+  }
+
+  .pdf-case--phagex .phagex-stats--band > p:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .pdf-case--phagex .phagex-stats > p:first-child {
+    color: var(--pdf-blue);
+    font-weight: 700;
+  }
+
+  .pdf-case--phagex .phagex-stat b {
+    color: var(--pdf-highlight-large);
+    font-size: 1.6em;
+    font-weight: 700;
+  }
+
+  .pdf-case--phagex .phagex-stat strong {
+    color: #3f6fc2;
+    font-size: 1.1em;
+    font-weight: 600;
+  }
+
+  .pdf-case--phagex .phagex-stat p + p {
+    color: var(--pdf-muted);
+  }
+
+  .pdf-case--phagex #persona {
+    grid-template-rows: auto 1fr;
+  }
+
+  .pdf-case--phagex #stakeholder-map {
+    align-content: space-between;
+  }
+
+  .pdf-case--phagex .phagex-personas {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0.75rem;
+    border-radius: var(--pdf-radius);
+    background: #d6e8f6;
+    list-style: none;
+  }
+
+  .pdf-case--phagex .phagex-personas li {
+    overflow: hidden;
+    border-radius: 0.5rem;
+    background: #fff;
+  }
+
+  .pdf-case--phagex .phagex-personas img.project-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .pdf-case--phagex .phagex-takeaways {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--pdf-space);
+    padding: 0;
+    list-style: none;
+    counter-reset: pdf-point;
+  }
+
+  .pdf-case--phagex .phagex-takeaways li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    padding: 1.25rem 1.5rem;
+    border-radius: var(--pdf-radius);
+    background: #d6eafc;
+    color: var(--pdf-callout-ink);
+    font-size: 1.05em;
+    line-height: 1.45;
+    counter-increment: pdf-point;
+  }
+
+  .pdf-case--phagex .phagex-takeaways li::before {
+    display: grid;
+    flex: 0 0 auto;
+    margin-top: 0.1rem;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--pdf-bright);
+    color: #fff;
+    content: counter(pdf-point);
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .pdf-case--phagex .phagex-takeaways strong {
+    color: #1f4f9c;
+  }
+
+  .pdf-case--phagex .phagex-solutions > li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .pdf-case--phagex .phagex-solutions img.project-image {
+    aspect-ratio: 5 / 3;
+    object-fit: contain;
+    background: #fff;
+    box-shadow: 0 0 0 1px var(--color-line);
+  }
+
+  .pdf-case--phagex .phagex-solutions h4 {
+    color: var(--pdf-ink);
+  }
+
+  .pdf-case--phagex .phagex-solutions h4 span {
+    display: block;
+    color: var(--pdf-bright);
+    font-size: 0.95rem;
+  }
+
+  .pdf-case--phagex .phagex-solutions .pdf-card {
+    flex: 1;
+    align-content: space-between;
+  }
+
+  .pdf-case--phagex .phagex-solutions > li.is-chosen .pdf-card {
+    box-shadow: inset 0 0 0 2px var(--pdf-line);
+  }
+
+  /* Why the selected solution: a title and its three reasons in one bar */
+  .pdf-case--phagex .phagex-compare {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 2.5rem;
+    padding: 1rem 1.5rem;
+    border: 2px solid var(--pdf-line);
+    border-radius: var(--pdf-radius);
+  }
+
+  .pdf-case--phagex .phagex-compare-reasons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 2rem;
+    padding: 0;
+    color: var(--pdf-blue);
+    list-style: none;
+  }
+
+  .pdf-case--phagex .phagex-compare-reasons li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .pdf-case--phagex .phagex-compare-reasons li::before {
+    flex: none;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--pdf-chevron);
+    content: "";
+  }
+
+  .pdf-case--phagex .phagex-warning {
+    color: #a3570c;
+    font-size: 1.05em;
+    font-weight: 600;
+  }
+
+  .pdf-case--phagex .phagex-ai {
+    --cols: 4;
+  }
+
+  .pdf-case--phagex .phagex-ai li {
+    padding: 1rem 1.25rem;
+    border-radius: var(--pdf-radius);
+    background: var(--pdf-surface);
+    color: var(--pdf-blue);
+  }
+
+  .pdf-case--phagex .phagex-ai strong {
+    color: var(--pdf-bright);
+  }
+
+  .pdf-case--phagex .phagex-shots figure {
+    height: 100%;
+    grid-template-rows: auto 1fr;
+  }
+
+  .pdf-case--phagex .phagex-shots figcaption {
+    padding: 0.875rem 1rem;
+    border-radius: var(--pdf-radius);
+    background: #d4e4fb;
+    color: var(--pdf-ink);
+    font-size: 0.9rem;
+  }
+
+  .pdf-case--phagex .phagex-shots--external figcaption {
+    background: #4d72b0;
+    color: #fff;
+  }
+
+  .pdf-case--phagex .phagex-shots figcaption strong {
+    display: block;
+    font-size: 1rem;
+  }
+
+  .pdf-case--phagex .phagex-shots--external {
+    --cols: 1;
+  }
+
+  /* The left grid and the right column share one height; the right column's
+     two items each take one row so they line up with the left rows */
+  .pdf-case--phagex #how-it-works > .pdf-row:first-of-type .pdf-col,
+  .pdf-case--phagex #how-it-works > .pdf-row:first-of-type .pdf-block {
+    height: 100%;
+  }
+
+  .pdf-case--phagex #how-it-works > .pdf-row:first-of-type .pdf-block {
+    grid-template-rows: auto 1fr;
+  }
+
+  .pdf-case--phagex #how-it-works > .pdf-row:first-of-type .phagex-shots {
+    grid-auto-rows: 1fr;
+  }
+
+  /* Three phones in one row, so the column is wide enough for its heading
+     and the phones start level with the glasses panel */
+  /* Two phones over one beside the large glasses panel, as in the PDF */
+  .pdf-case--phagex .phagex-hifi .pdf-col {
+    justify-content: flex-start;
+  }
+
+  /* The phones column is narrower than its heading; let the heading run on */
+  .pdf-case--phagex .phagex-hifi .pdf-col:last-child h4 {
+    white-space: nowrap;
+  }
+
+  .pdf-case--phagex .phagex-phones {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pdf-case--phagex .phagex-phones li:last-child {
+    grid-column: 1 / -1;
+    width: calc(50% - 0.375rem);
+    justify-self: center;
+  }
+
+  .pdf-case--phagex .phagex-phones img.project-image {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .pdf-case--phagex .phagex-guide dl {
+    display: grid;
+    gap: 0.1rem;
+  }
+
+  .pdf-case--phagex .phagex-guide dd + dt {
+    margin-top: 0.6rem;
+  }
+
+  .pdf-case--phagex .phagex-guide {
+    justify-content: center;
+    column-gap: clamp(2rem, 6.5vw, 4.5rem);
+    padding: 1.75rem clamp(1.25rem, 4vw, 2.5rem);
+    border-radius: 1rem;
+    background: var(--pdf-panel);
+  }
+
+  /* Avatar text and its 2x2 image sit closer together than the Status/Logo group */
+  .pdf-case--phagex .phagex-guide-avatar {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(1.25rem, 2.8vw, 2rem);
+  }
+
+  /* the 2x2 image has ~0.45rem of transparent space on its left */
+  .pdf-case--phagex .phagex-avatar-grid {
+    margin-left: -0.45rem;
+  }
+
+  .pdf-case--phagex .phagex-avatar-grid img.project-image {
+    width: 14.6rem;
+    max-width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+
+  .pdf-case--phagex .phagex-guide dt {
+    color: #2458c2;
+    font-weight: 700;
+  }
+
+  .pdf-case--phagex .phagex-guide dd {
+    max-width: 13.5rem;
+    color: var(--pdf-blue);
+  }
+
+  .pdf-case--phagex .phagex-guide h4 {
+    color: var(--pdf-heading);
+  }
+
+  .pdf-case--phagex .phagex-guide ul {
+    display: grid;
+    gap: 0.6rem;
+    padding: 0;
+    list-style: none;
+    font-size: 1.05em;
+  }
+
+  /* Status colours come from the avatar states: hello bubble, alert flames, healing hearts */
+  .pdf-case--phagex .phagex-swatch {
+    display: inline-block;
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-right: 0.5rem;
+    border-radius: 0.25rem;
+    vertical-align: -0.1em;
+  }
+
+  .pdf-case--phagex .phagex-swatch--safe {
+    background: linear-gradient(135deg, #a6f8a7, #5fd36a);
+  }
+
+  .pdf-case--phagex .phagex-swatch--danger {
+    background: linear-gradient(180deg, #f6934e, #f4dc55);
+  }
+
+  .pdf-case--phagex .phagex-swatch--healing {
+    background: linear-gradient(135deg, #fca0b6, #ef697f);
+  }
+
+  .pdf-case--phagex .phagex-logo img.project-image {
+    width: 8rem;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .pdf-case--phagex .phagex-feedback ul {
+    display: grid;
+    gap: 0.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 56rem) {
+    .pdf-case .pdf-chapter-row {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0;
+    }
+
+    .pdf-case .pdf-chapter-row > .pdf-chapter + .pdf-chapter {
+      margin-top: 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid var(--color-line);
+    }
+
+    .pdf-case--phagex .phagex-personas {
+      flex-direction: row;
+    }
+
+    .pdf-case--phagex .phagex-personas li {
+      flex: 1 1 0;
+    }
+
+    .pdf-case--phagex .phagex-guide-avatar {
+      flex-direction: column;
+      gap: var(--pdf-space);
+    }
+
+    .pdf-case--phagex .phagex-testing-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: start;
+    }
+
+    .pdf-case--phagex .phagex-testing-strip > li:first-child {
+      grid-column: 1 / -1;
+      max-width: 22rem;
+    }
+
+    .pdf-case--phagex .phagex-people {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pdf-case--phagex .phagex-shots--external {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .pdf-case--phagex .phagex-people,
+    .pdf-case--phagex .phagex-shots--external {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pdf-case--phagex .phagex-shots--external,
+    .pdf-case--phagex .phagex-stats--band,
+    .pdf-case--phagex .phagex-takeaways {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case--phagex .phagex-personas {
+      flex-direction: column;
+    }
+
+    .pdf-case--phagex .phagex-personas li {
+      flex: none;
+    }
+  }
+
+  /* ---------- Tutela ---------- */
+  .pdf-case--tutela {
+    --pdf-ink: #3f4473;
+    --pdf-muted: #676b90;
+    --pdf-heading: #5a5c96;
+    --pdf-blue: #4f55b0;
+    --pdf-bright: #5b61bb;
+    --pdf-subtitle: #7c80d8;
+    --pdf-surface: #e9edfc;
+    --pdf-surface-alt: #f0eafc;
+    --pdf-panel: linear-gradient(180deg, #f6f3fd 0%, #efeafb 100%);
+    --pdf-line: #cdd0f3;
+    --pdf-tag: #4d68cf;
+    --pdf-highlight: #a3285f;
+    --tutela-title: #1d1f3a;
+    --tutela-bar: #8a8ee6;
+    --tutela-purple: #6a5c9c;
+    --tutela-violet: #5b4bb0;
+    --tutela-lilac: #ded8f6;
+    --tutela-card: #f9fafc;
+    --tutela-band: #535683;
+  }
+
+  /* PDF style: chapter titles carry a bar, section titles are plain dark text */
+  .pdf-case--tutela .pdf-chapter > h2 {
+    padding-left: 0.45em;
+    border-left: 0.26em solid var(--tutela-bar);
+  }
+
+  .pdf-case--tutela h3 {
+    padding-left: 0;
+    border-left: 0;
+    color: var(--tutela-title);
+    font-size: clamp(1.2rem, 1.1rem + 0.4vw, 1.4rem);
+    font-weight: 500;
+  }
+
+  .pdf-case--tutela .pdf-glance dt {
+    color: #464ca6;
+  }
+
+  .pdf-case--tutela .tutela-card {
+    padding: 1.5rem 1.6rem;
+    border-radius: 1.25rem;
+    font-size: 1.1em;
+    line-height: 1.45;
+  }
+
+  /* Background: each card sits beside its own figures, rows aligned to the card */
+  .pdf-case--tutela .tutela-bg-row {
+    align-items: center;
+  }
+
+  .pdf-case--tutela .tutela-bg-row + .tutela-bg-row {
+    margin-top: var(--pdf-space);
+  }
+
+  /* Centre the two images on the card: the row starts at the h3, so offset
+     by its height; the word-cloud caption hangs below without shifting it. */
+  .pdf-case--tutela .tutela-bg-figures {
+    display: grid;
+    align-self: center;
+    margin-top: 2.6rem;
+  }
+
+  /* The strip shares one height; the first item's --r is set above its true
+     aspect ratio so the symptoms card gets more of the row. */
+  .pdf-case--tutela .tutela-bg-top {
+    align-items: center;
+  }
+
+  .pdf-case--tutela .tutela-bg-top figure {
+    position: relative;
+  }
+
+  .pdf-case--tutela .tutela-bg-top figcaption {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+  }
+
+  .pdf-case--tutela .tutela-bg-top > li:first-child img.project-image {
+    width: 100%;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 0 1px var(--color-line);
+  }
+
+  .pdf-case--tutela .tutela-bg-charts {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .pdf-case--tutela .tutela-bg-bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: center;
+  }
+
+  .pdf-case--tutela .tutela-bg-bottom .pdf-source {
+    margin-top: 0;
+  }
+
+  /* Treatment approaches (arrow to the right) meet the challenges (arrow to the left) */
+  .pdf-case--tutela #research > .pdf-row > figure:first-child {
+    align-self: end;
+  }
+
+  .pdf-case--tutela .tutela-treatment {
+    display: grid;
+    grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr);
+    color: #2f6f7c;
+  }
+
+  .pdf-case--tutela .tutela-treatment > div {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .pdf-case--tutela .tutela-treatment ul {
+    flex: 1;
+    margin: 0;
+    list-style: none;
+  }
+
+  .pdf-case--tutela .tutela-approaches ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem 1rem;
+    padding: 0.9rem 2.6rem 0.9rem 1rem;
+    background: linear-gradient(90deg, #e3f6fb 0%, #ebedfd 100%);
+    clip-path: polygon(
+      0 0,
+      calc(100% - 2.5rem) 0,
+      100% 50%,
+      calc(100% - 2.5rem) 100%,
+      0 100%
+    );
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .pdf-case--tutela .tutela-approaches strong {
+    color: #2c6a77;
+    font-size: 1.05em;
+    font-weight: 600;
+  }
+
+  .pdf-case--tutela .tutela-challenges ul {
+    display: grid;
+    align-content: center;
+    gap: 0.4rem;
+    padding: 0.9rem 0.75rem 0.9rem 2.6rem;
+    background: #fbeaf8;
+    clip-path: polygon(2.5rem 0, 100% 0, 100% 100%, 2.5rem 100%, 0 50%);
+    font-size: 0.95rem;
+    line-height: 1.3;
+  }
+
+  .pdf-case--tutela .tutela-icon {
+    display: inline;
+    margin-right: 0.35rem;
+    font-style: normal;
+  }
+
+  /* Prettier splits these list items over lines and MDX wraps each piece in <p>; keep them inline */
+  .pdf-case--tutela :is(.tutela-treatment, .tutela-persona-lists) li p {
+    display: inline;
+  }
+
+  .pdf-case--tutela .tutela-approaches strong {
+    display: inline;
+  }
+
+  .pdf-case--tutela .tutela-axis {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #4f7d89;
+    font-size: 0.875rem;
+    line-height: 1.35;
+  }
+
+  .pdf-case--tutela .tutela-axis span:last-child {
+    text-align: right;
+  }
+
+  .pdf-case--tutela .tutela-challenges .tutela-axis {
+    justify-content: flex-end;
+    color: #a0559f;
+  }
+
+  .pdf-case--tutela .tutela-insights {
+    display: grid;
+    gap: 0.35rem;
+    padding-left: 1.25rem;
+    font-size: 1.1em;
+    line-height: 1.45;
+  }
+
+  .pdf-case--tutela .tutela-data {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr) minmax(0, 1.5fr) minmax(
+        0,
+        0.95fr
+      );
+    gap: var(--pdf-space) var(--pdf-gap);
+    align-items: center;
+  }
+
+  /* Images and text centre on one line; captions hang below the images so
+     they do not shift them. */
+  .pdf-case--tutela .tutela-data {
+    padding-bottom: 4.5rem; /* room for the 3-line chart caption */
+  }
+
+  .pdf-case--tutela .tutela-data > figure {
+    position: relative;
+  }
+
+  .pdf-case--tutela .tutela-data > figure > figcaption {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 0.5rem;
+  }
+
+  .pdf-case--tutela .tutela-data-text {
+    line-height: 1.5;
+  }
+
+  /* Interview: user and expert on either side of the photos, findings below */
+  .pdf-case--tutela .tutela-interviews {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 16rem;
+    gap: var(--pdf-gap);
+    align-items: start;
+  }
+
+  .pdf-case--tutela .tutela-person {
+    display: grid;
+    grid-template-columns: 3.75rem minmax(0, 1fr);
+    grid-template-areas:
+      "tag tag"
+      "quote quote"
+      "avatar name"
+      "avatar desc";
+    gap: 0.3rem 0.9rem;
+    align-items: start;
+  }
+
+  .pdf-case--tutela .tutela-person img.project-image {
+    grid-area: avatar;
+    width: 3.75rem;
+    height: 3.75rem;
+    margin-top: 0.75rem;
+  }
+
+  .pdf-case--tutela .tutela-tag {
+    grid-area: tag;
+    justify-self: start;
+    padding: 0.3rem 0.9rem;
+    border-radius: 0.75rem;
+    background: var(--pdf-tag);
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+
+  .pdf-case--tutela .tutela-name {
+    grid-area: name;
+    align-self: end;
+    margin-top: 0.75rem;
+    color: var(--tutela-title);
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+
+  .pdf-case--tutela .tutela-desc {
+    grid-area: desc;
+    color: #4d68c4;
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .pdf-case--tutela .tutela-person blockquote {
+    position: relative;
+    grid-area: quote;
+    margin-top: 0.35rem;
+    padding: 0.7rem 1rem;
+    border-radius: 1rem;
+    background: var(--pdf-surface);
+    color: #4a5fa3;
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .pdf-case--tutela .tutela-person blockquote::before {
+    position: absolute;
+    top: -0.55rem;
+    left: 1.25rem;
+    border: 0.55rem solid transparent;
+    border-top: 0;
+    border-bottom-color: var(--pdf-surface);
+    content: "";
+  }
+
+  .pdf-case--tutela .tutela-interviews + .pdf-source {
+    margin-top: -0.75rem;
+  }
+
+  .pdf-case--tutela .tutela-findings {
+    display: grid;
+    margin-top: -0.5rem;
+    grid-template-columns: 0.8fr 1.15fr 1fr 1.05fr;
+    gap: var(--pdf-space);
+    padding: 0;
+    list-style: none;
+    counter-reset: tutela-finding;
+  }
+
+  .pdf-case--tutela .tutela-findings > li {
+    display: grid;
+    align-content: start;
+    gap: 0.5rem;
+    padding: 1.1rem 1.2rem 1.25rem;
+    border: 1.5px solid var(--pdf-line);
+    border-radius: 1.25rem;
+    background: #fff;
+    counter-increment: tutela-finding;
+  }
+
+  .pdf-case--tutela .tutela-findings h4 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+  }
+
+  .pdf-case--tutela .tutela-findings h4::before {
+    display: grid;
+    flex: none;
+    width: 1.35rem;
+    height: 1.35rem;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--pdf-bright);
+    color: #fff;
+    content: counter(tutela-finding);
+    font-size: 0.75rem;
+    font-weight: 700;
+    transform: translateY(-0.1em);
+  }
+
+  /* Persona: the PDF's lavender band */
+  .pdf-case--tutela .tutela-persona {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "name"
+      "lists"
+      "insight";
+    gap: 0.75rem 1.5rem;
+    align-items: start;
+    padding: 1.25rem clamp(1.25rem, 3vw, 1.75rem);
+    border-radius: 1rem;
+    background: var(--pdf-surface-alt);
+    color: var(--tutela-purple);
+  }
+
+  .pdf-case--tutela .tutela-persona-wrap {
+    display: grid;
+    grid-template-columns: 10.5rem minmax(0, 1fr);
+    gap: var(--pdf-gap);
+    align-items: stretch;
+  }
+
+  .pdf-case--tutela .tutela-persona-figure {
+    align-content: center;
+  }
+
+  .pdf-case--tutela .tutela-persona-figure img.project-image {
+    border-radius: 1rem;
+  }
+
+  .pdf-case--tutela .tutela-persona-name {
+    grid-area: name;
+    color: #675a9b;
+    font-size: 1.45rem;
+    font-style: italic;
+    line-height: 1.25;
+  }
+
+  .pdf-case--tutela .tutela-persona-lists {
+    display: grid;
+    grid-area: lists;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    font-size: 0.95rem;
+  }
+
+  .pdf-case--tutela .tutela-persona ul {
+    gap: 0.3rem;
+  }
+
+  .pdf-case--tutela .tutela-persona h3 {
+    margin-bottom: 0.4rem;
+    color: #6f5fa8;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .pdf-case--tutela .tutela-insight {
+    grid-area: insight;
+    margin-top: 0.25rem;
+    padding: 1.1rem 1.25rem;
+    border-radius: 1rem;
+    background: var(--tutela-lilac);
+    color: var(--tutela-violet);
+    font-size: 1.05rem;
+    line-height: 1.4;
+  }
+
+  .pdf-case--tutela .tutela-insight h3 {
+    color: var(--tutela-violet);
+  }
+
+  /* Product analysis table */
+  .pdf-case--tutela .tutela-table-wrap {
+    overflow-x: auto;
+  }
+
+  .pdf-case--tutela .tutela-products {
+    width: 100%;
+    min-width: 50rem;
+    border-collapse: collapse;
+    color: var(--tutela-title);
+    font-size: 0.9375rem;
+    line-height: 1.35;
+    table-layout: fixed;
+    text-align: center;
+  }
+
+  .pdf-case--tutela .tutela-products :is(th, td) {
+    padding: 0.7rem 0.6rem;
+    vertical-align: middle;
+  }
+
+  .pdf-case--tutela .tutela-products :is(th, td):first-child {
+    width: 8.5rem;
+  }
+
+  .pdf-case--tutela .tutela-products-media td {
+    padding: 0 0.3rem 0.5rem;
+    vertical-align: bottom;
+  }
+
+  .pdf-case--tutela .tutela-products-media img.project-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.375rem;
+  }
+
+  .pdf-case--tutela .tutela-brand {
+    display: inline-block;
+    margin-bottom: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 0.6rem 0.6rem 0 0.6rem;
+    background: #6f5fbd;
+    color: #fff;
+    font-size: 0.8125rem;
+    line-height: 1.2;
+  }
+
+  .pdf-case--tutela .tutela-products thead tr:last-child th {
+    background: #5c6896;
+    color: #fff;
+    font-weight: 500;
+    text-align: left;
+  }
+
+  .pdf-case--tutela .tutela-products tbody th,
+  .pdf-case--tutela .tutela-products tfoot th {
+    color: #1f638c;
+    font-weight: 700;
+    text-align: left;
+  }
+
+  .pdf-case--tutela .tutela-products tbody tr:nth-child(even) {
+    background: #f3f5fe;
+  }
+
+  .pdf-case--tutela .tutela-products td + td {
+    border-left: 1.5px solid #c3cdf0;
+  }
+
+  .pdf-case--tutela .tutela-products td.is-best {
+    background: #dde5fd;
+  }
+
+  .pdf-case--tutela .tutela-products tfoot td {
+    border: 2px solid #cbbff2;
+    background: #e1f3fb;
+    color: #2b4fb5;
+    font-size: 1rem;
+    text-align: left;
+  }
+
+  /* Gap & strategy */
+  .pdf-case--tutela .tutela-note,
+  .pdf-case--tutela .tutela-options > li {
+    padding: 0.9rem 1.1rem;
+    background: #dfe5fc;
+    color: var(--tutela-title);
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .pdf-case--tutela .tutela-options > li {
+    display: grid;
+    align-content: start;
+    gap: 0.3rem;
+  }
+
+  .pdf-case--tutela .tutela-options strong {
+    color: var(--pdf-blue);
+  }
+
+  .pdf-case--tutela .tutela-options > li.is-chosen {
+    box-shadow: inset 0 0 0 2px var(--pdf-bright);
+  }
+
+  /* PDF cards with a pale panel behind a sketch */
+  .pdf-case--tutela .tutela-panel {
+    display: grid;
+    justify-items: center;
+    padding: 1.25rem clamp(1rem, 3vw, 2rem);
+    border-radius: 1.25rem;
+    background: var(--tutela-card);
+    box-shadow: inset 0 0 0 1px #e3e6f5;
+  }
+
+  .pdf-case--tutela .tutela-panel--survey img.project-image {
+    max-width: 36rem;
+  }
+
+  .pdf-case--tutela .tutela-panel--structure img.project-image {
+    max-width: 40rem;
+  }
+
+  .pdf-case--tutela .tutela-panel--ideation {
+    max-width: 46rem;
+  }
+
+  .pdf-case--tutela .tutela-panel--exploded img.project-image {
+    max-width: 40rem;
+  }
+
+  .pdf-case--tutela .tutela-panel .pdf-source {
+    margin-top: 0.75rem;
+    justify-self: start;
+  }
+
+  /* Prototyping */
+  .pdf-case--tutela .tutela-proto-strip {
+    align-items: flex-start;
+    gap: var(--pdf-gap);
+  }
+
+  .pdf-case--tutela .tutela-proto-strip + .tutela-proto-strip {
+    margin-top: 0.5rem;
+  }
+
+  .pdf-case--tutela figcaption.tutela-point {
+    color: var(--pdf-ink);
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .pdf-case--tutela .tutela-video {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    border-radius: 0.5rem;
+    background: #111;
+  }
+
+  .pdf-case--tutela .tutela-video iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Form & function */
+  .pdf-case--tutela .tutela-massage {
+    display: grid;
+    grid-template-columns: 10rem minmax(0, 1fr) 19rem;
+    gap: var(--pdf-gap);
+    align-items: center;
+  }
+
+  .pdf-case--tutela .tutela-massage-text {
+    display: grid;
+    gap: 0.6rem;
+    color: #5e6080;
+  }
+
+  .pdf-case--tutela .tutela-massage-key {
+    color: var(--tutela-title);
+    font-size: 1.45rem;
+    line-height: 1.3;
+  }
+
+  .pdf-case--tutela .tutela-legend {
+    display: grid;
+    gap: 0.2rem;
+    padding-left: 1.1rem;
+    font-style: italic;
+  }
+
+  .pdf-case--tutela .tutela-legend .is-clockwise {
+    color: #4a67a8;
+  }
+
+  .pdf-case--tutela .tutela-legend .is-counter {
+    color: #a0574b;
+  }
+
+  .pdf-case--tutela .tutela-legend .is-acupoint {
+    color: #8f5c86;
+  }
+
+  /* The PDF's dark summary band */
+  .pdf-case--tutela .tutela-summary {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr) minmax(0, 14rem);
+    gap: var(--pdf-gap);
+    align-items: center;
+    padding: 1.75rem clamp(1.25rem, 3vw, 2.25rem);
+    border-radius: 1rem;
+    background: var(--tutela-band);
+    color: #fff;
+  }
+
+  .pdf-case--tutela .tutela-summary-material {
+    color: #dcdaeb;
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .pdf-case--tutela .tutela-summary-claim {
+    font-size: clamp(1.3rem, 1.05rem + 0.9vw, 1.7rem);
+    line-height: 1.3;
+  }
+
+  .pdf-case--tutela .tutela-dots {
+    display: inline-flex;
+    gap: 0.25em;
+    margin-right: 0.35em;
+    vertical-align: -0.05em;
+  }
+
+  .pdf-case--tutela .tutela-dots i {
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 50%;
+    background: #84bad2;
+  }
+
+  .pdf-case--tutela .tutela-summary dl {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem 1rem;
+    margin-top: 1rem;
+  }
+
+  .pdf-case--tutela .tutela-summary figure {
+    min-width: 0;
+  }
+
+  .pdf-case--tutela .tutela-summary figure img.project-image {
+    width: 100%;
+    max-width: 14rem;
+    height: auto;
+    margin: 0 auto;
+    border-radius: 0;
+  }
+
+  .pdf-case--tutela .tutela-summary dt {
+    color: #dcdaeb;
+  }
+
+  .pdf-case--tutela .tutela-summary dd {
+    color: #b0dcf0;
+  }
+
+  .pdf-case--tutela .tutela-summary figcaption {
+    color: #fff;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  /* User flow cards */
+  .pdf-case--tutela .tutela-flow {
+    gap: 0.75rem;
+  }
+
+  .pdf-case--tutela .tutela-flow > li {
+    display: grid;
+    align-content: start;
+    gap: 0.6rem;
+    padding: 0.75rem 0.8rem 0.9rem;
+    border: 1px solid #e3e6f5;
+    border-radius: 1.25rem;
+    background: var(--tutela-card);
+  }
+
+  .pdf-case--tutela .tutela-flow img.project-image {
+    width: auto;
+    max-width: 100%;
+    height: 7rem;
+    margin-inline: auto;
+    object-fit: contain;
+    border-radius: 0;
+  }
+
+  .pdf-case--tutela .tutela-flow > li > div {
+    color: #5c6aa0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
+  /* Testing feedback and the solution each one led to */
+  .pdf-case--tutela .tutela-feedback {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem 1.25rem;
+    align-content: center;
+    height: 100%;
+  }
+
+  .pdf-case--tutela .tutela-feedback > div {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: 0.25rem;
+    padding: 0.75rem 0.9rem;
+    background: var(--tutela-lilac);
+    font-size: 0.95rem;
+    color: var(--tutela-title);
+  }
+
+  .pdf-case--tutela .tutela-feedback > div:nth-child(odd)::after {
+    position: absolute;
+    top: 50%;
+    right: -1.3rem;
+    width: 1.1rem;
+    border-top: 3px dotted #b3a3ea;
+    content: "";
+  }
+
+  .pdf-case--tutela .tutela-feedback h4 {
+    color: var(--tutela-violet);
+  }
+
+  /* The sketch panel and the summary band are one block in the PDF */
+  /* As in the PDF, the SKETCH heading sits inside the panel's top-left corner */
+  .pdf-case--tutela #sketch {
+    position: relative;
+  }
+
+  .pdf-case--tutela #sketch > h2 {
+    position: absolute;
+    top: calc(3rem - 0.6rem);
+    left: 1.5rem;
+    z-index: 1;
+  }
+
+  .pdf-case--tutela .tutela-sketch-panel {
+    display: grid;
+    margin-top: -2.5rem;
+    overflow: hidden;
+    border-radius: 1rem;
+  }
+
+  .pdf-case--tutela .tutela-sketch-panel img.project-image {
+    border-radius: 0;
+  }
+
+  .pdf-case--tutela .tutela-sketch-panel .tutela-summary {
+    border-radius: 0;
+  }
+
+  /* Images whose PDF version has rounded corners */
+  .pdf-case--tutela
+    :is(.tutela-proto-strip, #prototyping, #final-rendering, #testing)
+    img.project-image {
+    border-radius: 1rem;
+  }
+
+  @media (max-width: 56rem) {
+    .pdf-case--tutela .tutela-interviews,
+    .pdf-case--tutela .tutela-summary {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela .tutela-findings {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .pdf-case--tutela .tutela-data {
+      grid-template-columns: 6.5rem minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela .tutela-data > :nth-child(n + 3) {
+      grid-column: 1 / -1;
+    }
+
+    .pdf-case--tutela .tutela-massage {
+      grid-template-columns: 10rem minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela .tutela-massage > figure:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .pdf-case--tutela .tutela-summary {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela #research > .pdf-row > figure:first-child,
+    .pdf-case--tutela .tutela-interview-photos {
+      max-width: 22rem;
+    }
+
+    .pdf-case--tutela .tutela-summary-material {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .pdf-case--tutela .tutela-bg-bottom {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela .tutela-persona-wrap,
+    .pdf-case--tutela .tutela-findings {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela .tutela-persona-figure {
+      max-width: 12rem;
+    }
+
+    .pdf-case--tutela .tutela-persona {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        "name"
+        "lists"
+        "insight";
+    }
+
+    .pdf-case--tutela .tutela-persona-lists,
+    .pdf-case--tutela .tutela-treatment,
+    .pdf-case--tutela .tutela-approaches ul,
+    .pdf-case--tutela .tutela-massage,
+    .pdf-case--tutela .tutela-summary dl {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela .tutela-approaches ul,
+    .pdf-case--tutela .tutela-challenges ul {
+      padding: 1.25rem;
+      clip-path: none;
+    }
+
+    .pdf-case--tutela .tutela-massage > figure:first-child img.project-image {
+      width: 12rem;
+    }
+
+    .pdf-case--tutela .tutela-treatment {
+      gap: var(--pdf-space);
+    }
+
+    .pdf-case--tutela .tutela-proto-strip {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .pdf-case--tutela .tutela-summary {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case--tutela .tutela-summary dl {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* ---------- EchoBloom ---------- */
+  /* Rose palette from the poster: mauve headings, soft pink surfaces, one
+     orange-tinted callout. All text colours are checked at ≥ 4.5:1. */
+  .pdf-case--echobloom {
+    --pdf-ink: #3a2a37;
+    --pdf-muted: #7a5e72;
+    --pdf-heading: #a8457e;
+    --pdf-blue: #9a3d73;
+    --pdf-bright: #ad4a84;
+    --pdf-subtitle: #c06a9c;
+    --pdf-surface: #fbeef2;
+    --pdf-surface-alt: #fde8df;
+    --pdf-callout-ink: #a9461f;
+    --pdf-panel: linear-gradient(180deg, #fdf3f5 0%, #fbe8ec 100%);
+    --pdf-line: #efc9d6;
+    --pdf-tag: #ad4a84;
+    --pdf-highlight: #b9542b;
+  }
+
+  /* Background: one sentence beside one poster figure, vertically centred */
+  .pdf-case--echobloom .eb-bg-row {
+    align-items: center;
+  }
+
+  .pdf-case--echobloom .eb-bg-figure img.project-image {
+    border-radius: 0.5rem;
+  }
+
+  /* Approach: the poster's question keeps its bulb icon; the callout keeps
+     the poster's orange tint */
+  .pdf-case--echobloom .pdf-card--callout {
+    font-weight: 500;
+  }
+
+  .pdf-case--echobloom .pdf-card--callout strong {
+    color: var(--pdf-highlight);
+  }
+
+  .pdf-case--echobloom .eb-scenario {
+    margin-top: 0.25rem;
+  }
+
+  /* Prototyping process: numbered steps. Steps 1–2 sit side by side (text
+     above the figure); the others run text beside their figure(s). */
+  .pdf-case--echobloom .eb-steps {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2rem var(--pdf-gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: eb-step;
+  }
+
+  .pdf-case--echobloom .eb-steps > li {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: 2.25rem 14rem minmax(0, 1fr);
+    column-gap: 1.25rem;
+    align-items: center;
+    min-width: 0;
+    counter-increment: eb-step;
+  }
+
+  .pdf-case--echobloom .eb-steps > li::before {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    align-self: start;
+    border-radius: 50%;
+    background: var(--pdf-surface);
+    color: var(--pdf-blue);
+    content: counter(eb-step);
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .pdf-case--echobloom .eb-steps > li.eb-step--half {
+    grid-column: auto;
+    grid-template-columns: 2.25rem minmax(0, 1fr);
+    row-gap: 0.75rem;
+    align-items: start;
+  }
+
+  .pdf-case--echobloom .eb-steps > li.eb-step--half > .eb-step-text {
+    min-height: 3rem; /* two title lines, so both figures start level */
+  }
+
+  .pdf-case--echobloom .eb-steps > li.eb-step--half > .eb-step-figure {
+    grid-column: 1 / -1;
+    width: min(100%, var(--w, 100%));
+  }
+
+  .pdf-case--echobloom .eb-step-text {
+    display: grid;
+    align-self: start;
+    gap: 0.75rem;
+  }
+
+  .pdf-case--echobloom .eb-step-text > p {
+    color: var(--pdf-blue);
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.3;
+    text-wrap: pretty;
+  }
+
+  .pdf-case--echobloom .eb-step-figure {
+    width: min(100%, var(--w, 100%));
+  }
+
+  .pdf-case--echobloom .eb-step-strip {
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  /* The two p5 editor links from the poster, as small pills */
+  .pdf-case--echobloom .eb-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pdf-case--echobloom .eb-links a {
+    display: inline-block;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    background: var(--pdf-surface);
+    color: var(--pdf-blue);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* Prettier puts link and caption text on its own line, so MDX wraps it in
+     <p>; keep those inline */
+  .pdf-case--echobloom :is(.eb-links a, .eb-button, .eb-states figcaption) p {
+    display: inline;
+    margin: 0;
+    font: inherit;
+    color: inherit;
+  }
+
+  .pdf-case--echobloom .eb-links a:hover {
+    background: var(--pdf-line);
+  }
+
+  /* App concept: the poster's three-screen panel, centred */
+  .pdf-case--echobloom .eb-app {
+    width: min(100%, 34rem);
+    margin-inline: auto;
+  }
+
+  .pdf-case--echobloom .eb-exhibition {
+    width: min(100%, 44rem);
+    margin-inline: auto;
+  }
+
+  /* Live demo: the four states on the demo's own background colours */
+  .pdf-case--echobloom .eb-states {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .pdf-case--echobloom .eb-states > li {
+    min-width: 0;
+  }
+
+  .pdf-case--echobloom .eb-states figure {
+    gap: 0;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: var(--bg, #222);
+  }
+
+  .pdf-case--echobloom .eb-states img.project-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 0.85;
+    padding: 0.75rem;
+    border-radius: 0;
+    object-fit: contain;
+  }
+
+  .pdf-case--echobloom .eb-states figcaption {
+    padding: 0.55rem 0.75rem 0.7rem;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .pdf-case--echobloom .eb-states figcaption [lang="zh"] {
+    margin-right: 0.4rem;
+    font-size: 1.05rem;
+  }
+
+  .pdf-case--echobloom .eb-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 1.25rem;
+  }
+
+  .pdf-case--echobloom .eb-cta p {
+    color: var(--pdf-muted);
+    font-size: 0.9rem;
+  }
+
+  .pdf-case--echobloom .eb-button {
+    display: inline-block;
+    padding: 0.65rem 1.25rem;
+    border-radius: 999px;
+    background: var(--pdf-bright);
+    color: #fff;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .pdf-case--echobloom .eb-button:hover {
+    background: var(--pdf-blue);
+  }
+
+  @media (max-width: 56rem) {
+    .pdf-case--echobloom .eb-steps {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pdf-case--echobloom .eb-steps > li {
+      grid-template-columns: 2.25rem minmax(0, 1fr);
+      row-gap: 0.75rem;
+    }
+
+    .pdf-case--echobloom .eb-steps > li > :nth-child(2) {
+      grid-column: 1 / -1;
+    }
+
+    .pdf-case--echobloom .eb-states {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .pdf-case--echobloom .eb-step-strip {
+      flex-wrap: wrap;
+    }
+
+    .pdf-case--echobloom .eb-step-strip > li {
+      flex-basis: 100%;
+    }
+  }
+</style>

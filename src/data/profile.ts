@@ -5,12 +5,17 @@ export const profileData = {
   name: "Yuanqian(Ayla) Liu",
   role: "UX Designer & Design Engineer",
   statement:
-    "I design and prototype research-driven software experiences that make emerging technologies understandable, useful, and human.",
+    "I work across design, engineering and research — building apps, wearables and interactive prototypes, and studying how people actually use them.",
   approach:
     "My work moves between research, interaction design, and prototyping. I use research to identify the decisions that matter, design to make complex systems legible, and prototypes to test how an experience should feel—not only how it should look.",
   about: {
-    heading: "Hi, I’m Yuanqian(Ayla).",
-    body: "My interests span human–computer interaction (HCI), design engineering, and data visualization, with a focus on helping people understand complex information and make informed decisions.",
+    heading: "Hi, I’m Yuanqian (Ayla).",
+    // Second line of About Me: field | linked programme.
+    field: "HCI & Information Science",
+    program: {
+      label: "MSI @UMich",
+      url: "https://www.si.umich.edu/programs/master-science-information",
+    },
     // Replace the imported photo above to update the sidebar portrait.
     portrait: portrait as ImageMetadata | undefined,
     portraitAlt: "Yuanqian(Ayla) Liu smiling in a portrait.",

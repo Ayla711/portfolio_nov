@@ -1,6 +1,6 @@
 ---
 title: EchoBloom
-summary: A mobile experience that turns fragments of commute noise into personal music clips and reactive visual memories.
+summary: A creative-coding project that turns commute noise into music clips and visuals.
 year: 2025
 role: Creative Coder & Product Designer
 team: Independent project
@@ -9,10 +9,10 @@ platforms:
   - Mobile
   - Creative coding
 capabilities:
+  - Creative Coding
+  - ML Prototyping
   - Product Design
   - Interaction Design
-  - Creative Coding
-  - Machine Learning Prototyping
 technologies:
   - Teachable Machine
   - UrbanSound8K
@@ -20,8 +20,9 @@ technologies:
   - p5.js
 status: published
 detailPage: true
+caseStudyType: pdf
 featuredOrder: 20
-presentation: standard
+presentation: compact
 home:
   challenge: Most commute tools mask urban noise; EchoBloom transforms it into a creative input.
   contributions:
@@ -30,108 +31,387 @@ home:
   outcome: A functional prototype for turning everyday routes into saved sound-and-motion artifacts.
 cover: ../../assets/projects/echobloom/cover.png
 coverAlt: EchoBloom mobile interface surrounded by sound-classification, code, and music-generation tools.
+heroCover: ../../assets/projects/echobloom/cover-hero.jpg
 homeSecondary:
   image: ../../assets/projects/echobloom/build-process.png
   alt: EchoBloom workflow connecting urban sound capture, machine-learning classification, and music generation.
+pdfPage:
+  tagline: Teaching an app to hear the commute and play it back as music.
+  facts:
+    - label: Role
+      value: Solo designer — creative coding, app design, prototyping, testing
+    - label: Type
+      value: Personal project
+    - label: Timeline
+      value: Jul–Oct 2025
+    - label: Tools
+      value: Teachable Machine, UrbanSound8K, Suno, p5.js, ml5.js
+  rail:
+    - id: at-a-glance
+      label: Overview
+    - id: background
+      label: Challenge
+    - id: approach
+      label: Approach
+    - id: process
+      label: Process
+    - id: app-concept
+      label: App concept
+    - id: live-demo
+      label: Live demo
 ---
 
-import buildProcess from "../../assets/projects/echobloom/build-process.png";
-import interfaceStates from "../../assets/projects/echobloom/interface-states.png";
+import population from "../../assets/projects/echobloom/population.jpg";
+import skyStudies from "../../assets/projects/echobloom/sky-studies.jpg";
+import scenario from "../../assets/projects/echobloom/scenario.jpg";
+import step1Record from "../../assets/projects/echobloom/step1-record.jpg";
+import step2Teachable from "../../assets/projects/echobloom/step2-teachable.jpg";
+import step3Suno from "../../assets/projects/echobloom/step3-suno.jpg";
+import urbanSound8k from "../../assets/projects/echobloom/urbansound8k.jpg";
+import step4P5 from "../../assets/projects/echobloom/step4-p5.jpg";
+import step4Spectrograms from "../../assets/projects/echobloom/step4-spectrograms.jpg";
+import step5Mvp from "../../assets/projects/echobloom/step5-mvp.jpg";
+import appScreens from "../../assets/projects/echobloom/app-concept.jpg";
+import stateSway from "../../assets/projects/echobloom/state-sway.png";
+import stateLeap from "../../assets/projects/echobloom/state-leap.png";
+import statePulse from "../../assets/projects/echobloom/state-pulse.png";
+import stateDrift from "../../assets/projects/echobloom/state-drift.png";
+import exhibition from "../../assets/projects/echobloom/exhibition.jpg";
 
-<CaseSection id="overview" kind="overview">
-  EchoBloom began with a familiar commute problem: traffic, crowds, and
-  mechanical noise accumulate into irritation before the day has properly
-  started. Instead of designing another noise-blocking tool, I explored whether
-  those unwanted sounds could become raw material for something personal.
+<section id="at-a-glance" class="pdf-chapter">
+<div class="pdf-glance">
 
-<RoleBreakdown>
-  I defined the product loop, trained and tested the sound-classification model,
-  connected the creative tools, coded the reactive visuals, and designed the
-  mobile interface.
-</RoleBreakdown>
+## At a glance
 
-The concept records a short sound, recognizes its likely category, transforms
-the result into music and motion, and saves that output as a small memory of a
-specific place and time.
+<dl>
+  <div>
+    <dt>Problem</dt>
+    <dd>
+      Commuting wears down body and mind; at least 20% of people live with
+      unhealthy traffic noise.
+    </dd>
+  </div>
+  <div>
+    <dt>Idea</dt>
+    <dd>
+      Instead of blocking the noise, record it, recognise it, and turn it into
+      music and motion.
+    </dd>
+  </div>
+  <div>
+    <dt>Build</dt>
+    <dd>
+      Teachable Machine and UrbanSound8K label the sound; Suno and p5.js turn it
+      into clips and visuals.
+    </dd>
+  </div>
+  <div>
+    <dt>Outcome</dt>
+    <dd>
+      An app concept with a three-screen flow, plus a live browser demo shown at
+      an exhibition.
+    </dd>
+  </div>
+</dl>
 
-</CaseSection>
+</div>
+</section>
 
-<CaseSection id="insight" kind="insight">
-  The opportunity was not to make the commute silent. Silence would erase the
-  context that made each moment distinct. The more interesting direction was
-  to give the user authorship over the same stimulus that had been wearing them
-  down.
+<section id="background" class="pdf-chapter">
 
-  <InsightQuote>
-    A frustrating sound can become meaningful when the user can identify it,
-    transform it, and keep the result.
-  </InsightQuote>
-</CaseSection>
+## Background
 
-<CaseSection id="decisions" kind="decisions" layout="wide">
-  I organized the experience around one short, explainable chain rather than a
-  feature-heavy music app. Teachable Machine and the UrbanSound8K categories
-  provided a rough sound label; Suno supported musical exploration; p5.js
-  translated the result into color and motion.
+<div class="pdf-row eb-bg-row" style="--split: minmax(0, 1fr) 14rem">
+<div class="pdf-block">
 
-<ProcessGallery caption="Each tool has one visible job in the user-facing loop.">
-  <article>
-    <strong>Record</strong>
-    <p>Capture a brief fragment from the user’s current environment.</p>
-  </article>
-  <article>
-    <strong>Recognize</strong>
-    <p>Classify the dominant noise pattern and expose the result.</p>
-  </article>
-  <article>
-    <strong>Transform</strong>
-    <p>Use the label as a prompt and map audio properties into motion.</p>
-  </article>
-  <article>
-    <strong>Remember</strong>
-    <p>Save the music-and-visual pair as a personal commute artifact.</p>
-  </article>
-</ProcessGallery>
+### Relentless Noise
 
-  <MediaFigure
-    label="Build pipeline"
-    caption="The rough pipeline moved from field recording to classification and generated music before interface refinement."
+<div class="pdf-lead">
+
+Commuting wears down the body and mind, with **20% of the population**
+suffering from unhealthy traffic noise levels.
+
+</div>
+
+</div>
+<figure class="eb-bg-figure">
+  <ProjectImage
+    src={population}
+    alt="Pictogram of ten people with two highlighted: at least 20% of the population is affected by unhealthy levels of noise due to road, rail and air traffic."
+    sizes="(max-width: 896px) 60vw, 224px"
+  />
+</figure>
+</div>
+
+<div class="pdf-row eb-bg-row" style="--split: minmax(0, 1fr) 14rem">
+<div class="pdf-block">
+
+### Inspiration: _La Veille du ciel_
+
+<div class="pdf-lead">
+
+A collection of 200+ sky studies that revealed the power of everyday
+moments, inspiring me to reclaim the commute time.
+
+</div>
+
+</div>
+<figure class="eb-bg-figure">
+  <ProjectImage
+    src={skyStudies}
+    alt="A page from La Veille du ciel: a hand-drawn meteorological observation chart above two small watercolour studies of a pink and orange evening sky."
+    sizes="(max-width: 896px) 60vw, 224px"
+  />
+</figure>
+</div>
+
+</section>
+
+<section id="approach" class="pdf-chapter">
+
+## Approach
+
+### 💡 How to _identify_ and _transform_ moments of frustration?
+
+<div class="pdf-card pdf-card--callout">
+
+I leveraged **Teachable Machine** and the **UrbanSound8K** dataset to
+identify noise patterns. The system then transforms these frustration
+points into fresh music and visuals.
+
+</div>
+
+#### User Scenario
+
+<figure class="eb-scenario">
+  <ProjectImage
+    src={scenario}
+    alt="Storyboard in two columns. Before: Mina is overwhelmed by urban noise — honking, roaring, and crowds; irritated and restless, she mindlessly scrolls to escape; she arrives at work drained and weary. After, with EchoBloom: the noise transforms into a living rhythm; the ordinary route becomes a creative journey of music and colour; she arrives at work refreshed and inspired."
+    sizes="(max-width: 896px) 92vw, 832px"
+  />
+</figure>
+
+</section>
+
+<section id="process" class="pdf-chapter">
+
+## Prototyping Process
+
+<ol class="eb-steps">
+  <li class="eb-step--half">
+    <div class="eb-step-text">
+      <p>Encounter noise &amp; record it in EchoBloom</p>
+    </div>
+    <figure class="eb-step-figure" style="--w: 72%">
+      <ProjectImage
+        src={step1Record}
+        alt="Illustration of a commuter in a pink hoodie and headphones holding up a phone to record, with railway tracks and city buildings behind her."
+        sizes="(max-width: 896px) 66vw, 290px"
+      />
+    </figure>
+  </li>
+  <li class="eb-step--half">
+    <div class="eb-step-text">
+      <p>Identify noise with Teachable Machine</p>
+    </div>
+    <figure class="eb-step-figure">
+      <ProjectImage
+        src={step2Teachable}
+        alt="Teachable Machine audio project: recorded samples for the classes shake, clap and knock, the trained model, and a live preview panel listing UrbanSound8K classes with confidence bars."
+        sizes="(max-width: 896px) 92vw, 400px"
+      />
+    </figure>
+  </li>
+  <li>
+    <div class="eb-step-text">
+      <p>Sync transformed noise with SUNO</p>
+    </div>
+    <ul class="pdf-strip eb-step-strip">
+      <li style="--r: 1.89">
+        <figure>
+          <ProjectImage
+            src={step3Suno}
+            alt="Suno workspace with a song description prompt and generated tracks such as “Burning Through the Sky” and “Falling Into Fire”."
+            sizes="(max-width: 896px) 55vw, 320px"
+          />
+        </figure>
+      </li>
+      <li style="--r: 1.81">
+        <figure>
+          <ProjectImage
+            src={urbanSound8k}
+            alt="UrbanSound8K taxonomy tree branching from music, social signals, motorised transport and mechanical sounds down to classes such as siren, car horn, engine idling and air conditioner."
+            sizes="(max-width: 896px) 37vw, 300px"
+          />
+          <figcaption>UrbanSound8K taxonomy</figcaption>
+        </figure>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <div class="eb-step-text">
+      <p>Upload music files and create syncing motion graphics in p5.js</p>
+      <ul class="eb-links">
+        <li>
+          <a
+            href="https://editor.p5js.org/erised171585640/sketches/h1Rcm7ZRV"
+            target="_blank"
+            rel="noopener"
+          >
+            Functional Prototype ↗
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://editor.p5js.org/erised171585640/sketches/MfYLhtVPZ"
+            target="_blank"
+            rel="noopener"
+          >
+            Visual Prototype 👀 ↗
+          </a>
+        </li>
+      </ul>
+    </div>
+    <ul class="pdf-strip eb-step-strip">
+      <li style="--r: 1.95">
+        <figure>
+          <ProjectImage
+            src={step4P5}
+            alt="p5.js web editor with the sketch source on the left and a live preview of a warm-palette streaming spectrogram on the right."
+            sizes="(max-width: 896px) 58vw, 360px"
+          />
+        </figure>
+      </li>
+      <li style="--r: 1.37">
+        <figure>
+          <ProjectImage
+            src={step4Spectrograms}
+            alt="Three spectrogram cards in cool, warm and vivid palettes, analysing FFT loudness and mapping it to colour."
+            sizes="(max-width: 896px) 34vw, 250px"
+          />
+          <figcaption>FFT and loudness mapped to colour palettes</figcaption>
+        </figure>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <div class="eb-step-text">
+      <p>
+        Tested the rough prototype to decide which functions and UI to design
+        next
+      </p>
+    </div>
+    <figure class="eb-step-figure">
+      <ProjectImage
+        src={step5Mvp}
+        alt="Video still of the initial MVP running on a laptop while a hand claps in front of it; the caption reads “Initial MVP that identifies clapping, knocking, shaking”, with early phone wireframes in the corner."
+        sizes="(max-width: 896px) 92vw, 544px"
+      />
+    </figure>
+  </li>
+</ol>
+
+</section>
+
+<section id="app-concept" class="pdf-chapter">
+
+## App Concept
+
+<figure class="eb-app">
+  <ProjectImage
+    src={appScreens}
+    alt="Three EchoBloom phone screens. Record sound and generate music or animation; review your personal moment of reconstructed music and motion; save and share your unique EchoBloom pieces."
+    sizes="(max-width: 896px) 92vw, 544px"
+  />
+</figure>
+
+</section>
+
+<section id="live-demo" class="pdf-chapter">
+
+## Live Demo
+
+<div class="pdf-lead">
+
+Alongside the app concept, I built a browser version of the loop with
+p5.js and ml5.js so people could try it in person. It listens through the
+microphone, classifies the sound with a Teachable Machine model, and
+answers with a music clip and an animation for one of four moods.
+
+</div>
+
+<ul class="eb-states">
+  <li style="--bg: #1e3755">
+    <figure>
+      <ProjectImage
+        src={stateSway}
+        alt="Sway: a painted orange jar filled with water, flanked by blue ripple shapes."
+        sizes="(max-width: 896px) 45vw, 240px"
+      />
+      <figcaption>
+        <span lang="zh">荡漾</span> Sway
+      </figcaption>
+    </figure>
+  </li>
+  <li style="--bg: #501e37">
+    <figure>
+      <ProjectImage
+        src={stateLeap}
+        alt="Leap: a burst of painted rubber ducks, stars and confetti shapes."
+        sizes="(max-width: 896px) 45vw, 240px"
+      />
+      <figcaption>
+        <span lang="zh">雀跃</span> Leap
+      </figcaption>
+    </figure>
+  </li>
+  <li style="--bg: #553c1e">
+    <figure>
+      <ProjectImage
+        src={statePulse}
+        alt="Pulse: a red hand clapper surrounded by rays of striped colour."
+        sizes="(max-width: 896px) 45vw, 240px"
+      />
+      <figcaption>
+        <span lang="zh">律动</span> Pulse
+      </figcaption>
+    </figure>
+  </li>
+  <li style="--bg: #3c1e46">
+    <figure>
+      <ProjectImage
+        src={stateDrift}
+        alt="Drift: a grey whale with soap bubbles and a shower of confetti above it."
+        sizes="(max-width: 896px) 45vw, 240px"
+      />
+      <figcaption>
+        <span lang="zh">放空</span> Drift
+      </figcaption>
+    </figure>
+  </li>
+</ul>
+
+<div class="eb-cta">
+  <a
+    class="eb-button"
+    href="https://ayla711.github.io/EchoBloom/"
+    target="_blank"
+    rel="noopener"
   >
-    <ProjectImage
-      src={buildProcess}
-      alt="EchoBloom build sequence showing field recording, Teachable Machine sound categories, and a Suno music-generation workspace."
-    />
-  </MediaFigure>
-</CaseSection>
+    Open live demo ↗
+  </a>
+  <p>Needs a microphone; works best in Chrome.</p>
+</div>
 
-<CaseSection id="prototype" kind="prototype" layout="wide">
-  The mobile flow was reduced to three moments: record and generate, review the
-  reconstructed music with reactive motion, then save or share the result. The
-  visual layer intentionally feels atmospheric rather than analytical; model
-  status and controls remain secondary to the emotional payoff.
+<figure class="eb-exhibition">
+  <ProjectImage
+    src={exhibition}
+    alt="Exhibition desk with a large monitor showing the EchoBloom demo in its Pulse state; in front of it sit rubber ducks, a water bottle, a red hand clapper and a small whale toy."
+    sizes="(max-width: 896px) 92vw, 832px"
+  />
+  <figcaption>
+    The demo at the exhibition, caught in the Pulse state.
+  </figcaption>
+</figure>
 
-  <MediaFigure
-    label="Core interface"
-    caption="Recording, playback, and saved memories form the complete first-release experience."
-  >
-    <ProjectImage
-      src={interfaceStates}
-      alt="Three EchoBloom phone screens for recording a sound, reviewing generated music, and viewing saved music palettes."
-    />
-  </MediaFigure>
-</CaseSection>
-
-<CaseSection id="reflection" kind="reflection">
-  The prototype proves the creative loop, but it does not yet establish robust
-  real-world sound recognition or seamless generation latency. A production
-  version would need clearer consent around environmental recording, graceful
-  handling of uncertain classifications, and a faster preview before full
-  music generation.
-
-  <ReflectionBlock title="The technology is most useful when it changes the user’s relationship to the moment.">
-    EchoBloom strengthened my ability to move between code, model behavior, and
-    interaction design. The next test should compare whether transformation
-    actually improves commute mood over repeated use—not only whether the
-    output feels novel once.
-  </ReflectionBlock>
-</CaseSection>
+</section>

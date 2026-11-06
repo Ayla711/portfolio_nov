@@ -95,7 +95,19 @@ const sections = [
     font-size: 0.95rem;
     font-weight: 550;
     text-decoration: none;
-    transition: color var(--duration-fast) ease;
+    transition:
+      color var(--duration-fast) ease,
+      filter var(--duration-fast) ease,
+      opacity var(--duration-fast) ease;
+  }
+
+  /* On the home page the other sections sit slightly out of focus; project
+     pages have no current section, so nothing blurs there. Hover and focus
+     bring a link back into focus. */
+  .site-navigation:has([aria-current])
+    a:not([aria-current]):not(:hover):not(:focus-visible) {
+    filter: blur(1.1px);
+    opacity: 0.7;
   }
 
   a:hover,

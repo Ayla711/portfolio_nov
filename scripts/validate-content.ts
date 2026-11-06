@@ -7,8 +7,10 @@ type ProjectData = {
   title?: string;
   status?: "draft" | "published" | "archived";
   detailPage?: boolean;
-  caseStudyType?: "design" | "research" | "coursework" | "video";
+  externalUrl?: string;
+  caseStudyType?: "design" | "research" | "coursework" | "video" | "pdf";
   heroVideo?: { provider: string; id: string; title: string };
+  pdfPage?: { rail?: { id?: string; label?: string }[] };
   featuredOrder?: number;
   presentation?: "hero" | "standard" | "compact";
   previewVideo?: string;
@@ -51,7 +53,12 @@ export function validateProjectRecords(
       );
     }
 
-    if (isPublished && !isFeatured && data.detailPage === false) {
+    if (
+      isPublished &&
+      !isFeatured &&
+      data.detailPage === false &&
+      !data.externalUrl
+    ) {
       errors.push(
         `${project.id}: published project is unreachable from both homepage and detail routes.`,
       );
@@ -76,6 +83,26 @@ export function validateProjectRecords(
         errors.push(
           `${project.id}: video detail requires a valid YouTube heroVideo.`,
         );
+      }
+    } else if (data.caseStudyType === "pdf") {
+      // PDF-based pages follow the PDF's own chapters instead of the five
+      // template chapters; the rail lists 4–6 reading stops, each an existing
+      // <section id>.
+      const rail = data.pdfPage?.rail ?? [];
+      if (data.detailPage && rail.length === 0) {
+        errors.push(`${project.id}: PDF-based detail requires pdfPage.rail.`);
+      }
+      for (const stop of rail) {
+        const hasSection =
+          stop.id &&
+          new RegExp(`<section\\b[^>]*\\bid=["']${stop.id}["']`).test(
+            project.body,
+          );
+        if (!hasSection) {
+          errors.push(
+            `${project.id}: PDF rail stop "${stop.id}" needs a <section id="${stop.id}">.`,
+          );
+        }
       }
     } else if (data.detailPage) {
       if (!project.body.includes("<CaseSection")) {

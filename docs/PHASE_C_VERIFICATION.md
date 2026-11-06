@@ -1,5 +1,7 @@
 # Phase C Verification Record
 
+> **Historical snapshot.** This record describes an earlier phase of the project and is kept for reference only. It may mention the old `/portfolio` base, the placeholder origin, or outdated content. The site is now deployed at https://yuanqianayla.com/; see the README for the current setup.
+
 Date: 2026-08-28
 
 Phase C completes the reusable homepage project stream. Real projects and final media are intentionally deferred; the repository was restored to one published test project after verification.

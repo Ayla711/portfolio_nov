@@ -63,6 +63,16 @@ const { title, description, canonicalPath, compact = false } = Astro.props;
     font-size: clamp(2.75rem, 5vw, 4.5rem);
   }
 
+  /* Research / coursework titles are long: let them wrap on their own width
+     and keep them small enough that the last word never runs into the
+     summary column. */
+  .project-layout--compact :global(.project-hero--research h1) {
+    max-width: none;
+    font-size: clamp(2.25rem, 3.6vw, 3.25rem);
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
   .project-layout--compact :global(.hero-summary) {
     max-width: none;
     margin: 0;
@@ -76,6 +86,16 @@ const { title, description, canonicalPath, compact = false } = Astro.props;
     justify-self: center;
     aspect-ratio: 16 / 9;
     border: 0;
+  }
+
+  /* An image hero keeps the image's own 16:10 frame; the 16:9 frame above is
+     for YouTube embeds. */
+  .project-layout--compact :global(.hero-media:has(img)) {
+    aspect-ratio: 16 / 10;
+  }
+
+  .project-layout--compact :global(.hero-media img) {
+    height: 100%;
   }
 
   .project-layout--compact :global(.hero-media iframe) {
@@ -153,6 +173,12 @@ const { title, description, canonicalPath, compact = false } = Astro.props;
 
   .project-layout--compact :global(.back-link) {
     grid-column: auto;
+  }
+
+  /* With both previous and next links, "Back to …" is alone on the second
+     row; let it span so its rule runs the full width. */
+  .project-layout--compact :global(.project-links a:nth-child(2) + .back-link) {
+    grid-column: 1 / -1;
   }
 
   @media (max-width: 48rem) {

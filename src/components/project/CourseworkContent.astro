@@ -80,6 +80,25 @@ const { id, title } = Astro.props;
     margin: 0;
   }
 
+  /* Two screenshots at the same height: each figure grows in proportion to
+     its image's width/height ratio (--r1, --r2 set in the MDX). */
+  .coursework-body :global(.coursework-figure-pair--equal) {
+    display: flex;
+    align-items: flex-start;
+    width: min(100%, 30rem);
+    margin-inline: auto;
+  }
+
+  .coursework-body
+    :global(.coursework-figure-pair--equal > figure:nth-child(1)) {
+    flex: var(--r1, 1) 1 0;
+  }
+
+  .coursework-body
+    :global(.coursework-figure-pair--equal > figure:nth-child(2)) {
+    flex: var(--r2, 1) 1 0;
+  }
+
   .coursework-body :global(figcaption) {
     display: block;
     font-size: 0.875rem;

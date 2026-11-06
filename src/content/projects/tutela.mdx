@@ -19,6 +19,7 @@ technologies:
   - TPU fabrication
 status: published
 detailPage: true
+caseStudyType: pdf
 featuredOrder: 50
 presentation: compact
 home:
@@ -32,69 +33,1087 @@ coverAlt: Transparent Tutela abdominal patch worn discreetly with a smartwatch s
 homeSecondary:
   image: ../../assets/projects/tutela/home-secondary.png
   alt: Tutela structure, user flow, and product-testing results from the original portfolio case study.
+pdfPage:
+  tagline: A discreet IBS patch combining stress sensing with heat and pneumatic relief.
+  hideHeroMedia: true
+  facts:
+    - label: Role
+      value: Solo designer — research, industrial & interaction design, prototyping, testing
+    - label: Type
+      value: Self-initiated project
+    - label: Timeline
+      value: Jul–Oct 2025
+    - label: Methods
+      value: Desk research, social-media data analysis, interviews, Arduino prototyping, user testing
+  rail:
+    - id: at-a-glance
+      label: Overview
+    - id: background
+      label: Challenge
+    - id: product-analysis
+      label: Opportunity
+    - id: ideation
+      label: Solution
+    - id: testing
+      label: Validation
 ---
 
-import productSystem from "../../assets/projects/tutela/home-secondary.png";
+import ibsSymptoms from "../../assets/projects/tutela/ibs-symptoms.jpg";
+import wordCloud from "../../assets/projects/tutela/word-cloud.jpg";
+import ibsGlobal from "../../assets/projects/tutela/ibs-global.jpg";
+import ibsAdolescents from "../../assets/projects/tutela/ibs-adolescents.jpg";
+import studentQuote from "../../assets/projects/tutela/student-quote.jpg";
+import gutBrainAxis from "../../assets/projects/tutela/gut-brain-axis.jpg";
+import sentimentChart from "../../assets/projects/tutela/sentiment-chart.jpg";
+import keywordNetwork from "../../assets/projects/tutela/keyword-network.jpg";
+import interviews from "../../assets/projects/tutela/interviews.jpg";
+import avatarSunny from "../../assets/projects/tutela/avatar-sunny.png";
+import avatarGrace from "../../assets/projects/tutela/avatar-grace.png";
+import journeyMap from "../../assets/projects/tutela/journey-map.jpg";
+import prodBlanket from "../../assets/projects/tutela/prod-blanket.jpg";
+import prodMoonbird from "../../assets/projects/tutela/prod-moonbird.jpg";
+import prodWearables from "../../assets/projects/tutela/prod-wearables.jpg";
+import prodLectrofan from "../../assets/projects/tutela/prod-lectrofan.jpg";
+import prodDiffuser from "../../assets/projects/tutela/prod-diffuser.jpg";
+import prodHeatingPad from "../../assets/projects/tutela/prod-heating-pad.jpg";
+import digestible from "../../assets/projects/tutela/digestible.jpg";
+import monitoringTech from "../../assets/projects/tutela/monitoring-tech.jpg";
+import ideationMindmap from "../../assets/projects/tutela/ideation-mindmap.jpg";
+import prototypeSetup from "../../assets/projects/tutela/prototype-setup.jpg";
+import arduinoCode from "../../assets/projects/tutela/arduino-code.jpg";
+import emgTest from "../../assets/projects/tutela/emg-test.jpg";
+import patchSurvey from "../../assets/projects/tutela/patch-survey.jpg";
+import massageDiagram from "../../assets/projects/tutela/massage-diagram.jpg";
+import abdominalRegions from "../../assets/projects/tutela/abdominal-regions.jpg";
+import sketch from "../../assets/projects/tutela/sketch.jpg";
+import tutelaCircles from "../../assets/projects/tutela/tutela-circles.jpg";
+import basicStructure from "../../assets/projects/tutela/basic-structure.jpg";
+import explodedView from "../../assets/projects/tutela/exploded-view.jpg";
+import renderingBlender from "../../assets/projects/tutela/rendering-blender.jpg";
+import renderingFinal from "../../assets/projects/tutela/rendering-final.jpg";
+import flowWear from "../../assets/projects/tutela/flow-wear.jpg";
+import flowWatch from "../../assets/projects/tutela/flow-watch.jpg";
+import flowScent from "../../assets/projects/tutela/flow-scent.jpg";
+import flowSchool from "../../assets/projects/tutela/flow-school.jpg";
+import flowPulse from "../../assets/projects/tutela/flow-pulse.jpg";
+import flowLogs from "../../assets/projects/tutela/flow-logs.jpg";
+import productDisplay from "../../assets/projects/tutela/product-display.jpg";
 
-<CaseSection id="overview" kind="overview">
-  Tutela explores how a wearable device could support teenagers living with
-  irritable bowel syndrome without making a private condition more visible. The
-  concept combines stress-related sensing with heat and pneumatic relief in a
-  discreet abdominal patch connected to a smartwatch.
+<section id="at-a-glance" class="pdf-chapter">
+<div class="pdf-glance">
 
-  <RoleBreakdown>
-    I conducted the user and expert research, translated the findings into the
-    product concept and interaction flow, and prototyped the sensing and
-    pneumatic behavior with Arduino, EMG components, and TPU fabrication.
-  </RoleBreakdown>
-</CaseSection>
+## At a glance
 
-<CaseSection id="insight" kind="insight">
-  The central design requirement was discretion. Support needed to work under
-  clothing, fit everyday school routines, and give the wearer control over when
-  relief or alerts appeared instead of publicly signaling a health condition.
+<div class="pdf-glance-note">
 
-  <InsightQuote>
-    A health wearable can only feel supportive when the user controls its
-    visibility, timing, and intensity.
-  </InsightQuote>
-</CaseSection>
+The name _Tutela_ comes from Latin, meaning protection, care, and guardianship.
 
-<CaseSection id="decisions" kind="decisions" layout="wide">
-  I organized the system around a lightweight adhesive patch and a connected
-  smartwatch. The patch combines sensing, heating, air passages, and pneumatic
-  chambers, while the watch handles status feedback and adjustable alert
-  thresholds. Replaceable scent pads were explored as an optional calming cue,
-  not a required part of the core interaction.
-</CaseSection>
+</div>
 
-<CaseSection id="prototype" kind="prototype" layout="wide">
-  The physical prototype was used to examine component placement, pneumatic
-  behavior, and how the form could sit beneath clothing. Early user feedback
-  highlighted two practical risks: security during movement and differences in
-  heat sensitivity. These findings led to a skin-safe adhesive or support band
-  and personalized thresholds as the next design priorities.
+<dl>
+  <div>
+    <dt>Problem</dt>
+    <dd>
+      IBS flares with stress, and 39.4% of Chinese teens report symptoms,
+      especially before exams.
+    </dd>
+  </div>
+  <div>
+    <dt>Research</dt>
+    <dd>
+      RedNote posts and two interviews showed stigma keeps teens silent, so
+      support must be discreet.
+    </dd>
+  </div>
+  <div>
+    <dt>Design</dt>
+    <dd>
+      An abdominal TPU patch with EMG sensing, heat, air pulses and scent,
+      prototyped on Arduino.
+    </dd>
+  </div>
+  <div>
+    <dt>Testing</dt>
+    <dd>
+      Concept tests flagged two concerns: patch security during movement and
+      varied heat sensitivity.
+    </dd>
+  </div>
+</dl>
 
-  <MediaFigure
-    label="System, flow, and testing"
-    caption="The prototype combines the patch structure, connected user flow, and the practical concerns surfaced during early testing."
-  >
+</div>
+</section>
+
+<section id="background" class="pdf-chapter">
+
+## Background
+
+<div class="pdf-row tutela-bg-row" style="--split: minmax(0, 1fr) minmax(0, 1.25fr)">
+<div class="pdf-block">
+
+### Why I focus on IBS...
+
+<div class="pdf-card tutela-card">
+
+**Irritable Bowel Syndrome (IBS)** is a functional gastrointestinal disorder characterized by recurring abdominal discomfort **without** clear structural causes. Beyond physical symptoms including abdominal pain, bloating, diarrhea, and constipation, IBS is strongly linked to **psychological stress and anxiety**.
+
+</div>
+
+</div>
+<div class="tutela-bg-figures">
+<ul class="pdf-strip tutela-bg-top">
+  <li style="--r: 1.15">
+    <figure>
+      <ProjectImage
+        src={ibsSymptoms}
+        alt="Cleveland Clinic illustration of six IBS symptoms: abdominal pain or cramps, excess gas and bloating, diarrhea, constipation, whitish mucus in stool, and feeling unable to empty the bowels."
+        widths={[240, 458]}
+        sizes="(max-width: 896px) 30vw, 150px"
+      />
+    </figure>
+  </li>
+  <li style="--r: 1.6">
+    <figure>
+      <ProjectImage
+        src={wordCloud}
+        alt="Word cloud of RedNote IBS posts, dominated by “irritable bowel syndrome” and “disease”, with words such as school, painful, leakage, dormitory, smelly, and suffer."
+        sizes="(max-width: 896px) 62vw, 400px"
+      />
+      <figcaption>RedNote (Xiaohongshu) IBS Posts – Word Cloud</figcaption>
+    </figure>
+  </li>
+</ul>
+</div>
+</div>
+
+<div class="pdf-row tutela-bg-row" style="--split: minmax(0, 1fr) minmax(0, 1.25fr)">
+<div class="pdf-block">
+
+### IBS in Adolescents
+
+<div class="pdf-card tutela-card">
+
+IBS disproportionately affects adolescents, especially under **academic stress**. In China, **39.4%** of adolescents report IBS symptoms, with prevalence rising sharply before exams, far higher than the overall national rate of **6.5%**.
+
+For teenagers, IBS is not only a medical condition, but **a social and emotional burden**.
+
+</div>
+
+</div>
+<div class="tutela-bg-charts">
+<figure class="tutela-bg-global">
+  <ProjectImage
+    src={ibsGlobal}
+    alt="Donut chart: 15% of the global population is affected by IBS. Subtypes: IBS-C, constipation-predominant, 34.5%; IBS-M, mixed bowel habits, 33.3%; IBS-D, diarrhea-predominant, 27.5%; IBS-U, unclassified, 4.7%."
+    sizes="(max-width: 896px) 92vw, 560px"
+  />
+</figure>
+<div class="tutela-bg-bottom">
+<figure>
+  <ProjectImage
+    src={ibsAdolescents}
+    alt="Donut chart: 39% of the adolescents in China are affected by IBS."
+    sizes="(max-width: 896px) 45vw, 260px"
+  />
+</figure>
+<div class="pdf-source">
+
+(Prevalence and Burden of Illness of Rome IV Irritable Bowel Syndrome in the United States: Results From a Nationwide Cross-Sectional Study, _Gastroenterology_, Volume 165, December 2023)
+
+</div>
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="research" class="pdf-chapter">
+
+## Research
+
+<div class="pdf-row" style="--split: 13.5rem minmax(0, 1fr)">
+<figure>
+  <ProjectImage
+    src={gutBrainAxis}
+    alt="Diagram of the microbiota–gut–brain axis linking altered brain barriers, circulating microbial metabolites, microbiota composition, and altered gut barriers, with environmental and host factors."
+    widths={[480, 998]}
+    sizes="(max-width: 896px) 60vw, 224px"
+  />
+  <figcaption>
+    (Gastrointestinal and brain barriers: unlocking gates of communication
+    across the microbiota-gut-brain axis)
+  </figcaption>
+</figure>
+<div class="pdf-col">
+<div class="pdf-block">
+
+### Gut–Brain Axis
+
+<div class="pdf-lead">
+
+Scientific consensus recognizes the link between **digestive health and emotional states**, though exact mechanisms remain debated.
+
+</div>
+
+</div>
+<div class="pdf-block">
+
+### Treatment Approaches & Challenges
+
+<div class="tutela-treatment">
+  <div class="tutela-approaches">
+    <ul>
+      <li>
+        <strong>
+          <span class="tutela-icon" aria-hidden="true">
+            💊
+          </span>
+          Medicines:
+        </strong>{" "}
+        antispasmodics, laxatives, anti-diarrheal pills, etc.
+      </li>
+      <li>
+        <strong>
+          <span class="tutela-icon" aria-hidden="true">
+            🧠
+          </span>
+          Psychological Support:
+        </strong>{" "}
+        CBT, mindfulness and breathing exercises
+      </li>
+      <li>
+        <strong>
+          <span class="tutela-icon" aria-hidden="true">
+            🥗
+          </span>
+          Food & Lifestyle:
+        </strong>{" "}
+        avoid trigger food, low-FODMAP diet, eat on schedule
+      </li>
+      <li>
+        <strong>
+          <span class="tutela-icon" aria-hidden="true">
+            🌱
+          </span>
+          Emerging Options:
+        </strong>{" "}
+        probiotics, support programs, digital tools
+      </li>
+    </ul>
+    <div class="tutela-axis">
+      <span>conventional, routine approach</span>{" "}
+      <span>updated, targeted approach</span>
+    </div>
+  </div>
+  <div class="tutela-challenges">
+    <ul>
+      <li>
+        <span class="tutela-icon" aria-hidden="true">
+          🔀
+        </span>
+        Individual Variation
+      </li>
+      <li>
+        <span class="tutela-icon" aria-hidden="true">
+          ❌
+        </span>
+        No Complete Cure
+      </li>
+      <li>
+        <span class="tutela-icon" aria-hidden="true">
+          😟
+        </span>
+        Stress & Stigma
+      </li>
+      <li>
+        <span class="tutela-icon" aria-hidden="true">
+          🎒
+        </span>
+        School Pressure
+      </li>
+    </ul>
+    <div class="tutela-axis">
+      <span>pressing challenges at present</span>
+    </div>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+<div class="pdf-block">
+
+### Data Insights into IBS Patient Emotions
+
+<ul class="tutela-insights">
+  <li>
+    <strong>Data Source:</strong> Xiaohongshu (RedNote) patient discussions.
+  </li>
+  <li>
+    <strong>Tools:</strong> Python, Tableau, and Gephi utilized for analysis.
+  </li>
+  <li>
+    <strong>Key Insight:</strong> Uncovered an emotion-driven community shaped
+    by <strong>collective distress</strong>.
+  </li>
+</ul>
+
+</div>
+
+<div class="tutela-data">
+<figure>
+  <ProjectImage
+    src={sentimentChart}
+    alt="Stacked bar chart of sentence sentiment in RedNote IBS posts and comments: 1,053 negative, 1,598 neutral, and 506 positive."
+    widths={[240, 425]}
+    sizes="(max-width: 576px) 30vw, 112px"
+  />
+  <figcaption>Sentence Sentiment Distribution</figcaption>
+</figure>
+<div class="tutela-data-text">
+
+Negative posts far outnumber positives → conversations center on venting, seeking help, and empathy, turning the platform into a shared-suffering space.
+
+</div>
+<figure>
+  <ProjectImage
+    src={keywordNetwork}
+    alt="Co-occurrence network of keywords from IBS posts, with stress, anxiety, stomach, bloating, and IBS near the centre and terms such as relief and regulation at the edges."
+    sizes="(max-width: 576px) 92vw, 380px"
+  />
+  <figcaption>Co-Occurrence Network of Keywords</figcaption>
+</figure>
+<div class="tutela-data-text">
+
+Core terms cluster around stress, anxiety, stomach, and bloating, showing a symptom-focused discourse. Relief or solution terms stay peripheral — highlighting a lack of healing narratives.
+
+</div>
+</div>
+
+</section>
+
+<section id="interview" class="pdf-chapter">
+
+## Interview
+
+<div class="tutela-interviews">
+  <div class="tutela-person">
+    <span class="tutela-tag">Asking User</span>
+    <blockquote>
+      I couldn’t relieve either the symptoms or the stress. No one could tell me
+      why.
+    </blockquote>
+    <ProjectImage src={avatarSunny} alt="" widths={[120, 297]} sizes="60px" />
+    <span class="tutela-name">Sunny</span>
+    <span class="tutela-desc">
+      Developed IBS during stressful boarding school years.
+    </span>
+  </div>
+  <div class="tutela-person">
+    <span class="tutela-tag">Asking Expert</span>
+    <blockquote>
+      Few people connect gut symptoms with needing mental health support.
+    </blockquote>
+    <ProjectImage src={avatarGrace} alt="" widths={[120, 297]} sizes="60px" />
+    <span class="tutela-name">Grace D</span>
+    <span class="tutela-desc">
+      Senior EAP Professional with 20+ years of experience in wellbeing.
+    </span>
+  </div>
+  <figure class="tutela-interview-photos">
     <ProjectImage
-      src={productSystem}
-      alt="Tutela exploded structure, smartwatch-connected user flow, physical prototype, and testing feedback about attachment and heat sensitivity."
+      src={interviews}
+      alt="Two interview photos: an in-person interview on a sofa, and an online interview over a video call on a laptop."
+      sizes="(max-width: 896px) 92vw, 330px"
     />
-  </MediaFigure>
-</CaseSection>
+    <figcaption>
+      In-person interview (top) and online interview (bottom)
+    </figcaption>
+  </figure>
+</div>
 
-<CaseSection id="reflection" kind="reflection">
-  The project demonstrates a tangible interaction direction, but it does not
-  yet establish reliable long-term sensing or wear. The next step would be an
-  extended study of comfort, attachment, personalized triggering, and safety
-  before treating the concept as a real health product.
+<div class="pdf-source">
 
-  <ReflectionBlock title="Discretion is part of the function, not a cosmetic layer.">
-    The strongest outcome was a clearer product principle: relief, sensing, and
-    feedback must remain adjustable and private if the wearable is expected to
-    fit into a teenager’s daily life.
-  </ReflectionBlock>
-</CaseSection>
+(Names are pseudonyms.)
+
+</div>
+
+<ol class="tutela-findings">
+  <li>
+    <h4>Physical Symptoms</h4>
+    <div>
+      Unpredictable stomach cramps, abdominal pain, gas, and sudden diarrhea.
+    </div>
+  </li>
+  <li>
+    <h4>Psychological Symptoms</h4>
+    <div>
+      Constant tension and social anxiety triggering symptoms, creating a cycle
+      of stress centered around exams and embarrassment.
+    </div>
+  </li>
+  <li>
+    <h4>CBT and Challenges</h4>
+    <div>
+      CBT helps change thought patterns, but its impact is limited when clients
+      withhold symptoms due to shame.
+    </div>
+  </li>
+  <li>
+    <h4>Low Public Awareness of Psychotherapy</h4>
+    <div>
+      Mind and body care remain divided in China; patients often struggle to
+      recognize the psychosomatic link themselves.
+    </div>
+  </li>
+</ol>
+
+</section>
+
+<section id="persona" class="pdf-chapter">
+
+## Persona
+
+<div class="tutela-persona-wrap">
+<figure class="tutela-persona-figure">
+  <ProjectImage
+    src={studentQuote}
+    alt="Illustration of a student at a desk with a speech bubble: “I just want a normal school life, like everyone else!”"
+    widths={[480, 1000]}
+    sizes="(max-width: 576px) 60vw, 200px"
+  />
+</figure>
+<div class="tutela-persona">
+<div class="tutela-persona-name">“The Stressed Student”</div>
+<div class="tutela-persona-lists">
+<div>
+
+### <span aria-hidden="true">🎓</span> Persona
+
+- Age: 13–19 | Under high academic pressure
+- IBS triggered by **stress <span aria-hidden="true">😣</span> and emotional tension <span aria-hidden="true">💭</span>**
+- School culture lacks emotional support
+
+</div>
+<div>
+
+### <span aria-hidden="true">🧠</span> Behaviors
+
+- Suppresses stress
+- Monitors symptoms around exams
+- Avoids talking about IBS <span aria-hidden="true">🤐</span>
+
+</div>
+<div>
+
+### <span aria-hidden="true">🎯</span> Pain Points
+
+- Symptoms flare with stress
+- No mental health guidance
+- Shame blocks help-seeking
+- Mind–body care remains disconnected
+
+</div>
+</div>
+<div class="tutela-insight">
+
+### <span aria-hidden="true">💡</span> Insight
+
+**Stigma drives silence** — support must be **discreet** to deliver **emotional** relief and **physical** healing.
+
+</div>
+</div>
+</div>
+
+</section>
+
+<section id="user-journey-map" class="pdf-chapter">
+
+## User Journey Map <span class="pdf-h2-sub">for teenagers living with IBS...</span>
+
+<figure>
+  <a class="pdf-zoom" href={journeyMap.src}>
+    <ProjectImage
+      src={journeyMap}
+      alt="User journey map for teenagers living with IBS across six stages: potential causes and early signs, decision to seek help, doctor visit and diagnosis, treatment and management, mental health overlay, and ongoing state. Rows show actions, a feelings curve, problems, and opportunities: monitor physiological signals (EMG/HRV) for symptom prevention, reduce stigma via education and lower diagnostic costs, integrate wearables to assist CBT, and track long-term symptoms with discreet, comfortable hardware. The map ends with risks of permanent withdrawal from school, leading to the focus on mental health: relieve stress and anxiety."
+      sizes="(max-width: 1100px) 92vw, 1024px"
+    />
+  </a>
+</figure>
+
+</section>
+
+<section id="product-analysis" class="pdf-chapter">
+
+## Product Analysis <span class="pdf-h2-sub">discovering effective stress-relief strategies</span>
+
+<div
+  class="tutela-table-wrap"
+  role="region"
+  aria-label="Comparison of stress-relieving products"
+  tabindex="0"
+>
+  <table class="tutela-products">
+    <thead>
+      <tr class="tutela-products-media">
+        <td></td>
+        <td>
+          <span class="tutela-brand">Gravity Blanket</span>
+          <ProjectImage
+            src={prodBlanket}
+            alt=""
+            widths={[240, 362]}
+            sizes="130px"
+          />
+        </td>
+        <td>
+          <span class="tutela-brand">Moonbird</span>
+          <ProjectImage
+            src={prodMoonbird}
+            alt=""
+            widths={[240, 412]}
+            sizes="130px"
+          />
+        </td>
+        <td>
+          <span class="tutela-brand">Apollo Neuro</span>
+          <span class="tutela-brand">Muse headband</span>
+          <ProjectImage
+            src={prodWearables}
+            alt=""
+            widths={[240, 408]}
+            sizes="130px"
+          />
+        </td>
+        <td>
+          <span class="tutela-brand">LectroFan</span>
+          <ProjectImage
+            src={prodLectrofan}
+            alt=""
+            widths={[240, 357]}
+            sizes="130px"
+          />
+        </td>
+        <td>
+          <span class="tutela-brand">ASAKUKI</span>
+          <ProjectImage
+            src={prodDiffuser}
+            alt=""
+            widths={[240, 384]}
+            sizes="130px"
+          />
+        </td>
+        <td>
+          <span class="tutela-brand">Beurer HK 145</span>
+          <ProjectImage
+            src={prodHeatingPad}
+            alt=""
+            widths={[240, 334]}
+            sizes="130px"
+          />
+        </td>
+      </tr>
+      <tr>
+        <th scope="col">Stress-relieving products</th>
+        <th scope="col">Weighted blanket</th>
+        <th scope="col">Breathing trainer</th>
+        <th scope="col">Smartwatch / bracelet / headband</th>
+        <th scope="col">Digital white noise machine</th>
+        <th scope="col">Aromatherapy diffuser</th>
+        <th scope="col">Heating pad</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">Sensory output</th>
+        <td>Deep pressure touch</td>
+        <td>Expands / contracts (to guide breath)</td>
+        <td>Vibration, sound, watch face display</td>
+        <td>White noise</td>
+        <td>Special aroma, lights</td>
+        <td class="is-best">Heat & pressure</td>
+      </tr>
+      <tr>
+        <th scope="row">Monitoring factor</th>
+        <td>–</td>
+        <td>HRV</td>
+        <td class="is-best">HRV, temperature / EMG / EEG</td>
+        <td>–</td>
+        <td>–</td>
+        <td>–</td>
+      </tr>
+      <tr>
+        <th scope="row">Clinical proof</th>
+        <td class="is-best">
+          <span aria-hidden="true">✅</span> Deep pressure (proven)
+        </td>
+        <td>Moderate proof</td>
+        <td>
+          <span aria-hidden="true">✅</span> EEG (proven); otherwise moderate
+          proof
+        </td>
+        <td>Indirect proof</td>
+        <td>Moderate proof</td>
+        <td>Weak proof</td>
+      </tr>
+      <tr>
+        <th scope="row">Time of use</th>
+        <td>Nightly</td>
+        <td>Daily</td>
+        <td class="is-best">24/7, needs charging</td>
+        <td>On demand</td>
+        <td>On demand</td>
+        <td>On demand</td>
+      </tr>
+      <tr>
+        <th scope="row">Applicability in schools</th>
+        <td>Limited to break / nap time</td>
+        <td class="is-best">Portable and easy to use</td>
+        <td>Convenient to wear but may violate school rules</td>
+        <td>Too noticeable</td>
+        <td>Too noticeable</td>
+        <td>Not durable, inflexible</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th scope="row">Overall evaluation</th>
+        <td colspan="6">
+          Our ideal product should combine multiple{" "}
+          <strong>sensory outputs</strong>, offer reliable{" "}
+          <strong>monitoring</strong>, be <strong>portable</strong> and{" "}
+          <strong>comfortable</strong> for <strong>long-term use</strong>, and
+          fit seamlessly into a <strong>campus environment</strong>.
+        </td>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+</section>
+
+<section id="gap-strategy" class="pdf-chapter">
+
+## Gap & Strategy
+
+<div class="pdf-row" style="--split: 15rem minmax(0, 1fr)">
+<figure>
+  <ProjectImage
+    src={digestible}
+    alt="Screens of the Digestible app: a home screen with daily recommendations, a mood check-in, and the app icon."
+    widths={[480, 943]}
+    sizes="(max-width: 896px) 70vw, 240px"
+  />
+</figure>
+<div class="pdf-block">
+
+### Gap Identification
+
+<div class="pdf-lead">
+
+Existing apps (e.g., Digestible) focus on CBT but lack **real-time physical intervention and biofeedback**.
+
+</div>
+
+<div class="tutela-note">
+
+**Digestible:** IBS-targeted app developed with leading experts in treating the brain–gut connection, addressing the root causes of IBS in the brain.
+
+</div>
+
+</div>
+</div>
+
+<div class="pdf-row" style="--split: 15rem minmax(0, 1fr)">
+<figure>
+  <ProjectImage
+    src={monitoringTech}
+    alt="IBS monitoring products: an ear-worn nerve stimulator (IB-Stim), a sensing waistband (Serosa), and G-Tech’s wireless abdominal patches with a companion app (A–C)."
+    widths={[480, 962]}
+    sizes="(max-width: 896px) 70vw, 240px"
+  />
+  <figcaption>IB-Stim; Serosa; G-Tech</figcaption>
+</figure>
+<div class="pdf-block">
+
+### Monitoring Technology
+
+<div class="pdf-lead">
+
+**Design Decision:** Selected **EMG (Electromyography)** as the sensing approach.<br />
+**Rationale:** Offers the best balance of cost, accessibility, and controllability for prototyping.
+
+</div>
+
+<ul class="pdf-grid tutela-options" style="--cols: 3">
+  <li>
+    <strong>IB-Stim</strong>
+    <span>Ear device: cranial nerve bundles, electrical stimulation</span>
+  </li>
+  <li>
+    <strong>Serosa</strong>
+    <span>Waistband / electrode patch: gastrointestinal signals</span>
+  </li>
+  <li class="is-chosen">
+    <strong>
+      G-Tech <em class="pdf-selected">Selected</em>
+    </strong>
+    <span>
+      Wireless patch system: myoelectrical signals for stomach, small intestine,
+      colon
+    </span>
+  </li>
+</ul>
+
+</div>
+</div>
+
+</section>
+
+<section id="ideation" class="pdf-chapter">
+
+## Ideation
+
+<figure class="tutela-panel tutela-panel--ideation">
+  <ProjectImage
+    src={ideationMindmap}
+    alt="Hand-drawn mind map around “relieve stress for IBS”: sensory output (deep pressure touch, heat, aroma; white noise and vibration crossed out), proven strategies (tracking and recording, electrical stimulation; education crossed out), and campus needs (discreet, portable, comfortable, long-term), with sketches of a heat, alert, and aroma device and of EMG syncing. All branches lead to a wearable patch: ‘an abdominal wearable pneumatic patch that relieves stress and anxiety’."
+    sizes="(max-width: 896px) 92vw, 720px"
+  />
+</figure>
+
+</section>
+
+<section id="prototyping" class="pdf-chapter">
+
+## Technological Feasibility & Prototyping
+
+<ul class="pdf-strip tutela-proto-strip">
+  <li style="--r: 1.91">
+    <figure>
+      <ProjectImage
+        src={prototypeSetup}
+        alt="Prototype laid out on a desk: an EMG sensor kit, an Arduino motherboard, a massage unit with air pumps, a triangular air bag actuator, and a smoothing module, connected by tubes and wires."
+        sizes="(max-width: 896px) 92vw, 700px"
+      />
+      <figcaption class="tutela-point">
+        <strong>Signal Acquisition:</strong> Validated GI activity capture using
+        Arduino EMG kit.
+      </figcaption>
+    </figure>
+  </li>
+  <li style="--r: 0.834">
+    <figure>
+      <ProjectImage
+        src={arduinoCode}
+        alt="Arduino IDE sketch that sets up servo-driven pumps and valves and reads the EMG sensor on analog pin A0."
+        sizes="(max-width: 896px) 40vw, 310px"
+      />
+      <figcaption class="tutela-point">
+        <strong>Logic:</strong> System triggers inflation when stress signals
+        peak. (Arduino IDE)
+      </figcaption>
+    </figure>
+  </li>
+</ul>
+
+<ul class="pdf-strip tutela-proto-strip">
+  <li style="--r: 1.491">
+    <figure>
+      <ProjectImage
+        src={emgTest}
+        alt="EMG electrodes on a tester’s abdomen connected to an Arduino, with a live signal plot on a laptop."
+        sizes="(max-width: 896px) 92vw, 460px"
+      />
+      <figcaption class="tutela-point">
+        <strong>Feedback Mechanism:</strong> Fabricated a TPU pneumatic patch
+        with pumps to simulate gentle massage.
+      </figcaption>
+    </figure>
+  </li>
+  <li style="--r: 1.778">
+    <figure>
+      <div class="tutela-video">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/JR25iHxkywU?rel=0"
+          title="Tutela video demo"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <figcaption class="tutela-point">
+        <strong>Video Demo</strong>
+      </figcaption>
+    </figure>
+  </li>
+</ul>
+
+</section>
+
+<section id="form-function" class="pdf-chapter">
+
+## Form & Function
+
+### Survey of Patch Designs
+
+<figure class="tutela-panel tutela-panel--survey">
+  <ProjectImage
+    src={patchSurvey}
+    alt="Survey of five existing patch designs: a maternity support belt, a period heat patch, a slimming patch, a stretch mark eraser, and a windproof navel patch, each with usage, focus, target group, a product photo, and ratings for flexibility, skin feel, durability, and level of visibility."
+    sizes="(max-width: 896px) 92vw, 560px"
+  />
+</figure>
+
+### How to do abdominal massage?
+
+<div class="tutela-panel">
+<div class="tutela-massage">
+<figure>
+  <ProjectImage
+    src={massageDiagram}
+    alt="Abdomen sketch divided into nine regions with the colon path, clockwise and counterclockwise massage directions, and the Zhongwan and Tianshu acupoints."
+    widths={[400, 668]}
+    sizes="(max-width: 576px) 45vw, 160px"
+  />
+</figure>
+<div class="tutela-massage-text">
+<div>From both Western and Chinese medical theories, I found the best approach is to</div>
+<div class="tutela-massage-key">follow the colon & circle 3–4 times in one set</div>
+<ul class="tutela-legend">
+  <li class="is-clockwise">Clockwise: digestion</li>
+  <li class="is-counter">Counterclockwise: relieve diarrhea</li>
+  <li class="is-acupoint">Acupoints</li>
+</ul>
+</div>
+<figure>
+  <ProjectImage
+    src={abdominalRegions}
+    alt="Anatomical chart of the nine abdominal regions and the organs beneath each."
+    widths={[480, 1094]}
+    sizes="(max-width: 576px) 92vw, 300px"
+  />
+</figure>
+</div>
+
+<div class="pdf-source">
+
+([perfectbalanceclinic.com/how-to-do-self-abdominal-massage](https://www.perfectbalanceclinic.com/how-to-do-self-abdominal-massage/))
+
+</div>
+
+</div>
+
+</section>
+
+<section id="sketch" class="pdf-chapter">
+
+## Sketch
+
+<div class="tutela-sketch-panel">
+<figure>
+  <a class="pdf-zoom" href={sketch.src}>
+    <ProjectImage
+      src={sketch}
+      alt="Rendered sketch of the Tutela patch with callouts: scent pads that support personalized, swappable comforting scents; three EMG detectors that detect myoelectric signals from the gastrointestinal system and sync raw data to a smartwatch via Bluetooth; four adhesive corner areas that keep the patch secure; a heat zone that warms up in response to EMG signals and gives steady heat in regular mode; and a thin, plush base layer. A dimensioned drawing shows about 21 × 24 × 1.5 cm."
+      sizes="(max-width: 1100px) 92vw, 1024px"
+    />
+  </a>
+</figure>
+
+<div class="tutela-summary">
+  <div class="tutela-summary-material">
+    made with TPU material, contains advanced low-temperature burn prevention
+  </div>
+  <div class="tutela-summary-main">
+    <div class="tutela-summary-claim">
+      light, flexible, discreet, durable &<br />
+      <span class="tutela-dots" aria-hidden="true">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+      </span>
+      comfortable to wear
+    </div>
+    <dl>
+      <div>
+        <dt>Usage</dt>
+        <dd>stress-relieving patch</dd>
+      </div>
+      <div>
+        <dt>Focus</dt>
+        <dd>offer comfort discreetly</dd>
+      </div>
+      <div>
+        <dt>Target Group</dt>
+        <dd>teens with IBS</dd>
+      </div>
+    </dl>
+  </div>
+  <figure>
+    <ProjectImage
+      src={tutelaCircles}
+      alt="A sketch of the patch on an abdomen and a photo of the patch worn under a school uniform shirt."
+      widths={[480, 1000]}
+      sizes="(max-width: 896px) 70vw, 280px"
+    />
+    <figcaption>Tutela, the IBS comforting patch</figcaption>
+  </figure>
+</div>
+</div>
+
+### Basic Structure
+
+<figure class="tutela-panel tutela-panel--structure">
+  <ProjectImage
+    src={basicStructure}
+    alt="Sketches of the basic structure: air inlets, outlets, valves, and pumps routed through four chambers in two inflation sequences (A: 1-2-3-4-1, B: 1-4-3-2-1), then a lighter, more compact layout that integrates the components with the EMG, heating element, and an Arduino Nano with Bluetooth and battery."
+    sizes="(max-width: 896px) 92vw, 640px"
+  />
+</figure>
+
+### Exploded View
+
+<figure class="tutela-panel tutela-panel--exploded">
+  <ProjectImage
+    src={explodedView}
+    alt="Exploded view of the patch layers: pocket for scent pads, valves, motherboard, air passages, airbags, EMG, air pumps, partition bridge, heating pad, base layer, and adhesives."
+    sizes="(max-width: 896px) 92vw, 640px"
+  />
+</figure>
+
+</section>
+
+<section id="final-rendering" class="pdf-chapter">
+
+## Final Rendering
+
+<ul class="pdf-strip">
+  <li style="--r: 1.719">
+    <ProjectImage
+      src={renderingBlender}
+      alt="The patch modelled in Blender."
+      sizes="(max-width: 896px) 46vw, 510px"
+    />
+  </li>
+  <li style="--r: 1.62">
+    <ProjectImage
+      src={renderingFinal}
+      alt="Final rendering of the transparent patch with heart-shaped adhesive pads and the electronics module in the centre."
+      sizes="(max-width: 896px) 46vw, 490px"
+    />
+  </li>
+</ul>
+
+</section>
+
+<section id="user-flow" class="pdf-chapter">
+
+## User Flow
+
+<ul class="pdf-grid tutela-flow" style="--cols: 6">
+  <li>
+    <ProjectImage
+      src={flowWear}
+      alt="A student wearing the patch under her T-shirt."
+      sizes="(max-width: 576px) 46vw, 150px"
+    />
+    <div>Discreet & comfortable for long-term wear under clothing.</div>
+  </li>
+  <li>
+    <ProjectImage
+      src={flowWatch}
+      alt="A smartwatch showing a live signal graph."
+      sizes="(max-width: 576px) 46vw, 150px"
+    />
+    <div>Real-time tracking of gut activity via smartwatch sync.</div>
+  </li>
+  <li>
+    <ProjectImage
+      src={flowScent}
+      alt="A lavender scent pad being slotted into the patch."
+      sizes="(max-width: 576px) 46vw, 150px"
+    />
+    <div>Customizable aromatherapy with replaceable scent pads.</div>
+  </li>
+  <li>
+    <ProjectImage
+      src={flowSchool}
+      alt="A student seated at a school desk with the patch under her clothes."
+      sizes="(max-width: 576px) 46vw, 150px"
+    />
+    <div>Lightweight & portable for everyday school use.</div>
+  </li>
+  <li>
+    <ProjectImage
+      src={flowPulse}
+      alt="A student holding her stomach as the patch pulses gently."
+      sizes="(max-width: 576px) 46vw, 150px"
+    />
+    <div>Activates gentle soothing pulses when stress rises.</div>
+  </li>
+  <li>
+    <ProjectImage
+      src={flowLogs}
+      alt="A student checking her smartwatch."
+      sizes="(max-width: 576px) 46vw, 150px"
+    />
+    <div>Logs data patterns to identify long-term stress triggers.</div>
+  </li>
+</ul>
+
+</section>
+
+<section id="testing" class="pdf-chapter">
+
+## Product Display & Testing
+
+<div class="pdf-lead">
+
+After displaying the concept, I ran quick user testing to confirm the form and cues fit real usage needs.
+
+</div>
+
+<div class="pdf-row tutela-testing" style="--split: minmax(0, 1fr) minmax(0, 1fr)">
+<figure>
+  <ProjectImage
+    src={productDisplay}
+    alt="The Tutela patch worn on the abdomen in a classroom, paired with a smartwatch."
+    sizes="(max-width: 896px) 92vw, 560px"
+  />
+</figure>
+<div class="pdf-col">
+
+<div class="tutela-feedback">
+  <div>
+    <h4>Feedback 1</h4>
+    <div>Concern: Patch security during daily movement.</div>
+  </div>
+  <div>
+    <h4>Solution</h4>
+    <div>Enhanced skin-safe adhesive & optional support band.</div>
+  </div>
+  <div>
+    <h4>Feedback 2</h4>
+    <div>Concern: Variability in heat cue sensitivity among users.</div>
+  </div>
+  <div>
+    <h4>Solution</h4>
+    <div>Customizable alert thresholds for personalized timing.</div>
+  </div>
+</div>
+
+</div>
+</div>
+
+<div class="pdf-lead">
+
+With more time, I’d refine long-term usability and personalized trigger detection through extended testing, and ideally push the work toward a functional, real-world product.
+
+</div>
+
+</section>

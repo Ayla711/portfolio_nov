@@ -9,10 +9,14 @@ interface Props {
 
 const { project } = Astro.props;
 const { data } = project;
+const external = !data.detailPage && data.externalUrl;
 const detailHref = data.detailPage
   ? withBase(`project/${project.id}/`)
-  : undefined;
-const CardTag = data.detailPage ? "a" : "div";
+  : external
+    ? data.externalUrl
+    : undefined;
+const hasLink = Boolean(detailHref);
+const CardTag = hasLink ? "a" : "div";
 const titleId = `project-title-${project.id}`;
 const visibleCapabilities = data.capabilities.slice(0, 2);
 ---
@@ -27,7 +31,9 @@ const visibleCapabilities = data.capabilities.slice(0, 2);
   <CardTag
     class="project-card-content"
     href={detailHref}
-    aria-labelledby={data.detailPage ? titleId : undefined}
+    target={external ? "_blank" : undefined}
+    rel={external ? "noopener" : undefined}
+    aria-labelledby={hasLink ? titleId : undefined}
   >
     <div class="project-card-media">
       <Image
@@ -55,9 +61,10 @@ const visibleCapabilities = data.capabilities.slice(0, 2);
       </ul>
 
       {
-        data.detailPage && (
+        hasLink && (
           <span class="case-link">
-            View project <span aria-hidden="true">↗</span>
+            {external ? "View PDF" : "View project"}{" "}
+            <span aria-hidden="true">↗</span>
           </span>
         )
       }

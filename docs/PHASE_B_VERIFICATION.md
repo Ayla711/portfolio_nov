@@ -1,5 +1,7 @@
 # Phase B Verification Record
 
+> **Historical snapshot.** This record describes an earlier phase of the project and is kept for reference only. It may mention the old `/portfolio` base, the placeholder origin, or outdated content. The site is now deployed at https://yuanqianayla.com/; see the README for the current setup.
+
 Date: 2026-08-28
 
 Phase B establishes the reusable visual and responsive frame. It does not migrate real portfolio projects or finalize project-summary composition.

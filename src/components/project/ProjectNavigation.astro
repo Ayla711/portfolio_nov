@@ -14,8 +14,8 @@ const { previousProject, nextProject, homeSection = "projects" } = Astro.props;
 
 <section class="project-navigation" aria-labelledby="continue-title">
   <div class="navigation-heading">
-    <p class="eyebrow">Continue / Selected work</p>
-    <h2 id="continue-title">Keep exploring.</h2>
+    <p class="eyebrow">End of case study</p>
+    <h2 id="continue-title">Thanks for passing by ~</h2>
   </div>
 
   <nav class="project-links" aria-label="Previous and next projects">
@@ -83,7 +83,11 @@ const { previousProject, nextProject, homeSection = "projects" } = Astro.props;
   h2 {
     margin-top: var(--space-6);
     color: #ffffff;
+    font-family: var(--font-serif);
     font-size: var(--text-section);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: 0;
   }
 
   .project-links {
@@ -94,7 +98,7 @@ const { previousProject, nextProject, homeSection = "projects" } = Astro.props;
 
   .project-links a {
     display: grid;
-    min-height: 9rem;
+    min-height: 6.5rem;
     align-content: space-between;
     gap: var(--space-8);
     padding: var(--space-6) var(--space-6) var(--space-6) 0;
@@ -120,10 +124,10 @@ const { previousProject, nextProject, homeSection = "projects" } = Astro.props;
   .project-links strong {
     color: inherit;
     font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.7vw, 2.8rem);
+    font-size: clamp(1.2rem, 1.6vw, 1.6rem);
     font-weight: 500;
-    line-height: 1.08;
-    letter-spacing: -0.035em;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
   }
 
   .project-links a:hover strong {
@@ -157,7 +161,7 @@ const { previousProject, nextProject, homeSection = "projects" } = Astro.props;
 
     .project-links a,
     .project-links a:nth-child(even) {
-      min-height: 8rem;
+      min-height: 6rem;
       padding: var(--space-6) 0;
       border-left: 0;
     }

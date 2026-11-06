@@ -1,7 +1,7 @@
 # Yuanqian(Ayla) Liu 个人作品集网站设计规划
 
-> 版本：V2.0 · 更新于 2026-11-02  
-> 状态：Others 包含两项课程作业、一项定格动画与末尾的 LingGou EduBot；发布前验收仍待完成，尚未发布  
+> 版本：V2.0 · 更新于 2026-11-05  
+> 状态：已部署于 https://yuanqianayla.com/；五个设计项目详情页正按第 7.1 节逐个改为基于 PDF 的版本  
 > 方向：Software Product、UX Design、Design Engineering  
 > 核心结构：顶部导航 + 左侧照片与姓名 + 右侧个人介绍与双列项目卡片
 
@@ -16,7 +16,7 @@
 - **待验收**：需要最终自动检查或浏览器检查确认的表现。
 - **待补内容**：不能通过猜测个人经历或复制参考站内容补齐。
 
-本轮已实现首页结构、导航和项目卡片，并同步内容校验、模板与测试。现有项目详情、媒体和历史记录保留；域名、远程仓库、部署与 DNS 未改动。本轮检查结果见第 11 节，不等于真实内容或发布配置已经齐备。
+本轮已实现首页结构、导航和项目卡片，并同步内容校验、模板与测试。现有项目详情、媒体和历史记录保留；域名、远程仓库、部署与 DNS 未改动（历史记录：网站现已部署于 https://yuanqianayla.com/）。本轮检查结果见第 11 节，不等于真实内容或发布配置已经齐备。
 
 ### 0.1 四项已确认变更
 
@@ -222,19 +222,19 @@ Selected Projects 与 Others 的所有首页项目均使用同一 `ProjectSummar
 
 ### 6.1 Others：两项既往课程作业、定格动画与 LingGou EduBot
 
-Others 的前两项内容是用户提供的两份 PDF 对应的既往课程作业，不是重新包装的研究项目。首页两张作业卡片及现有 Overview 均保持不变；Overview 后展示原 PDF 正文，而不是概括改写的项目叙事。第三项是 Where Is My Body?（2022）定格动画，进入同站极简视频详情页。LingGou EduBot 移至 Others 末尾（`featuredOrder: 90`），保留完整既有设计案例详情。不再显示 `Draft section` 待补提示；Tutela 保留在 Selected Projects。
+Others 的前两项内容是用户提供的两份 PDF 对应的既往课程作业，不是重新包装的研究项目。首页两张作业卡片及现有 Overview 均保持不变；Overview 后展示原 PDF 正文，而不是概括改写的项目叙事。第三项是 Where Is My Body?（2023）定格动画，进入同站极简视频详情页。LingGou EduBot 移至 Others 末尾（`featuredOrder: 90`），保留完整既有设计案例详情。不再显示 `Draft section` 待补提示；Tutela 保留在 Selected Projects。
 
 | 展示名称                       | 内容 ID                      | 年份 / 文档日期      | 叙事重点                                                                    |
 | ------------------------------ | ---------------------------- | -------------------- | --------------------------------------------------------------------------- |
 | From Following to Discovery    | `following-to-discovery`     | 2025 / December 2025 | 以小红书发现页为例，讨论推荐机制、可见性、社会比较与用户管理受众的策略      |
 | The Evolution of Commemoration | `evolution-of-commemoration` | 2026 / January 2026  | 苏格兰墓碑铭文的文本挖掘与可视化，关注程式化语言、家庭关系及女性文本可见性  |
-| Where Is My Body?              | `where-is-my-body`           | 2022                 | 2022 年夏在伦敦协作制作的定格动画，以无身体的龙寻找缺失部件的城市旅程为故事 |
+| Where Is My Body?              | `where-is-my-body`           | 2023                 | 2023 年夏在伦敦协作制作的定格动画，以无身体的龙寻找缺失部件的城市旅程为故事 |
 
 两项课程作业的文档日期来自源 PDF 导出元数据，只表示 Document date，不将它们写为研究开展周期、完成时间或发表日期。
 
 Where Is My Body? 使用用户指定的完整简介，不截短或改写：
 
-> A collaborative stop-motion animation created in London in summer 2022, following a bodyless dragon's whimsical journey through the city in search of his missing parts, only to discover he had been whole all along.
+> A collaborative stop-motion animation created in London in summer 2023, following a bodyless dragon's whimsical journey through the city in search of his missing parts, only to discover he had been whole all along.
 
 ### 6.2 布局、内容与素材边界
 
@@ -252,11 +252,29 @@ Where Is My Body? 使用用户指定的完整简介，不截短或改写：
 
 2026-11-02，按用户最新要求移除首页 Education 模块及其顶部导航入口，不再保留空白章节或要求补充教育数据。此调整不影响 Others、现有五个项目、详情页、简历与其他个人资料。
 
+### 6.4 页脚（2026-11-06）
+
+参考 ruocanpeng.com 的页脚结构，但保持本站浅色：
+
+- 三段式：左侧一句"现在在做什么"的状态，中间小字 “Say hello ↗”（mailto），右侧安娜堡实时时间 “hh:mm:ss AM / Ann Arbor, MI”（`America/Detroit`，每秒刷新，访客在哪里看都是安娜堡时间）。不再显示版权行，也不重复左栏已有的 Resume / LinkedIn / Email 链接。
+- 状态句按安娜堡当前小时切换，文案和时段都在 `src/data/site.ts` 的 `footerStatuses`（`from` 为起始小时，取最后一个满足 `hour >= from` 的条目）。人设：会很多技能、设计和工程都感兴趣、不断扩展 skillset、夜猫子、点子多。当前文案：
+  - 0:00 Night owl mode: shipping one more idea
+  - 2:00 Recharging; ideas queued for the morning
+  - 7:00 Probably on my first coffee
+  - 9:00 Probably vibe-coding
+  - 12:00 Probably sketching ideas over lunch
+  - 14:00 Probably bouncing between Figma and the terminal
+  - 18:00 Probably learning a new skill, just because
+  - 21:00 Probably collecting fun facts for no reason
+- 文案要像状态不像 slogan（用户反馈 “Pair-programming with an AI agent”“Designing it, then engineering it” 像 slogan，已改）；不写泛泛的 “out for lunch” 之类。
+- 站点联系邮箱改为 aylaliu@umich.edu（`site.ts` 一处，左栏 Email 与页脚 Say hello 共用）。
+- 窄屏（≤48rem）三段改为居中竖排。无 JS 时显示第一条状态和地名。
+
 ## 7. 项目详情页与两层结构
 
-Others 的两项课程作业保留原文展示，第三项定格动画使用极简视频详情；原五个设计项目的正文、媒体和 URL 保持不变。
+Others 的两项课程作业保留原文展示，第三项定格动画使用极简视频详情；原五个设计项目中，PhageX、EchoBloom、Tutela 的详情正文按第 7.1 节逐个改为基于 PDF 的版本，URL 保持不变；The Reading Pensieve 和 LingGou EduBot 不再有站内详情页，卡片外链到 PDF（见 7.1 外链项目）。
 
-原五个设计项目详情保留以下章节：
+原五个设计项目在改版前使用以下模板章节（某项目按第 7.1 节改版后，这五章不再约束该项目）：
 
 1. Overview：产品、问题、角色、团队、周期、平台。
 2. Key Insight：影响方向的关键洞察。
@@ -271,6 +289,227 @@ Where Is My Body? 的详情路由为 `/project/where-is-my-body/`（带站点配
 PhageX 已有的 YouTube 头部视频（`rArbDeBju0M`）、播放器行为及局部紧凑排版维持现状，不因首页卡片统一而回退为图片。其他项目的详情头图也不受本轮影响。
 
 案例详情页保留上一项 / 下一项、返回所在首页分区、简历或联系入口；视频页保持极简并提供返回 Others 的入口。Selected Projects 四项返回 Projects，Others 四项（含 LingGou）返回 Others。允许未来项目仅在首页展示，但不能为其制造无效详情链接。顶栏仍只有 About Me、Projects、Others 三项。
+
+### 7.1 五个设计项目详情页：基于 PDF 重建（2026-11-05 确认）
+
+**目标**：PhageX、EchoBloom、Tutela 三个项目的详情页（The Reading Pensieve、LingGou EduBot 于 2026-11-06 改为外链 PDF，见下方“外链项目”）（`/project/<id>/`）各有一份对应 PDF，PDF 包含项目的实际内容和视觉风格。直接基于 PDF 把项目转化为网页，覆盖现有强行套用五章节模板的版本。
+
+**范围**
+
+- 只改这五个详情页。首页卡片（标题、年份、简介、角色、能力标签、封面）、顶栏导航、URL、Others 其余项目保持不变，除非用户另行要求。
+- PhageX 详情页开头的 YouTube 视频（`heroVideo` `rArbDeBju0M`）、播放器行为和位置不动，只替换视频之后的内容。
+- 用户逐个发送 PDF，逐个项目修改；一个项目经用户确认后再做下一个。
+
+**内容规则**
+
+1. PDF 是唯一的内容来源。保留 PDF 的章节顺序、标题、正文、数据、图片和图注；不补写 PDF 里没有的内容，不臆造结果、指标或经历。
+2. 现有 MDX 正文（Overview / Key Insight / Design Decisions / Prototype & Experience / Outcome & Reflection 模板叙事）整体替换；不保留 PDF 中没有或与 PDF 冲突的旧文字。页面头部已经展示的内容（如 PhageX 头部的 YouTube 视频）不在正文中重复，例如正文不再放 Video Demo 标题和视频链接（2026-11-05 用户确认）。
+3. 保留原文表述，只做网页化处理：分页改为连续滚动，修复 PDF 断行与多余空格，去掉页眉、页脚和页码。明显的错别字和语法错误（主谓一致、冠词、单复数、大小写等）可以修正，不改原意，交付时逐条列出。
+4. 普通段落、列表、引用来源和说明框用可选中的 HTML 文本呈现，不把整页 PDF 截图当正文。
+5. **设计好的组合图完整呈现，不拆分、不重画**（2026-11-05 用户确认）：插图与配文、对话气泡与图表、Persona 与利益相关者地图、SWOT、流程图、界面截图，以及深色背景上整块排好的高保真界面面板（如 PhageX 的 Smart Glasses 面板，2026-11-05 用户要求按其提供的 c-6 整块呈现）等，按 PDF 中的完整范围作为一张图放入，图中的文字保留在图里，并在 alt 中写出图中文字。只去掉与网页标题重复的图内标题，且只在不会切到图形时才去掉；用户截图标出的范围以截图为准。
+6. 用户提供的透明底或更干净的原图优先于从 PDF 裁切的版本；背景混乱时先请用户提供原图。
+7. PDF 中的项目信息（年份、时间、角色、团队）与首页卡片不一致时，先告诉用户并由用户决定，不擅自改卡片。
+
+**视觉规则**
+
+1. 详情页的配色、强调色、版式节奏、图文排列和图形元素跟随该项目 PDF 的风格。
+2. 字体优先使用站点现有字体或接近 PDF 气质的系统字体；需要引入新字体时先征得用户同意。
+3. 项目专属样式只作用于该项目的详情页，不影响首页、其他项目和全站共享部分。
+4. 全站共享部分保持统一：顶栏导航、上一项 / 下一项、返回所在首页分区、Resume 与联系入口。
+5. 版面要适配桌面与手机：PDF 的多栏版式在窄屏改为单列，375 px 宽度下无横向溢出。
+6. 文字颜色对比度满足 WCAG AA（正文 4.5:1）；PDF 原配色达不到时微调文字颜色并告知用户。
+
+**版式规则**（2026-11-05 用户确认，五个项目共用，样式在 `src/pages/project/[id].astro` 的 `.pdf-case` 中）
+
+1. 头部（标题、副标题、视频或封面、项目信息、章节导航）与所有章节共用同一个居中内容栏（64rem），两侧至少留 4rem（窄屏 1.25rem）空白，左边缘完全对齐。
+2. 标题层级按 PDF 中标题的大小对应（2026-11-05 用户要求 Persona 与 Stakeholder Map 同级后确认）：PDF 中的大标题都是章节（h2），包括全大写的 BACKGROUND、PERSONA 等，以及同样大小的 Stakeholder Map、User Journey Map、Are Smart Glasses the Ideal Solution?、Designing PhageX、How PhageX Works；带竖线（|）或箭头（»）的标题是小节（h3）；更小的标签是 h4。相邻两级标题必须同时在字号和颜色上拉开差距（2026-11-05 用户确认）：章节标题为深蓝灰大写（约 34px）；竖线小节标题为中蓝 `#3962c0`；箭头标题沿用 PDF 的浅蓝 `#628ecb`、粗体、比竖线标题小一号（≥1.2rem 以满足大字号对比度），箭头符号用更浅的 `#a3bbec`；章节标题旁的副标题（如 Victim’s POV）用浅蓝并缩小到 0.8 倍。章节导航由左侧 rail 承担（7.2.8），头部不列章节。标题、正文、卡片、网格一律左对齐到内容栏左边缘。
+3. 图片不孤立地居中漂在空白里（2026-11-05 用户确认）：图片总是填满它所在的格子（整栏或分栏），由分栏宽度决定图片大小；过高的图（如信息架构树）放进分栏，不单独占一整行。
+4. 信息密度参照 PDF 的分栏排布（2026-11-05 用户确认）：PDF 中左右并排的内容在网页上也左右并排（`.pdf-row`，栏宽用 `--split` 调整），标题旁的说明（如 Storyboard 旁的 Design Pivot、Desk Research 旁的引言）放在同一行。两栏的顶部和底部都对齐：文字栏较短时把多出的空间分到各小块（`pdf-block`）之间；相差过大时先调整栏宽，仍不平衡就按 PDF 的排布重新分组（例如把信息架构树放在 Problem/Solution 与交互系统图旁边）。同类内容（卡片、截图、照片、手机）用等宽网格，图片统一尺寸。
+   - 并排两栏靠调整栏宽（`--split`）达到自然等高，而不是靠拉开中间的空白：分到小块之间的空白应控制在约 1.5rem 以内（2026-11-05 用户反馈 Methodology 与 Why would people… 之间空白过大）。底边对齐到最后一行文字或图形的底部，图片裁切时不留多余的底部留白。
+   - 测量时要考虑字体：用户的 Mac 使用 Avenir Next，宽度介于 Inter 与 Liberation Sans 之间，调栏宽时两种字体都要检查。
+   - 较短的两个同级章节可以并排放在一行（`.pdf-chapter-row`），各自保留 h2 和锚点，例如 Persona 与 Stakeholder Map。
+   - 组合图里彼此独立的单元（如三张 Persona 卡片、四个 Avatar 状态）可以按排版需要拆成单张重新排列，但每个单元保持完整，并在交付时告诉用户；图文一体的设计（插图配引语、对话气泡配图表等）仍整体呈现。
+5. 全页一套紧凑间距：块与块之间 1.25rem，新小节前 2.5rem，章节上下各 3rem 并用细线分隔；不额外使用深色区块。PDF 中自带底色的区域可以用同色浅色面板还原（如 PhageX 的 Visual Guide 使用 PDF 的浅蓝底色 `#e4f2fd`，2026-11-05 用户要求）。
+6. 章节与小节的先后顺序和 PDF 一致；同一主题的不同保真度（如低保真场景图与高保真界面）分开呈现，不交错排列。PDF 跨页时网页上需要的分隔标题（如 High-Fidelity Design）可以添加，但交付时告诉用户。
+
+**外链项目**（2026-11-06）：不在站内重建详情页的项目，frontmatter 设 `detailPage: false` 加 `externalUrl`，首页卡片改为在新标签打开该链接，按钮文字为 “View PDF ↗”；不生成 `/project/<id>/`，上一项 / 下一项导航自动跳过它。The Reading Pensieve 和 LingGou EduBot 用此方式指向 Google Drive 的 PDF。
+
+**文件规则**
+
+1. 能改原有文件就不新建文件：正文写在现有 `src/content/projects/<id>.mdx`，图片放现有 `src/assets/projects/<id>/`；同一张图的新版本直接覆盖同名文件并检查引用。
+2. 优先复用现有组件（`MediaFigure`、`ProjectImage`、`ImageComparison`、`ProcessGallery` 等）；需要新版式时先扩展现有组件、`ProjectHero.astro` 或 `src/pages/project/[id].astro`。确实无法复用才新增组件，并在新增前说明理由。
+3. 五章节固定 ID（overview、insight、decisions、prototype、reflection）不再约束已改版的项目；章节和章节导航以 PDF 自身结构为准。相应修改现有的 `src/content.config.ts`、`scripts/validate-content.ts` 和 `tests/`，不另建校验文件。
+4. 从 PDF 提取的图片使用原始分辨率或足够清晰的导出，裁掉页眉页脚；每张图写准确描述图片内容的 alt。
+5. PDF 原件不放进网站，也不提交到 Git；临时提取文件放在已被 Git 忽略的 `tmp/`。
+6. 改版后不再使用的旧图片先列出，经用户同意再删除。
+
+**每个项目的流程**
+
+1. 用户发送该项目的 PDF。
+2. 通读 PDF，列出章节结构、图片清单，以及与首页卡片信息不一致之处；有冲突先问用户。
+3. 提取图片，改写该项目的 MDX 与专属样式。
+4. 检查：对照 7.2.6 的检查项自查；格式检查、内容校验、测试；用户在 Mac 上运行 `npm run ci`，并在本地预览（`npx astro dev --force`，http://localhost:4321/）中确认桌面与手机宽度显示、图片清晰度、上一项 / 下一项与返回链接。
+5. 用户确认后更新下方进度表，再开始下一个项目。五个项目全部确认后再部署。
+
+**进度**
+
+| 项目                 | 详情页                | 状态                                                                                                         |
+| -------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| PhageX               | `/project/phagex/`    | 已验收（2026-11-05）：视觉布局和内容都已通过；共用做法见 7.2，内容改动见 7.2.7                               |
+| EchoBloom            | `/project/echobloom/` | 已验收（2026-11-06）：PDF 海报 + 线上互动 demo 两条分支，头图与 App Concept 图换为用户提供的高清图，见 7.2.7 |
+| The Reading Pensieve | （无详情页）          | 2026-11-06 用户决定：删除站内详情页，首页卡片直接在新标签打开 Google Drive 上的 PDF（`externalUrl`）         |
+| Tutela               | `/project/tutela/`    | 已验收（2026-11-06）：布局、内容、左侧导航都已通过                                                           |
+| LingGou EduBot       | （无详情页）          | 2026-11-06 用户决定：同 The Reading Pensieve，卡片外链到 Google Drive 的 PDF（`externalUrl`）                |
+
+### 7.2 PDF 详情页的共用做法（PhageX 已验收，2026-11-05）
+
+本节记录 PhageX 改版中已经验证、其余四个项目可以直接复用的结构、样式、素材流程和验收方法。7.1 是规则，本节是做法；两者冲突时以 7.1 为准。
+
+#### 7.2.1 数据与页面骨架
+
+- frontmatter 设 `caseStudyType: pdf`，并加 `pdfPage`：
+  - `tagline`：头部副标题，用 PDF 封面的副标题。
+  - `hideHeroMedia: true`：不在头部显示封面图或视频（首页卡片仍用 `cover`）。Tutela 的封面图在头部效果不好，用户要求拿掉（2026-11-05）。
+    - 没有首图时头部会显得空（用户反馈信息分散、空白无效），`ProjectHero.astro` 用 `project-hero--no-media` 收紧：标题、项目信息表、章节导航之间的间距缩小一档（gap 1.25rem），信息表格子的上下内边距减半，头部底部留白减小；正文第一章（At a glance）的上内边距减到 1.5rem，紧接头部。
+  - 头部封面默认用 `cover`；如果首页卡片的裁切不适合头部，frontmatter 加顶层 `heroCover`（只用于详情页头部，首页卡片仍用 `cover`）。EchoBloom 的 `cover.png` 是放大裁切，头部改用用户提供的完整构图 `cover-hero.jpg`（2026-11-06）。同时修了头图被放大的 bug：Astro `<Image>` 输出的 `height` 属性让图片保持原像素高度、`object-fit: cover` 只露出中间一块；`ProjectHero.astro` 给 `.hero-media img` 加 `height: auto`，compact 布局下图片头图的框改为 16:10（`:has(img)`），视频仍为 16:9。
+  - `facts`：3–4 组 `label` / `value`（如 Project、Timeline、Scope），替代默认的 Role / Team / Duration / Platform。
+  - `rail`：左侧章节导航的 4–6 个站点（见 7.2.8）；每个 `id` 必须在正文中有对应的 `<section id="…">`，否则内容校验失败。头部不再显示章节 chips。
+- 首页卡片字段（title、summary、year、role、capabilities、cover）不变；`pdf` 详情头部不显示 capabilities；`heroVideo` 等头部媒体保持原样。
+- 正文：PDF 中每个大标题是一个 `<section id="kebab-id" class="pdf-chapter">`，第一行写 `## 标题`。两个较短的同级章节并排时，用 `<div class="pdf-chapter-row" style="--split: …">` 包住两个 section。
+- MDX 写法注意：
+  - HTML 块里写 Markdown 时，前后各空一行。
+  - 列表后面的闭合标签（`</div>`、`</li>`）顶格写，否则会被当作列表内容。
+  - 段落外层用 `<div class="pdf-lead">` 这类 div，不要用 `<p>` 包 Markdown，否则会产生嵌套段落。
+  - 图片一律用 `ProjectImage`，写准确的 `alt` 和与显示宽度相符的 `sizes`；原图窄于 480px 时显式给 `widths`。
+
+#### 7.2.2 共用样式（`src/pages/project/[id].astro` 的 `.pdf-case`）
+
+| 类名 / 变量                                               | 用途                                                                                                                                                                                                                                                                                                                                                                           |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `.pdf-row`（`--split`，如 `minmax(0, 1fr) 19rem`）        | 按 PDF 的分栏左右并排，各栏顶部和底部对齐；56rem 以下自动变为单栏                                                                                                                                                                                                                                                                                                              |
+| `.pdf-col`、`.pdf-block`                                  | 栏内纵向排列；`.pdf-block` 是一组相关内容，栏较高时多出的空间平均分到各组之间                                                                                                                                                                                                                                                                                                  |
+| `.pdf-grid`（`--cols`）                                   | 等宽网格：卡片、截图、照片                                                                                                                                                                                                                                                                                                                                                     |
+| `.pdf-strip`（每个 `li` 设 `--r` = 图片宽高比）           | 一行等高的图片，宽度按比例分配                                                                                                                                                                                                                                                                                                                                                 |
+| `.pdf-chapter-row`                                        | 两个较短的同级章节并排，各自保留 h2 和锚点                                                                                                                                                                                                                                                                                                                                     |
+| `.pdf-headline`                                           | 标题与说明放在同一行（如 Storyboard 与 Design Pivot）                                                                                                                                                                                                                                                                                                                          |
+| `.pdf-lead`、`.pdf-key`、`.pdf-hl`、`.pdf-source`         | 引导句（1.1 倍字号）、蓝色强调、红色高亮数字、来源小字                                                                                                                                                                                                                                                                                                                         |
+| `ul.pdf-two-col`、`.pdf-points`                           | 两列列表、带圆形序号的列表                                                                                                                                                                                                                                                                                                                                                     |
+| `.pdf-glance`（At a glance）、`--pdf-panel`               | 页面开头的摘要面板。面板底色要和正文卡片同色系但区分得开：Tutela 用比正文卡片略浅的淡紫（用户要求偏浅不偏深）（Problem / Research / Design / Testing），每项一行：左侧小号大写标签，右侧一句话，行间用细线分隔；窄屏时标签移到句子上方。每句控制在约 95 个字符内，桌面宽度下保持一行。`--pdf-panel` 是面板底色，项目可设为 PDF 的底色。摘要不属于 PDF 原文，只有用户确认后才加 |
+| `.pdf-card`、`--dashed`、`--callout`                      | 浅蓝卡片、虚线框、结论 / 重点卡片                                                                                                                                                                                                                                                                                                                                              |
+| `figure`、`a.pdf-zoom`、`figcaption`                      | 图片填满所在格子；大图（地图、流程图）外包 `a.pdf-zoom` 链接原图供放大；图注小字                                                                                                                                                                                                                                                                                               |
+| `h2`、`h3`、`.pdf-chevron`、`h4`、`.pdf-h2-sub`           | 章节（深蓝灰大写）、竖线小节（中蓝）、箭头标题（浅蓝粗体，小一号）、小标签、章节副标题（浅蓝 0.8 倍）                                                                                                                                                                                                                                                                          |
+| `--pdf-ink`、`--pdf-heading`、`--pdf-blue` 等颜色变量     | 在 `.pdf-case` 定义；新项目在 `.pdf-case--<id>` 中按 PDF 取色覆盖，文字颜色须满足 7.1 的对比度要求                                                                                                                                                                                                                                                                             |
+| `--pdf-space`、`--pdf-space-lg`、`--pdf-gap`、`--pdf-col` | 块间 1.25rem、新小节前 2.5rem、栏间 2rem、内容栏宽 64rem                                                                                                                                                                                                                                                                                                                       |
+
+#### 7.2.8 左侧章节导航（`ChapterRail.astro`，2026-11-05 用户要求）
+
+页面太长、调研部分尤其多，读者需要随时定位并能跳过调研。参考 ruocanpeng.com 的项目页：纯文字列表，固定在视口左侧，和标题同高，当前项变深色。
+
+- 数据：`pdfPage.rail`（必填），4–6 个阅读站点，每个 `id` 必须有对应的 `<section id>`（校验脚本检查）。原来的 `pdfPage.chapters` 和头部章节 chips 已移除（用户决定，2026-11-05）：两套导航功能重叠，pdf 页面只用 rail。
+- 命名：按叙事而不是按方法命名，不用 Research / Ideation / Testing 这类作业式名字。固定用 Overview → Challenge → (Opportunity) → Solution → Validation；Overview 指 At a glance。一个站点覆盖一个阶段（Challenge 覆盖背景、调研、访谈、persona 等所有章节），未列出的章节滚到时高亮它前面的站点。
+- 样式（2026-11-05 用户反馈等宽大写与页面风格不符后改）：和站点导航同一体系的无衬线字，0.9rem，中等字重，正常大小写；未激活 `#5f6b7f`（灰，AA 达标），激活深色、半粗并在左侧加 2px 项目色短线（`--pdf-heading`）；无背景无边框；宽 8rem，`top: 7rem` sticky。
+- 布局（2026-11-05 用户反馈头部、正文、rail 三个左边缘不一致后改）：有 rail 的页面（≥74rem）把头部（标题、副标题、信息表）和正文放进同一个 52rem 居中栏，从标题到每一章只有一条左边缘；rail 绝对定位在页面左边距（距窗口 2rem，宽 8rem），顶部与标题同高，列表 sticky 在 5.25rem；<74rem 隐藏 rail，恢复 64rem 栏。栏宽用 `--pdf-col` 变量，按 rem 写死的 `--split` 在 52rem 下要重新测量。
+- 定位规则（2026-11-05 用户追问“点 Overview 到底停在哪”后实测校准）：
+  - 点击：章节标题停在顶栏下方 72px（全局 `scroll-padding-top` 的 1.5rem + 章节 3rem 上内边距）。章节不再自带 `scroll-margin-top`，否则和全局留白叠加会停到 112px。
+  - 吸顶：导航列表 `position: sticky`，`top` 由脚本按运行时测到的 `.site-header` 真实高度 + 72px 设置（`--rail-top`），所以高亮行和章节标题齐平；顶栏高度随窗口变化时重算。
+  - 高亮：滚动时以“顶栏底 + 40px”为判定线，section 顶部越过这条线即为当前章，映射到所属站点；点击时立即高亮目标站点；滚到页底时高亮最后一站。最后一章（Testing）因页面长度不够，点击后标题停不到 72px，属正常。
+  - 预览环境要模拟 sticky 顶栏再测，否则测不出吸顶位置的问题。
+- 不做：分组、阅读进度条、缩略图。
+
+#### 7.2.3 可以提升为共用的 PhageX 样式
+
+以下样式目前写在 `.pdf-case--phagex` 下。其他项目第一次需要同类版式时，把它改名为共用的 `.pdf-*` 类并移到共用区，同时确认 PhageX 的显示不变：
+
+- 编号结论卡片（`phagex-takeaways`）
+- 使用 PDF 底色的浅色面板（`phagex-guide`），以及其中“说明文字 + 图”的小组（`phagex-guide-avatar`）
+- 浅色底带上的人物卡片（`phagex-personas`）
+- 截图下方的说明卡片（`phagex-shots`）
+- 大号数据 + 说明（`phagex-stat`）
+- 人物信息卡（`phagex-people`）
+- 方案对比卡片与选中高亮（`phagex-solutions`），以及选中方案的 “Selected” 标签（`phagex-selected`，与人物卡标签同样式）
+- 状态色块（`phagex-swatch`，颜色取自对应的头像或插图）
+- 多台手机组合（`phagex-phones`，透明底手机图）
+- 对话气泡式术语框（`phagex-term`）
+
+#### 7.2.4 素材处理流程
+
+1. 先查 PDF 结构（`pdfimages -list`）。PhageX 每页是一张整页高清图（7324 × 4120），因此按 PDF 坐标 × 缩放比例从内嵌原图裁切，而不是从低分辨率的渲染图裁切。
+2. 裁切清单写成 JSON（文件名 → 页、范围、最大宽度、需要涂白的区域），批量裁切后拼成对照表逐张检查边界：不切到图形或文字，也不带入相邻内容。
+3. 用户标出的完整范围、组合图、深色背景面板整块保留；只有彼此独立的单元（如 Persona 卡片、头像状态）在排版需要时才拆分，并告知用户。
+4. 背景杂乱时先请用户提供透明底或干净的原图，用户提供的版本优先。手机外框可按圆角轮廓抠成透明 PNG。
+5. 输出：照片和插画用 JPG（质量 88），图表和透明图用 PNG（过大时量化到 256 色）；宽度一般 1800–2400px；同名覆盖以保留引用；不再使用的图先列出，经用户同意再删除。
+6. 图内标题与网页标题重复时，只在背景是平滑渐变、涂掉后不留痕迹时才涂掉。
+
+#### 7.2.5 交付前的版式验收方法
+
+- 宽度：390、760、1024、1160、1440 px。用户浏览器窗口在 1152px 以上，内容栏为 1024px，以 1160 和 1440 为主要检查宽度。
+- 字体：用户 Mac 上是 Avenir Next；云端预览用 Inter（偏宽）和 Liberation Sans（偏窄）两种字体夹住它，两种都要测。
+- 每个 `.pdf-row` 都测量各栏的自然高度并调整 `--split`，使两栏高度差在约 15px 以内；文字栏被拉开的空白不超过约 1.5rem，否则改栏宽或重新分组。
+- 检查：无横向溢出、所有图片加载、文字对比度达标、相邻两级标题的字号和颜色都有差距、组内间距小于组间间距。
+- 对比度用脚本逐个文字节点实测（前景色叠加实际背景，含渐变面板的平均色），不靠目测；Tutela 曾有 Persona 名称和表头两处不达标（2026-11-05 修复）。
+- 运行格式检查、内容校验、测试，并确认 MDX 能编译；最终的 `npm run ci` 由用户在 Mac 上运行。
+
+#### 7.2.6 PhageX 反馈总结的检查项
+
+- 信息密度：照 PDF 的分栏排布；不让图片孤立居中，不留大块空白，一个章节不只放一张大图。
+- 对齐：并排内容顶部和底部都对齐；同一行的图片等高。
+- 分组：相关内容的间距要小于不相关内容（如 Avatar 文字与头像图近，与 Status、Logo 远）。
+- 层级：相邻两级标题同时用字号和颜色区分；头部只突出 2–3 个章节。
+- 不重复：头部已展示的视频、标题不在正文再次出现。
+- 面板：PDF 中带底色的区域用同色的浅色面板还原，面板内容居中、左右留足边距。
+- 图片尺寸：保持在 PDF 中的相对大小，不为填满栏宽而放大；用户要求缩小时整组一起缩小。
+- 新写的文案（摘要、标签等）：短句、具体、可以用第一人称；不用破折号、格言式结论（如 “awareness alone doesn’t protect people”）和排比堆砌，避免 AI 腔。
+- 概括 PDF 里的数据时不引申：先和用户确认数字背后的事实再写进摘要（PhageX 的 “40% Direct Impact” 指参与者经历过其他诈骗，不是杀猪盘）。
+- 表情符号（2026-11-05 用户更正）：PDF 里当图标用的表情符号要保留，不能轻易去掉；只有 PhageX 按之前的批准去掉了，不再改动。后续项目照 PDF 原样保留图标，用 `aria-hidden="true"` 包住。
+- 每个模块要让读者一眼看懂它想传达什么：并排的标签和数值如果其实是理由或结论，用标题点明（如 PhageX 方案对比下方的 “Why Smart Glasses”），不要让读者自己猜。
+- 修正 PDF 原文的语法、拼写和大小写错误（如主谓一致、缺冠词或复数、“in real-time” 作状语时应为 “in real time”、陈述句标题不加问号），不改原意；图片里的文字改不了，需要时向用户说明。
+
+- 加导航后内容栏变为 52rem，PhageX 重新排版（2026-11-06 用户反馈）：
+  - 受访者卡片改为头像在上、文字在下，避免文字溢出卡片。
+  - Interview：焦点小组的统计（100% / 40%）作为浅色横条紧跟在受访者卡片和化名说明之后（用户要求结论跟在受访人介绍后面），再往下是 Methodology / Why would people… 与右侧 “What do they say?” 并排（右栏 22rem）。“Close-contact victim” 标签缩短为 “Close contact”。
+  - How PhageX Works：右侧 External Devices 栏宽改为与左侧三列中每列等宽（`calc((100% - gap - 2×space) / 4)`），四列图片等高，两行卡片的顶部、图注和底部都对齐。
+  - High-Fidelity Design：按 PDF 保持眼镜面板为主（右栏 10.5rem，面板约占 4/5 宽），三部手机 2+1 叠放；两栏顶部对齐，底部不强求等高（用户明确不要手机排成一排、不要缩小面板）。
+  - Research / Desk Research：标题和引导句（Young adults…）提到整行，两栏里只剩要点卡片与来源对年龄分布图；要点改单列，右栏 33rem，两栏高度差 ≤ 25px。
+  - Designing 右栏 18rem，User Testing 改为 1.6fr / 1fr。
+  - 栏宽都按有导航时的 52rem 栏测量；窗口小于 74rem 时恢复 64rem 栏，这些比例仍可用但未逐一调到 15px 内。
+
+#### 7.2.7 内容例外（用户逐项确认后才做）
+
+7.1 规定 PDF 是唯一的内容来源。为了让作品集更适合求职，用户可以逐项批准超出 PDF 的改动；批准的改动记录在这里，未批准的不做。
+
+- PhageX（2026-11-05 批准“首屏”一组改动）：
+  - 头部副标题改为与首页卡片一致的 “A smart-glasses and mobile concept that flags manipulation and intervenes before a scam escalates.”
+  - 头部信息改为 Role（Solo designer — research, interaction & visual design, prototyping, testing）、Type（Self-initiated concept）、Timeline（Jan–Apr 2025）、Methods（Desk research, focus group (n=5), journey mapping, experience prototyping）。
+  - 在 Background 前新增 At a glance（Problem / Research / Design / Testing），每项一句短话，只概括 PDF 已有的信息，不新增数据（用户反馈初稿字多、AI 腔重后改写）。用户又反馈 2×2 布局不清、层级不好看，改为每项一行的表格式（见 7.2.2）。
+  - Research 一句按用户说明更正：5 名参与者都知道这种骗局；其中 2 人有其他诈骗的经历（1 人亲身遭遇，1 人的朋友被骗），不是杀猪盘。现为 “All 5 participants knew of the scam; 2 had firsthand or secondhand experience with other scams.”，不要写成受杀猪盘影响。
+  - 使用规范的方法名并写明测试边界（2026-11-05 批准）：At a glance 的 Testing 按用户要求精简为 “Tested user reactions with a Google Cardboard experience prototype.”，测试边界只写在 User Testing 的 Methodology 里，具体反馈也留在该章节；User Testing 的 Methodology 前加 “Experience prototyping.”，句末加 “Detection accuracy and hardware feasibility were not tested.”，PDF 原句保持不变。预录的第一人称视频属于 experience prototype（video prototype），不是 Wizard-of-Oz（后者指测试时由人在背后实时操控系统），不要混用。
+  - 去掉正文表情符号（2026-11-05 批准）：方案评价的 ☹️😐🙂 改为 Solution 3 标题旁的 “Selected” 标签；对比栏的 ✅ 一度改为 “Decision: Smart Glasses”，用户反馈看不懂这一栏要传达什么，改为标题 “Why Smart Glasses” 加三个理由（First-person view、Real-time response、On-device AI，对应 PDF 的 POV、Response、Edge 三项）；Status 的 🟢🔴🌸 改为取自头像的色块（问候气泡的绿、警报火焰的橙黄、治愈爱心的粉）；“Why Pig Butchering Scam?” 列表的表情和两张小图标统一换成蓝色圆点，并改为单栏以与右侧结论卡片等高；其余表情（💡⚠️👓✅❤️🔒）直接删除。
+  - 改掉说过头的话（2026-11-05 批准）：“privacy-compliant” 改为 “designed for on-device processing”；Conclusion 改为 “Testing supported the core interaction; always-on camera privacy is the main open risk.”；“actively audit reality” 改为 “scan chats, voices and faces for scam cues”。系统图（AI 生成）里的 “Privacy-compliant” 和 SWOT 图里的 “ensures no data leaves the hardware” 是图片文字，等重画图时再改。
+  - 修正 PDF 原文的语法和用词（2026-11-05 批准）：Scam cause → causes；detect scam → scams；familiar with pig butchering scam → scams；prone to investments → prone to investing；and finally financial loss → and finally to financial loss；GA-SO → GASO；25-35 → 25–35；Victim’s pov → POV；Design Pivot- → Design Pivot –；How PhageX Works? → How PhageX Works（章节导航同步）；Human Intuition is Failing → Is；in real-time → in real time（2 处）；Scam warning → Scam Warning；Multimodal AI、Deepfake detection、Video Post-processing 改为小写；期刊引用改为 “No. 4, 2021, covering all scams in China from Jan to Aug 2019”；补齐列表和图注的句号或统一去掉。
+  - 受访者信息（2026-11-05 用户说明）：名字本来就是化名，头像也不是本人照片，因此不改成 P1–P5，在受访者卡片下方加注 “(Names are pseudonyms; avatars are not photos of the participants.)”。
+  - 验收时保留未改（用户未要求修改）：Avatar 的 “Biological Virus Hunter”（噬菌体本身是病毒，猎杀的是细菌）；Interview 的 “40% Direct Impact” 未注明是其他诈骗；系统图和 SWOT 图中的图片文字。
+- Tutela（2026-11-05，按 PhageX 的首屏做法）：
+  - 头部副标题沿用首页卡片；头部信息为 Role / Type / Timeline / Methods；新增 At a glance，只概括 PDF 内容。
+  - At a glance 标题下加一句名字释义（用户提供）：“The name Tutela comes from Latin, meaning protection, care, and guardianship.”，用共用的 `.pdf-glance-note`。
+  - Video Demo（YouTube JR25iHxkywU）按用户选择嵌在 Prototyping 章节，头部保留封面图。
+  - 访谈者 Sunny、Grace D 为化名，卡片下方加注 “(Names are pseudonyms.)”；面对面访谈照片经用户确认可公开。
+  - 图标按 PDF 保留（用户要求）：Treatment 列表、Persona 列表、Clinical proof 的 ✅ 都保留；Monitoring Technology 的选中方案用共用的 `.pdf-selected` 标签。
+  - 语法与拼写修正：Approaches& → Approaches &；avoid trigger food 保留；temprature → temperature；Ideation 图内 “reliefs” 用同字体重绘为 “relieves”（图片文字，已告知）；表格单元统一首字母大写与标点。
+  - Background 按用户反馈重排（2026-11-05）：两张文字卡片各自与自己的图并排成两行（卡片 1 配症状图和词云，卡片 2 配 15% 与 39% 两张图表和来源；学生插画按用户要求移到 Persona 面板作为人物像），两行各自顶底对齐，不再把四张图全部堆在右栏。
+  - 2026-11-05 第二轮反馈：Treatment 卡片内容收紧并与左图对齐；数据分析的两张图底部对齐；Interview 改为 用户 | 专家 | 照片 三栏，四张发现卡片的正文底部对齐；Persona 的插画移出紫色面板放在左侧，面板内三列列表和 Insight 卡片收紧。
+  - MDX 注意：列表项里的图标和文字被 Prettier 拆行后，MDX 会把每段包成 `<p>`，导致图标独占一行；用 CSS 把这些 `li p` 设为 inline（见 `.tutela-treatment`、`.tutela-persona-lists`），后续项目同样处理。
+  - 2026-11-05 第三轮反馈：Ideation 思维导图、Survey of Patch Designs、按摩示意图、Basic Structure、User Flow 的图都按用户要求缩小（手绘图和表格类图不撑满栏宽，放在浅色面板里限宽 36–46rem；User Flow 图统一 9.5rem 高居中）。
+  - 对比表格改为可横向滚动的 HTML 表格（手机上滚动查看），产品图与品牌标签放表头。
+  - 其余建议（Key decisions、更完整的测试反馈、Persona 卡片、重画系统图、可运行的小切片、项目排序）尚未批准。
+
+- EchoBloom（2026-11-06，按 PhageX / Tutela 的首屏做法）：
+  - 项目有两条分支：PDF 海报（app 原型）和线上互动网页 https://ayla711.github.io/EchoBloom/（p5.js + ml5 Teachable Machine，四种状态 荡漾 Sway / 雀跃 Leap / 律动 Pulse / 放空 Drift）。页面以 PDF 为主体，末尾加 Live demo 章节（用户批准）。
+  - 头部副标题改为 “Teaching an app to hear the commute and play it back as music.”，首页卡片 summary 同步改为提到 app 概念和线上 demo 两条分支的版本（2026-11-06 用户选定）；头部信息为 Role / Type / Timeline / Tools；头部封面用 `heroCover: cover-hero.jpg`（用户提供的完整构图，首页卡片仍用放大裁切的 cover.png）；新增 At a glance（Problem / Idea / Build / Outcome），只概括 PDF 与 demo 已有的信息。
+  - 左侧导航：Overview / Challenge / Approach / Process / App concept / Live demo（“Approach” 经用户批准）。
+  - 海报图标按 PDF 保留（💡、👀、😩、✨ 等）；Prototyping Process 第 5 步改写为 “Tested the rough prototype to decide which functions and UI to design next”（用户批准）；海报上的两个 p5 编辑器链接保留为小标签（Functional Prototype、Visual Prototype）。
+  - Live demo 章节：一段说明 + 四种状态图 + “Open live demo ↗” 按钮（新标签打开）+ “Needs a microphone; works best in Chrome.” + 展览照片（用户提供，图注只写画面里的 Pulse 状态）。四种状态图取自 demo 仓库的 webm（自带 alpha 通道，无需抠绿幕），各选一帧导出透明 PNG，放在 demo 自身的背景色上（sketch.js 的 bgColorFor）。
+  - 海报图裁切：组合图整体保留；被海报自身元素（箭头、步骤数字、链接文字、说明文字）压到的边缘用背景色涂掉或裁掉；Teachable Machine 图在窗口底边裁切。
+  - 资源：`src/assets/projects/echobloom/` 新增 11 张海报图、4 张状态 PNG、exhibition.jpg；`interface-states.png` 删除；App Concept 三屏图用用户提供的高清图 `app-concept.jpg`（海报裁切的 app-screens.jpg 太糊，已删）；`build-process.png` 仍供首页 homeSecondary 使用。
 
 ## 8. 视觉与响应式
 
@@ -318,7 +557,7 @@ PhageX 已有的 YouTube 头部视频（`rArbDeBju0M`）、播放器行为及局
 - 删除首页展示不等于删除素材。后三个项目的旧第二图仍可能用于详情正文，清理前必须检查引用。
 - 不引入 CMS、客户端路由或新的大型组件系统来完成本次排版调整。
 - 简历仍是外部链接，不增加 Resume 中间页面。
-- 先使用 GitHub Pages 子路径、后迁移独立域名的计划保持不变；本轮不改发布配置。
+- 先使用 GitHub Pages 子路径、后迁移独立域名的计划已完成：网站现直接部署于独立域名 https://yuanqianayla.com/，不再使用 `/portfolio` 子路径。
 
 ## 10. 自查清单的处理边界
 
@@ -362,12 +601,12 @@ PhageX 已有的 YouTube 头部视频（`rArbDeBju0M`）、播放器行为及局
 - [ ] 作业来源、日期说明及原文归属准确；无学号、页眉或公开原 PDF，不把忠实转载等同于独立验证原文的统计或因果结论。
 - [x] 五个项目详情及 PhageX 视频均保留，返回链接到正确的 Projects 区域。
 - [x] 卡片与导航使用动态内容；测试覆盖不同项目数量、重排、可见性及同名换图。
-- [ ] 图片说明、键盘访问、减少动效、子路径部署链接通过检查。
+- [ ] 图片说明、键盘访问、减少动效、根路径（https://yuanqianayla.com/）部署链接通过检查。
 - [ ] 仅在实际验收完成且真实内容补齐后，才将整体状态改为“可正式发布”。
 
 ## 12. 尚待用户补充与下一步
 
-本轮四项结构要求已经落实，不需要重新确认。下一步需要：
+本轮四项结构要求已经落实，不需要重新确认。当前主要任务是按第 7.1 节逐个把五个设计项目详情页改为基于 PDF 的版本。其余下一步：
 
 1. 对照两份 PDF 核对 Others 的原文完整性，保留现有 Overview，不再改写作业论点；Others 不再是待填空栏目，Education 不恢复。
 2. 根据本地预览反馈调整照片裁切、About 文案或卡片密度；不把这些调整误写成四项布局尚未实施。
@@ -378,13 +617,15 @@ PhageX 已有的 YouTube 头部视频（`rArbDeBju0M`）、播放器行为及局
 
 ## 13. 版本与历史
 
-| 时间                         | 状态                                           | 说明                                                                                                      |
-| ---------------------------- | ---------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| 2026-08，V1.1–V1.8           | 历史已实施                                     | 从统一大模块演进为前二完整、后三紧凑；修复标题、图片和分割线等问题                                        |
-| 2026-10                      | 现状记录                                       | 加入个人照片、姓名旁自选图标、页尾 About 与外部简历；PhageX 详情使用视频                                  |
-| 2026-11-01，V2.0             | 本轮本地检查通过，真实内容待补                 | 照片姓名身份栏、About Me 前置、双列项目、四项顶部导航；保留全部详情与旧锚点                               |
-| 2026-11-02，V2.0 更新        | 按用户要求调整                                 | 移除 Education 模块与导航，当前顺序为 About Me、Projects、Others；保留五个项目与详情，待补内容仅 Others   |
-| 2026-11-02，Others 内容扩展  | 最后样式修复后最终本地 CI 与浏览器专项检查通过 | 从两份 PDF 整理研究项目，共用原卡片与详情层级；原五个 Selected Projects 不变，Others 不再是待填栏目       |
-| 2026-11-02，课程作业原文恢复 | 按用户最新要求调整，验收见第 11 节             | 首页卡片和 Overview 不变；改用 coursework，后续忠实展示原文、全部原图与参考文献，不再使用研究项目改写叙事 |
+| 时间                         | 状态                                                                                                                             | 说明                                                                                                                                                                                                                                                                                |
+| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 2026-08，V1.1–V1.8           | 历史已实施                                                                                                                       | 从统一大模块演进为前二完整、后三紧凑；修复标题、图片和分割线等问题                                                                                                                                                                                                                  |
+| 2026-10                      | 现状记录                                                                                                                         | 加入个人照片、姓名旁自选图标、页尾 About 与外部简历；PhageX 详情使用视频                                                                                                                                                                                                            |
+| 2026-11-01，V2.0             | 本轮本地检查通过，真实内容待补                                                                                                   | 照片姓名身份栏、About Me 前置、双列项目、四项顶部导航；保留全部详情与旧锚点                                                                                                                                                                                                         |
+| 2026-11-02，V2.0 更新        | 按用户要求调整                                                                                                                   | 移除 Education 模块与导航，当前顺序为 About Me、Projects、Others；保留五个项目与详情，待补内容仅 Others                                                                                                                                                                             |
+| 2026-11-02，Others 内容扩展  | 最后样式修复后最终本地 CI 与浏览器专项检查通过                                                                                   | 从两份 PDF 整理研究项目，共用原卡片与详情层级；原五个 Selected Projects 不变，Others 不再是待填栏目                                                                                                                                                                                 |
+| 2026-11-02，课程作业原文恢复 | 按用户最新要求调整，验收见第 11 节                                                                                               | 首页卡片和 Overview 不变；改用 coursework，后续忠实展示原文、全部原图与参考文献，不再使用研究项目改写叙事                                                                                                                                                                           |
+| 2026-11-05，详情页 PDF 改版  | PhageX 已验收（视觉布局和内容），共用做法记录于 7.2；其余四个项目按 7.1 逐个进行                                                 | 五个设计项目详情页按 PDF 内容与视觉风格重建，覆盖五章节模板版；PhageX 头部视频不变；规则见第 7.1 节                                                                                                                                                                                 |
+| 2026-11-06，全站检查         | 干净 Linux 副本中 `npm run ci` 全部通过；浏览器检查 7 个页面 × 4 个宽度（1440/1024/768/390）无横向溢出、坏图、死锚点、控制台错误 | 修复：PDF 页章节 `<section id>` 与同名标题自动 id 重复（新增 `src/plugins/rehype-section-heading-ids.mjs`，标题改为 `<id>-title`）；`--color-muted` 改为 #5f6b7f 以过 AA；About Me 手机端学位行换行；项目页底部有上一个和下一个时 “Back to …” 占满整行；清理 astro check 的两条提示 |
 
 详细阶段证据仍保留在现有 `PHASE_A_VERIFICATION.md` 至 `PHASE_E_1_VERIFICATION.md` 中。它们证明的是当时版本，不覆盖本轮新方案。

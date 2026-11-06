@@ -252,16 +252,20 @@ test("LingGou EduBot is last in Others and absent from the four selected project
     "following-to-discovery",
     "evolution-of-commemoration",
     "where-is-my-body",
-    "linggou-edubot",
   ]) {
     assert.ok(others.includes(`href="${base}project/${id}/"`));
   }
-  const detail = await readFile(
-    new URL("../dist/project/linggou-edubot/index.html", import.meta.url),
-    "utf8",
-  );
-  assert.ok(detail.includes(`href="${base}#others"`));
-  assert.match(detail, /id="overview"/);
+  // LingGou EduBot has no detail page: its card opens the PDF on Google Drive.
+  assert.doesNotMatch(others, /href="[^"]*project\/linggou-edubot\/"/);
+  const linggou = others.match(
+    /<a\b[^>]*href="https:\/\/drive\.google\.com\/[^"]+"[^>]*aria-labelledby="project-title-linggou-edubot"[^>]*>/,
+  )?.[0];
+  assert.ok(linggou, "LingGou EduBot must link to its Google Drive PDF");
+  assert.match(linggou, /target="_blank"/);
+  assert.match(linggou, /rel="noopener"/);
+  const built = await readdir(new URL("../dist/project/", import.meta.url));
+  assert.ok(!built.includes("linggou-edubot"));
+  assert.ok(!built.includes("reading-pensieve"));
 });
 
 test("the film shows its local cover and play control before loading YouTube", async () => {
@@ -292,7 +296,7 @@ test("the film shows its local cover and play control before loading YouTube", a
   );
   assert.doesNotMatch(
     html,
-    /Case study chapters|id="overview"|case-content|project-facts|Keep exploring/,
+    /Case study chapters|id="overview"|case-content|project-facts|Thanks for passing by/,
   );
   assert.doesNotMatch(html, /[?&]autoplay=1/);
 });

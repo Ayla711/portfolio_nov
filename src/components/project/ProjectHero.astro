@@ -11,11 +11,30 @@ interface Props {
 const { project } = Astro.props;
 const { data } = project;
 const isCoursework = data.caseStudyType === "coursework";
-const isResearch = data.caseStudyType !== "design";
+const isPdf = data.caseStudyType === "pdf";
+const isResearch =
+  data.caseStudyType === "research" || data.caseStudyType === "coursework";
 const isOther = data.homeSection === "others";
 const heroVideoUrl = data.heroVideo
   ? `https://www.youtube-nocookie.com/embed/${data.heroVideo.id}?rel=0`
   : undefined;
+
+const summary = (isPdf && data.pdfPage?.tagline) || data.summary;
+const facts =
+  isPdf && data.pdfPage && data.pdfPage.facts.length > 0
+    ? data.pdfPage.facts
+    : [
+        { label: "Role", value: data.role },
+        { label: isResearch ? "Format" : "Team", value: data.team },
+        {
+          label: isResearch ? "Document date" : "Duration",
+          value: data.duration,
+        },
+        {
+          label: isResearch ? "Methods / tools" : "Platform",
+          value: data.platforms.join(" / "),
+        },
+      ];
 
 const chapters = isCoursework
   ? [
@@ -46,7 +65,16 @@ const chapters = isCoursework
   <a class="project-brand" href={withBase()}>{profileData.name}</a>
 </nav>
 
-<header class:list={["project-hero", { "project-hero--research": isResearch }]}>
+<header
+  class:list={[
+    "project-hero",
+    {
+      "project-hero--research": isResearch,
+      "project-hero--pdf": isPdf,
+      "project-hero--no-media": isPdf && data.pdfPage?.hideHeroMedia,
+    },
+  ]}
+>
   <div class="hero-heading">
     <div>
       <p class="eyebrow">
@@ -60,60 +88,63 @@ const chapters = isCoursework
       </p>
       <h1>{data.title}</h1>
     </div>
-    <p class="hero-summary">{data.summary}</p>
+    <p class="hero-summary">{summary}</p>
   </div>
 
-  <figure class="hero-media">
-    {
-      data.heroVideo && heroVideoUrl ? (
-        <iframe
-          src={heroVideoUrl}
-          title={data.heroVideo.title}
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        />
-      ) : (
-        <Image
-          src={data.cover}
-          alt={data.coverAlt}
-          widths={[640, 960, 1280, 1600]}
-          sizes="(max-width: 960px) 100vw, 94vw"
-          loading="eager"
-        />
-      )
-    }
-  </figure>
+  {
+    !(isPdf && data.pdfPage?.hideHeroMedia) && (
+      <figure class="hero-media">
+        {data.heroVideo && heroVideoUrl ? (
+          <iframe
+            src={heroVideoUrl}
+            title={data.heroVideo.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          />
+        ) : (
+          <Image
+            src={data.heroCover ?? data.cover}
+            alt={data.coverAlt}
+            widths={[640, 960, 1280, 1600]}
+            sizes="(max-width: 960px) 100vw, 94vw"
+            loading="eager"
+          />
+        )}
+      </figure>
+    )
+  }
 
-  <dl class="project-facts">
-    <div>
-      <dt>Role</dt>
-      <dd>{data.role}</dd>
-    </div>
-    <div>
-      <dt>{isResearch ? "Format" : "Team"}</dt>
-      <dd>{data.team}</dd>
-    </div>
-    <div>
-      <dt>{isResearch ? "Document date" : "Duration"}</dt>
-      <dd>{data.duration}</dd>
-    </div>
-    <div>
-      <dt>{isResearch ? "Methods / tools" : "Platform"}</dt>
-      <dd>{data.platforms.join(" / ")}</dd>
-    </div>
+  <dl class="project-facts" style={`--fact-count: ${facts.length}`}>
+    {
+      facts.map((fact) => (
+        <div>
+          <dt>{fact.label}</dt>
+          <dd>{fact.value}</dd>
+        </div>
+      ))
+    }
   </dl>
 
-  <div class="hero-footer">
-    <ul class="capabilities" aria-label="Project capabilities">
-      {data.capabilities.map((capability) => <li>{capability}</li>)}
-    </ul>
+  {
+    /* PDF pages navigate with the sticky chapter rail instead */
+    !isPdf && (
+      <div class="hero-footer">
+        <ul class="capabilities" aria-label="Project capabilities">
+          {data.capabilities.map((capability) => (
+            <li>{capability}</li>
+          ))}
+        </ul>
 
-    <nav class="chapter-nav" aria-label="Case study chapters">
-      {chapters.map((chapter) => <a href={chapter.href}>{chapter.label}</a>)}
-    </nav>
-  </div>
+        <nav class="chapter-nav" aria-label="Case study chapters">
+          {chapters.map((chapter) => (
+            <a href={chapter.href}>{chapter.label}</a>
+          ))}
+        </nav>
+      </div>
+    )
+  }
 </header>
 
 <style>
@@ -186,7 +217,11 @@ const chapters = isCoursework
   }
 
   .hero-media :global(img) {
+    display: block;
     width: 100%;
+    /* Override the width/height attributes Astro's <Image> emits; without
+       this the image keeps its pixel height and object-fit zooms into it. */
+    height: auto;
     aspect-ratio: 16 / 10;
     object-fit: cover;
   }
@@ -207,7 +242,7 @@ const chapters = isCoursework
 
   .project-facts {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(var(--fact-count, 4), minmax(0, 1fr));
     margin: 0;
     border-top: var(--line-strong);
     border-bottom: var(--line);
@@ -271,6 +306,25 @@ const chapters = isCoursework
     justify-content: flex-end;
   }
 
+  /* No cover or video: pull the facts and chapter nav up under the title */
+  .project-hero--no-media {
+    gap: var(--space-5, 1.25rem);
+    padding-bottom: var(--space-8);
+  }
+
+  .project-hero--no-media .hero-heading {
+    margin-bottom: var(--space-3);
+  }
+
+  .project-hero--no-media .project-facts div {
+    padding-top: var(--space-3);
+    padding-bottom: var(--space-3);
+  }
+
+  .project-hero--no-media .project-facts dd {
+    margin-top: var(--space-2);
+  }
+
   .chapter-nav a {
     transition:
       border-color var(--duration-fast) ease,
@@ -315,6 +369,7 @@ const chapters = isCoursework
     }
 
     .project-facts div:nth-child(3) {
+      padding-left: 0;
       border-left: 0;
     }
 

@@ -7,7 +7,7 @@
   --color-surface-soft: rgba(251, 252, 251, 0.72);
   --color-text: #19263a;
   --color-text-strong: #0c1728;
-  --color-muted: #667286;
+  --color-muted: #5f6b7f; /* 4.8:1 on the page tint (AA) */
   --color-subtle: #8a95a6;
   --color-line: rgba(38, 61, 88, 0.18);
   --color-line-strong: rgba(38, 61, 88, 0.34);
@@ -34,6 +34,10 @@
   --font-mono:
     "SFMono-Regular", "SF Mono", "Roboto Mono", Consolas, ui-monospace,
     monospace;
+  /* Used sparingly, for the sign-off at the end of a case study. */
+  --font-serif:
+    "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia,
+    serif;
 
   --text-xs: 0.72rem;
   --text-sm: 0.84rem;

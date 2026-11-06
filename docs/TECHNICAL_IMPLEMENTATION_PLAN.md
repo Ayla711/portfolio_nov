@@ -8,7 +8,7 @@
 ## 1. 版本边界与优先级
 
 本版记录本地已实现的 V2 首页，取代旧的“前两个完整案例 + 其余紧凑项目”布局。
-本地实现不等于已上线；Others 的两项既往课程作业保留首页卡片与现有 Overview，其后改为原 PDF 正文展示，不再改写为研究项目叙事。第三项 Where Is My Body?（2022）使用同站极简视频详情，不设 Overview 或案例章节。Education 已按 2026-11-02 的要求退出首页和导航。
+本地实现不等于已上线；Others 的两项既往课程作业保留首页卡片与现有 Overview，其后改为原 PDF 正文展示，不再改写为研究项目叙事。第三项 Where Is My Body?（2023）使用同站极简视频详情，不设 Overview 或案例章节。Education 已按 2026-11-02 的要求退出首页和导航。
 Phase A–E.1 文件只记录历史，不作为 V2 已验收的证据。
 
 | 部分       | 本地实现                                                             | 尚待处理             |
@@ -19,7 +19,7 @@ Phase A–E.1 文件只记录历史，不作为 V2 已验收的证据。
 | 主导航     | 顶部 About Me / Projects / Others 三项，首页与详情共享；旧锚点兼容   | 发布前完整无障碍复核 |
 | Others     | 两项课程作业、定格动画与末尾的 LingGou 共用卡片和 projects 内容集合  | 新视频内容专项复核   |
 | 项目详情   | 原五个案例与 PhageX 视频保留，作业为 Overview + 原文，动画为极简视频 | 新视频详情专项复核   |
-| 部署       | `site` 仍是占位地址，`base: "/portfolio"` 未变                       | 用户另行执行部署     |
+| 部署       | `site: "https://yuanqianayla.com"`，已移除 `base`，根路径部署        | 已部署至独立域名     |
 
 ### 1.1 已落地与未执行事项
 
@@ -133,7 +133,7 @@ portfolio/
 
 `public/media/projects/<id>/` 只在实际使用本地视频时创建。
 当前简历是 `siteData.resumeUrl` 中的外部链接，不要求创建 `public/files/`。
-自定义域名相关文件只在正式启用时处理，不提前创建占位 `CNAME`。
+独立域名已启用。Pages 通过 GitHub Actions 部署，域名由 Pages 设置与 DNS 决定；仓库根目录的 `CNAME` 不参与此部署，无需 `public/CNAME`。
 `node_modules/`、`dist/`、`.astro/` 为依赖或生成内容，继续由 Git 忽略。
 不删除锁文件、现有测试或图片处理工具来换取表面上的文件数减少。
 
@@ -143,18 +143,18 @@ portfolio/
 
 一个 MDX 是一个项目的内容入口；不要再建立第二份首页项目清单。
 
-| 字段                                        | 职责                                                                                        |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| `title`、`summary`                          | 名称与简短产品定义；卡片直接使用                                                            |
-| `year`、`role`、`team`、`duration`          | 项目事实；不是每项都必须在卡片显示                                                          |
-| `platforms`、`capabilities`、`technologies` | 平台、能力、工具信息                                                                        |
-| `cover`、`coverAlt`                         | 卡片图片及准确替代文字                                                                      |
-| `status`                                    | `draft` / `published` / `archived`                                                          |
-| `featuredOrder`                             | 可选首页排序值，不显示为作品编号                                                            |
-| `homeSection`                               | `projects` / `others`，默认 `projects`，决定首页分区及详情返回位置                          |
-| `caseStudyType`                             | `design` / `research` / `coursework` / `video`，默认 `design`，决定详情章节契约与元信息标签 |
-| `detailPage`                                | 是否生成详情页                                                                              |
-| `heroVideo`                                 | 详情页 YouTube 视频，和首页媒体独立；`video` 类型必填，其他类型可选                         |
+| 字段                                        | 职责                                                                                                                          |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| `title`、`summary`                          | 名称与简短产品定义；卡片直接使用                                                                                              |
+| `year`、`role`、`team`、`duration`          | 项目事实；不是每项都必须在卡片显示                                                                                            |
+| `platforms`、`capabilities`、`technologies` | 平台、能力、工具信息                                                                                                          |
+| `cover`、`coverAlt`                         | 卡片图片及准确替代文字                                                                                                        |
+| `status`                                    | `draft` / `published` / `archived`                                                                                            |
+| `featuredOrder`                             | 可选首页排序值，不显示为作品编号                                                                                              |
+| `homeSection`                               | `projects` / `others`，默认 `projects`，决定首页分区及详情返回位置                                                            |
+| `caseStudyType`                             | `design` / `research` / `coursework` / `video` / `pdf`，默认 `design`，决定详情章节契约与元信息标签；`pdf` 见设计规划 7.1–7.2 |
+| `detailPage`                                | 是否生成详情页                                                                                                                |
+| `heroVideo`                                 | 详情页 YouTube 视频，和首页媒体独立；`video` 类型必填，其他类型可选                                                           |
 
 首页读取：`status === "published"` 且存在 `featuredOrder`，按 `homeSection` 分到 Projects / Others 后各自按排序值升序排列。排序值仍在所有项目间全局唯一，不因分区而允许重复。
 详情读取：`status === "published"` 且 `detailPage === true`。
@@ -242,7 +242,7 @@ Others 不再读取网站级 `others` 数组，而是读取同一 Astro `project
 | ----------------------------------------------------- | ------------------------------ | ---- | ------------- | --------------------------------------------------- |
 | `src/content/projects/following-to-discovery.mdx`     | From Following to Discovery    | 2025 | 60            | `homeSection: others` / `caseStudyType: coursework` |
 | `src/content/projects/evolution-of-commemoration.mdx` | The Evolution of Commemoration | 2026 | 70            | `homeSection: others` / `caseStudyType: coursework` |
-| `src/content/projects/where-is-my-body.mdx`           | Where Is My Body?              | 2022 | 80            | `homeSection: others` / `caseStudyType: video`      |
+| `src/content/projects/where-is-my-body.mdx`           | Where Is My Body?              | 2023 | 80            | `homeSection: others` / `caseStudyType: video`      |
 | `src/content/projects/linggou-edubot.mdx`             | LingGou EduBot                 | 2024 | 90            | `homeSection: others` / 默认 design 详情语义        |
 
 `experience.ts` 中已无空 `others` 数组与 `OtherEntry` 类型，仅保留原有空 experience / awards 数据；不创建第二套作业清单或内容集合。当前四项已提供，不显示 Draft section；全部隐藏时保留中性空状态。
@@ -256,7 +256,7 @@ research 模式继续支持 Overview、Research approach、Analysis、Findings�
 
 Where Is My Body? 使用 `heroVideo` 的 YouTube ID `uyxzaYrkF1g`，首页与详情播放器初始封面复用 `src/assets/projects/where-is-my-body/cover.jpg`，与用户提供的封面一致。播放器提供无障碍 Play 按钮，激活后才加载既有 `youtube-nocookie.com` iframe。用户已确认播放正常，此次补充缺失预览，不将早前本地浏览器结果作为普遍播放阻塞的结论。卡片进入带站点 base 的 `/project/where-is-my-body/`，不直接跳转 YouTube；详情只呈现影片标题、播放器、返回 Others 的入口与 Watch on YouTube 备用链接。年份和简介只在首页卡片展示；详情不增加 Overview、案例正文或章节导航。`summary` 保留用户提供的完整文本：
 
-> A collaborative stop-motion animation created in London in summer 2022, following a bodyless dragon's whimsical journey through the city in search of his missing parts, only to discover he had been whole all along.
+> A collaborative stop-motion animation created in London in summer 2023, following a bodyless dragon's whimsical journey through the city in search of his missing parts, only to discover he had been whole all along.
 
 ### 6.3 Education 移除范围
 
@@ -326,20 +326,16 @@ PhageX 的 YouTube 视频 ID `rArbDeBju0M` 保持不变，使用现有隐私增�
 - 锚点改名不应造成旧分享链接或详情页返回链接失效。
 - Canonical 保持页面级 URL，不把不同首页锚点作为独立页面。
 
-当前仍是 `site: "https://example.github.io"`、`base: "/portfolio"`。
-不要把占位地址当成已经可公开发布的配置。
+当前配置为 `site: "https://yuanqianayla.com"`，已移除 `base`，网站从独立域名根路径提供。
 
-用户选择自行分两阶段发布；本轮只保留方案：
+部署方式：推送到 `main` 后由 `.github/workflows/deploy.yml` 构建并发布到 GitHub Pages（仓库 `Ayla711/portfolio_nov`）。
 
-1. GitHub Pages 项目站：填写真实用户名 origin，base 与仓库名一致。
-2. 独立域名：注册后改 site，移除子路径 base，并完成 Pages 自定义域名设置和 DNS。
-3. 如采用 CNAME 文件，只在启用域名时加入；文件不能替代托管平台设置。
-4. 每次 URL 变更重新构建，核查 Canonical、OG URL、Sitemap、图片与导航。
-5. 页面链接测试已从生成首页的 Canonical 读取 base，不再固定断言 `/portfolio/`；迁移仍须检查其他固定项目和媒体测试。
-
-本轮不注册域名、不创建远程仓库、不提交、不推送、不更改 DNS。
-首页标题已读取姓名 + Portfolio，详情标题读取项目名 + 姓名，可访问名称同步。
-分享图片仍需真实配置；Sitemap 不包含 draft、archived 或无详情页的项目路由。
+1. 自定义域名由 Pages 设置（Settings → Pages → Custom domain，启用 Enforce HTTPS）与 DNS 决定；仓库根目录的 `CNAME` 文件不参与 Actions 部署。
+2. 更换域名时，同步修改 `site`、Pages 设置与 DNS，然后重新构建。
+3. 每次 URL 变更重新构建，核查 Canonical、OG URL、Sitemap、图片与导航。
+4. 页面链接测试从生成首页的 Canonical 读取 base，不固定断言 `/portfolio/`；`tests/dev-image-version.test.ts` 中的 `/portfolio/...` 仅为路径示例数据，不代表站点 base。
+   首页标题已读取姓名 + Portfolio，详情标题读取项目名 + 姓名，可访问名称同步。
+   分享图片仍需真实配置；Sitemap 不包含 draft、archived 或无详情页的项目路由。
 
 ## 10. 日常维护与自动检查
 
@@ -351,7 +347,7 @@ npm run dev
 npm run ci
 ```
 
-本地入口仍是 `/portfolio/`。
+本地入口为根路径 `http://localhost:4321/`。
 `npm run ci` 当前依次执行 Astro 检查、内容验证、格式检查、构建和测试。
 测试包含读取 dist 的页面断言，因此不能在未构建的全新目录里只跑测试并期待完整通过。
 Node 版本继续由 `.nvmrc` 与工作流统一，提交 `package-lock.json`，不随本轮布局升级依赖。
@@ -361,7 +357,7 @@ Node 版本继续由 `.nvmrc` 与工作流统一，提交 `package-lock.json`，
 1. 从更新后的 MDX 模板建立项目和同 ID 图片目录。
 2. 填基础信息、一张卡片图、可选详情正文。
 3. 通过 status、featuredOrder、detailPage 管理可见性、全局唯一排序及详情；homeSection 选择 Projects 或 Others。
-4. caseStudyType 选择 design、research、coursework 或 video 详情语义；课程作业复制现有 coursework MDX 以保留 Overview + CourseworkContent 结构，类型字段不会自动改写正文。视频可复制 where-is-my-body.mdx，只需有效 heroVideo，不要求 MDX 章节。不再手动同步 hero / standard / compact 层级来适配位置。
+4. caseStudyType 选择 design、research、coursework、video 或 pdf 详情语义（pdf 为按项目 PDF 重建的详情，结构、样式与验收方法见设计规划 7.2）；课程作业复制现有 coursework MDX 以保留 Overview + CourseworkContent 结构，类型字段不会自动改写正文。视频可复制 where-is-my-body.mdx，只需有效 heroVideo，不要求 MDX 章节。不再手动同步 hero / standard / compact 层级来适配位置。
 5. 运行完整检查，预览手机与桌面，再由用户决定提交发布。
 
 首页已不受旧展示类型限制；兼容字段可暂留，清理原则见第 5.3 节。
@@ -407,7 +403,7 @@ Others 研究改写版当时的浏览器专项结果：
 - 顶部 Others 与两项研究返回 Others 的入口已实际点击验证。
 - 修复研究 SVG 头图固有 900 px 高度导致的比例失真：研究头图使用自动高度，恢复 16:9；研究详情标题增加仅 research 生效的窄屏 clamp（最低 32 px），320 px 视口下页面宽度复核为 320 px。
 
-最后 CSS 修复后的最终完整 CI 已通过，构建产物也独立确认 ImageComparison 包含两张实际图片。未部署，发布前完整无障碍、更多放大文字场景和正式 origin 仍需检查。
+最后 CSS 修复后的最终完整 CI 已通过，构建产物也独立确认 ImageComparison 包含两张实际图片。当时尚未部署（历史记录：网站现已部署于 https://yuanqianayla.com/）；完整无障碍与更多放大文字场景仍需检查。
 
 - [x] Education 移除后重新执行完整 `npm run ci` 并记录结果；不以 2026-11-01 的通过记录替代本次验证。
 - [x] 原研究改写版与 ImageComparison 调整后完整 CI 通过，七项目、九页面、24 测试历史结果已记录。
