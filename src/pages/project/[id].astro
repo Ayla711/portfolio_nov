@@ -148,17 +148,32 @@ const rail = isPdf ? (project.data.pdfPage?.rail ?? []) : [];
   }
 
   @media (min-width: 74rem) {
+    /* Rail (8rem) + gap (2rem) + column are centred together, so the page has
+       the same margin left of the rail as right of the column. The column
+       grows from 52rem at 1184px to 58rem on wide screens. */
     .pdf-page.has-rail {
+      --rail-width: 8rem;
+      --rail-gap: 2rem;
+      --rail-col: clamp(52rem, 100vw - 26rem, 58rem);
+      --rail-margin: calc(
+        (100% - var(--rail-col) - var(--rail-width) - var(--rail-gap)) / 2
+      );
+
       position: relative;
     }
 
     .pdf-page.has-rail .project-hero.project-hero--pdf,
     .pdf-page.has-rail .pdf-case {
-      --pdf-col: 52rem;
+      --pdf-col: var(--rail-col);
+
+      padding-inline: calc(
+          var(--rail-margin) + var(--rail-width) + var(--rail-gap)
+        )
+        var(--rail-margin);
     }
 
     .pdf-page.has-rail .project-hero--pdf .hero-heading {
-      width: min(100%, 52rem);
+      width: min(100%, var(--rail-col));
     }
 
     /* The rail column overlays the left margin of the whole page (hero + body)
@@ -168,8 +183,8 @@ const rail = isPdf ? (project.data.pdfPage?.rail ?? []) : [];
       z-index: 1;
       top: 9.4rem; /* level with the hero title */
       bottom: 0;
-      left: 2rem;
-      width: 8rem;
+      left: var(--rail-margin);
+      width: var(--rail-width);
     }
   }
 

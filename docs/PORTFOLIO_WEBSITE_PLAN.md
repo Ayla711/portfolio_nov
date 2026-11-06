@@ -408,7 +408,7 @@ PhageX 已有的 YouTube 头部视频（`rArbDeBju0M`）、播放器行为及局
 - 数据：`pdfPage.rail`（必填），4–6 个阅读站点，每个 `id` 必须有对应的 `<section id>`（校验脚本检查）。原来的 `pdfPage.chapters` 和头部章节 chips 已移除（用户决定，2026-11-05）：两套导航功能重叠，pdf 页面只用 rail。
 - 命名：按叙事而不是按方法命名，不用 Research / Ideation / Testing 这类作业式名字。固定用 Overview → Challenge → (Opportunity) → Solution → Validation；Overview 指 At a glance。一个站点覆盖一个阶段（Challenge 覆盖背景、调研、访谈、persona 等所有章节），未列出的章节滚到时高亮它前面的站点。
 - 样式（2026-11-05 用户反馈等宽大写与页面风格不符后改）：和站点导航同一体系的无衬线字，0.9rem，中等字重，正常大小写；未激活 `#5f6b7f`（灰，AA 达标），激活深色、半粗并在左侧加 2px 项目色短线（`--pdf-heading`）；无背景无边框；宽 8rem，`top: 7rem` sticky。
-- 布局（2026-11-05 用户反馈头部、正文、rail 三个左边缘不一致后改）：有 rail 的页面（≥74rem）把头部（标题、副标题、信息表）和正文放进同一个 52rem 居中栏，从标题到每一章只有一条左边缘；rail 绝对定位在页面左边距（距窗口 2rem，宽 8rem），顶部与标题同高，列表 sticky 在 5.25rem；<74rem 隐藏 rail，恢复 64rem 栏。栏宽用 `--pdf-col` 变量，按 rem 写死的 `--split` 在 52rem 下要重新测量。
+- 布局（2026-11-05 用户反馈头部、正文、rail 三个左边缘不一致后改）：有 rail 的页面（≥74rem）把头部（标题、副标题、信息表）和正文放进同一个 52rem 居中栏，从标题到每一章只有一条左边缘；rail 绝对定位在栏的左侧（宽 8rem，与栏间距 2rem），顶部与标题同高，列表 sticky 在 5.25rem；<74rem 隐藏 rail，恢复 64rem 栏。2026-11-06 用户反馈右侧空白过大后改为把 rail + 间距 + 栏作为一组居中（左右页边距相等），栏宽 `clamp(52rem, 100vw - 26rem, 58rem)`：1220px 窗口仍是 52rem，1440px 及以上为 58rem；PhageX、Tutela、EchoBloom 在 58rem 下复核过。栏宽用 `--pdf-col` 变量，按 rem 写死的 `--split` 在 52rem 下要重新测量。
 - 定位规则（2026-11-05 用户追问“点 Overview 到底停在哪”后实测校准）：
   - 点击：章节标题停在顶栏下方 72px（全局 `scroll-padding-top` 的 1.5rem + 章节 3rem 上内边距）。章节不再自带 `scroll-margin-top`，否则和全局留白叠加会停到 112px。
   - 吸顶：导航列表 `position: sticky`，`top` 由脚本按运行时测到的 `.site-header` 真实高度 + 72px 设置（`--rail-top`），所以高亮行和章节标题齐平；顶栏高度随窗口变化时重算。
