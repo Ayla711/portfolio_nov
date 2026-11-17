@@ -8,7 +8,7 @@ export const siteData = {
   linkedInUrl: "https://www.linkedin.com/in/yuanqian-ayla-liu-845715430/",
   // Replace this URL to update every Resume link across the site.
   resumeUrl:
-    "https://docs.google.com/document/d/1Cdk1QkprFvXTgIOdxF_tb1iHWII4W9JqXRwuA0wiBbU/preview",
+    "https://drive.google.com/file/d/161HcyLvORfb4gm-CNmEQpZAuwnSLLhiV/view?usp=sharing",
   resumeLabel: "Resume",
   // Home footer, left to right: a status line that follows the Ann Arbor
   // clock (first matching entry wins; `from` is the hour the status starts,
